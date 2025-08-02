@@ -1,0 +1,972 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - MRS UAV System - Test coverage report - mrs_uav_managers/src/control_manager/control_manager.cpp - functions</title>
+  <link rel="stylesheet" type="text/css" href="../../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../../index.html" target="_parent" title="Click to go to top-level">top level</a> - <a href="index.html" target="_parent" title="Click to go to directory mrs_uav_managers/src/control_manager">mrs_uav_managers/src/control_manager</a> - control_manager.cpp<span style="font-size: 80%;"> (<a href="control_manager.cpp.gcov.html" title="Click to go to source detail">source</a> / functions)</span></td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">MRS UAV System - Test coverage report</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryLo">69.7&nbsp;%</td>
+            <td class="headerCovTableEntry">4072</td>
+            <td class="headerCovTableEntry">2838</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2025-08-02 18:42:08</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryMed">85.6&nbsp;%</td>
+            <td class="headerCovTableEntry">111</td>
+            <td class="headerCovTableEntry">95</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:&nbsp&nbsp&nbsp&nbsp
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+                  <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <center>
+          <table cellpadding=1 cellspacing=1 border=0>
+            <tr><td><br></td></tr>
+            <tr>
+              <td class="tableHead">Function Name <span  title="Click to sort table by function name" class="tableHeadSort"><img src="../../../glass.png" width=10 height=14 alt="Sort by function name" title="Click to sort table by function name" border=0></span></td>
+              
+              <td class="tableHead">Hit count <span  title="Click to sort table by function hit count" class="tableHeadSort"><a href="control_manager.cpp.func-c.html"><img src="../../../updown.png" width=10 height=14 alt="Sort by function hit count" title="Click to sort table by function hit count" border=0></a></span></td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L903">mrs_uav_managers::control_manager::ControlManager::ControlManager(rclcpp::NodeOptions)</a></td>
+              
+              <td class="coverFnHi">102</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L7933">mrs_uav_managers::control_manager::ControlManager::arming[abi:cxx11](bool)</a></td>
+              
+              <td class="coverFnHi">18</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L3528">mrs_uav_managers::control_manager::ControlManager::asyncControl()</a></td>
+              
+              <td class="coverFnHi">188118</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L7227">mrs_uav_managers::control_manager::ControlManager::bumperGetSectorId(double const&amp;, double const&amp;, double const&amp;)</a></td>
+              
+              <td class="coverFnHi">218</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L6979">mrs_uav_managers::control_manager::ControlManager::bumperPushFromObstacle()</a></td>
+              
+              <td class="coverFnHi">827</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L4682">mrs_uav_managers::control_manager::ControlManager::callbackArm(std::shared_ptr&lt;std_srvs::srv::SetBool_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;std_srvs::srv::SetBool_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">7</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L4428">mrs_uav_managers::control_manager::ControlManager::callbackEHover(std::shared_ptr&lt;std_srvs::srv::Trigger_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;std_srvs::srv::Trigger_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">2</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L4527">mrs_uav_managers::control_manager::ControlManager::callbackEland(std::shared_ptr&lt;std_srvs::srv::Trigger_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;std_srvs::srv::Trigger_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">2</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L4800">mrs_uav_managers::control_manager::ControlManager::callbackEmergencyReference(std::shared_ptr&lt;mrs_msgs::srv::ReferenceStampedSrv_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;mrs_msgs::srv::ReferenceStampedSrv_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">100</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5221">mrs_uav_managers::control_manager::ControlManager::callbackEnableBumper(std::shared_ptr&lt;std_srvs::srv::SetBool_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;std_srvs::srv::SetBool_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L4737">mrs_uav_managers::control_manager::ControlManager::callbackEnableCallbacks(std::shared_ptr&lt;std_srvs::srv::SetBool_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;std_srvs::srv::SetBool_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">101</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L4461">mrs_uav_managers::control_manager::ControlManager::callbackFailsafe(std::shared_ptr&lt;std_srvs::srv::Trigger_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;std_srvs::srv::Trigger_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">4</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L4494">mrs_uav_managers::control_manager::ControlManager::callbackFailsafeEscalating(std::shared_ptr&lt;std_srvs::srv::Trigger_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;std_srvs::srv::Trigger_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">7</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L3954">mrs_uav_managers::control_manager::ControlManager::callbackGNSS(std::shared_ptr&lt;sensor_msgs::msg::NavSatFix_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnHi">98453</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5269">mrs_uav_managers::control_manager::ControlManager::callbackGetMinZ(std::shared_ptr&lt;mrs_msgs::srv::GetFloat64_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;mrs_msgs::srv::GetFloat64_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5637">mrs_uav_managers::control_manager::ControlManager::callbackGoto(std::shared_ptr&lt;mrs_msgs::srv::Vec4_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;mrs_msgs::srv::Vec4_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">27</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5738">mrs_uav_managers::control_manager::ControlManager::callbackGotoAltitude(std::shared_ptr&lt;mrs_msgs::srv::Vec1_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;mrs_msgs::srv::Vec1_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">2</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5668">mrs_uav_managers::control_manager::ControlManager::callbackGotoFcu(std::shared_ptr&lt;mrs_msgs::srv::Vec4_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;mrs_msgs::srv::Vec4_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5699">mrs_uav_managers::control_manager::ControlManager::callbackGotoRelative(std::shared_ptr&lt;mrs_msgs::srv::Vec4_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;mrs_msgs::srv::Vec4_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">25</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5067">mrs_uav_managers::control_manager::ControlManager::callbackGotoTrajectoryStart(std::shared_ptr&lt;std_srvs::srv::Trigger_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;std_srvs::srv::Trigger_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">2</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L4995">mrs_uav_managers::control_manager::ControlManager::callbackHover(std::shared_ptr&lt;std_srvs::srv::Trigger_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;std_srvs::srv::Trigger_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L4090">mrs_uav_managers::control_manager::ControlManager::callbackHwApiStatus(std::shared_ptr&lt;mrs_msgs::msg::HwApiStatus_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnHi">247013</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L3970">mrs_uav_managers::control_manager::ControlManager::callbackJoystick(std::shared_ptr&lt;sensor_msgs::msg::Joy_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L3621">mrs_uav_managers::control_manager::ControlManager::callbackOdometry(std::shared_ptr&lt;nav_msgs::msg::Odometry_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L4547">mrs_uav_managers::control_manager::ControlManager::callbackParachute(std::shared_ptr&lt;std_srvs::srv::Trigger_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;std_srvs::srv::Trigger_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L4875">mrs_uav_managers::control_manager::ControlManager::callbackPirouette(std::shared_ptr&lt;std_srvs::srv::Trigger_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;std_srvs::srv::Trigger_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L4139">mrs_uav_managers::control_manager::ControlManager::callbackRC(std::shared_ptr&lt;mrs_msgs::msg::HwApiRcChannels_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnHi">33585</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5504">mrs_uav_managers::control_manager::ControlManager::callbackReferenceService(std::shared_ptr&lt;mrs_msgs::srv::ReferenceStampedSrv_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;mrs_msgs::srv::ReferenceStampedSrv_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">2</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5531">mrs_uav_managers::control_manager::ControlManager::callbackReferenceTopic(std::shared_ptr&lt;mrs_msgs::msg::ReferenceStamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5049">mrs_uav_managers::control_manager::ControlManager::callbackResumeTrajectoryTracking(std::shared_ptr&lt;std_srvs::srv::Trigger_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;std_srvs::srv::Trigger_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L4761">mrs_uav_managers::control_manager::ControlManager::callbackSetConstraints(std::shared_ptr&lt;mrs_msgs::srv::DynamicsConstraintsSrv_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;mrs_msgs::srv::DynamicsConstraintsSrv_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">104</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5777">mrs_uav_managers::control_manager::ControlManager::callbackSetHeading(std::shared_ptr&lt;mrs_msgs::srv::Vec1_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;mrs_msgs::srv::Vec1_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">4</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5816">mrs_uav_managers::control_manager::ControlManager::callbackSetHeadingRelative(std::shared_ptr&lt;mrs_msgs::srv::Vec1_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;mrs_msgs::srv::Vec1_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">3</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L4576">mrs_uav_managers::control_manager::ControlManager::callbackSetMinZ(std::shared_ptr&lt;mrs_msgs::srv::Float64StampedSrv_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;mrs_msgs::srv::Float64StampedSrv_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5013">mrs_uav_managers::control_manager::ControlManager::callbackStartTrajectoryTracking(std::shared_ptr&lt;std_srvs::srv::Trigger_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;std_srvs::srv::Trigger_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">2</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5031">mrs_uav_managers::control_manager::ControlManager::callbackStopTrajectoryTracking(std::shared_ptr&lt;std_srvs::srv::Trigger_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;std_srvs::srv::Trigger_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L4337">mrs_uav_managers::control_manager::ControlManager::callbackSwitchController(std::shared_ptr&lt;mrs_msgs::srv::String_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;mrs_msgs::srv::String_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">197</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L4293">mrs_uav_managers::control_manager::ControlManager::callbackSwitchTracker(std::shared_ptr&lt;mrs_msgs::srv::String_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;mrs_msgs::srv::String_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">196</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L4616">mrs_uav_managers::control_manager::ControlManager::callbackToggleOutput(std::shared_ptr&lt;std_srvs::srv::SetBool_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;std_srvs::srv::SetBool_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">101</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L4381">mrs_uav_managers::control_manager::ControlManager::callbackTrackerResetStatic(std::shared_ptr&lt;std_srvs::srv::Trigger_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;std_srvs::srv::Trigger_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5589">mrs_uav_managers::control_manager::ControlManager::callbackTrajectoryReferenceService(std::shared_ptr&lt;mrs_msgs::srv::TrajectoryReferenceSrv_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;mrs_msgs::srv::TrajectoryReferenceSrv_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">4</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5619">mrs_uav_managers::control_manager::ControlManager::callbackTrajectoryReferenceTopic(std::shared_ptr&lt;mrs_msgs::msg::TrajectoryReference_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnHi">2</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5161">mrs_uav_managers::control_manager::ControlManager::callbackTransformPose(std::shared_ptr&lt;mrs_msgs::srv::TransformPoseSrv_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;mrs_msgs::srv::TransformPoseSrv_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5085">mrs_uav_managers::control_manager::ControlManager::callbackTransformReference(std::shared_ptr&lt;mrs_msgs::srv::TransformReferenceSrv_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;mrs_msgs::srv::TransformReferenceSrv_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5115">mrs_uav_managers::control_manager::ControlManager::callbackTransformReferenceArray(std::shared_ptr&lt;mrs_msgs::srv::TransformReferenceArraySrv_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;mrs_msgs::srv::TransformReferenceArraySrv_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5191">mrs_uav_managers::control_manager::ControlManager::callbackTransformVector3(std::shared_ptr&lt;mrs_msgs::srv::TransformVector3Srv_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;mrs_msgs::srv::TransformVector3Srv_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L3778">mrs_uav_managers::control_manager::ControlManager::callbackUavState(std::shared_ptr&lt;mrs_msgs::msg::UavState_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnHi">188402</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L4937">mrs_uav_managers::control_manager::ControlManager::callbackUseJoystick(std::shared_ptr&lt;std_srvs::srv::Trigger_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;std_srvs::srv::Trigger_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5245">mrs_uav_managers::control_manager::ControlManager::callbackUseSafetyArea(std::shared_ptr&lt;std_srvs::srv::SetBool_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;std_srvs::srv::SetBool_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5287">mrs_uav_managers::control_manager::ControlManager::callbackValidateReference(std::shared_ptr&lt;mrs_msgs::srv::ValidateReference_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;mrs_msgs::srv::ValidateReference_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">4</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5355">mrs_uav_managers::control_manager::ControlManager::callbackValidateReference2d(std::shared_ptr&lt;mrs_msgs::srv::ValidateReference_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;mrs_msgs::srv::ValidateReference_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">4750</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5423">mrs_uav_managers::control_manager::ControlManager::callbackValidateReferenceArray(std::shared_ptr&lt;mrs_msgs::srv::ValidateReferenceArray_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;mrs_msgs::srv::ValidateReferenceArray_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">2</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5547">mrs_uav_managers::control_manager::ControlManager::callbackVelocityReferenceService(std::shared_ptr&lt;mrs_msgs::srv::VelocityReferenceStampedSrv_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;mrs_msgs::srv::VelocityReferenceStampedSrv_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">836</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5573">mrs_uav_managers::control_manager::ControlManager::callbackVelocityReferenceTopic(std::shared_ptr&lt;mrs_msgs::msg::VelocityReferenceStamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnHi">187</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L7261">mrs_uav_managers::control_manager::ControlManager::changeLandingState(mrs_uav_managers::control_manager::LandingStates_t)</a></td>
+              
+              <td class="coverFnHi">12</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L8748">mrs_uav_managers::control_manager::ControlManager::deployParachute[abi:cxx11]()</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L7337">mrs_uav_managers::control_manager::ControlManager::ehover[abi:cxx11]()</a></td>
+              
+              <td class="coverFnHi">4</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L8028">mrs_uav_managers::control_manager::ControlManager::elandSrv()</a></td>
+              
+              <td class="coverFnHi">8</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L7408">mrs_uav_managers::control_manager::ControlManager::eland[abi:cxx11]()</a></td>
+              
+              <td class="coverFnHi">8</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L6641">mrs_uav_managers::control_manager::ControlManager::enforceControllersConstraints(mrs_msgs::srv::DynamicsConstraintsSrv_Request_&lt;std::allocator&lt;void&gt; &gt; const&amp;)</a></td>
+              
+              <td class="coverFnHi">171064</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L7615">mrs_uav_managers::control_manager::ControlManager::escalatingFailsafe[abi:cxx11]()</a></td>
+              
+              <td class="coverFnHi">147</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L7503">mrs_uav_managers::control_manager::ControlManager::failsafe[abi:cxx11]()</a></td>
+              
+              <td class="coverFnHi">7</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L6729">mrs_uav_managers::control_manager::ControlManager::getMass()</a></td>
+              
+              <td class="coverFnHi">520</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L6888">mrs_uav_managers::control_manager::ControlManager::getMaxZ(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;)</a></td>
+              
+              <td class="coverFnHi">15641</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L6950">mrs_uav_managers::control_manager::ControlManager::getMinZ(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;)</a></td>
+              
+              <td class="coverFnHi">15644</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L7736">mrs_uav_managers::control_manager::ControlManager::getNextEscFailsafeState()</a></td>
+              
+              <td class="coverFnHi">8</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L7900">mrs_uav_managers::control_manager::ControlManager::gotoTrajectoryStart[abi:cxx11]()</a></td>
+              
+              <td class="coverFnHi">2</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L7298">mrs_uav_managers::control_manager::ControlManager::hover[abi:cxx11]()</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L940">mrs_uav_managers::control_manager::ControlManager::initialize()</a></td>
+              
+              <td class="coverFnHi">101</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L8919">mrs_uav_managers::control_manager::ControlManager::initializeControlOutput()</a></td>
+              
+              <td class="coverFnHi">211</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L6709">mrs_uav_managers::control_manager::ControlManager::isFlyingNormally()</a></td>
+              
+              <td class="coverFnHi">20941</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L6472">mrs_uav_managers::control_manager::ControlManager::isOffboard()</a></td>
+              
+              <td class="coverFnHi">18</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L6843">mrs_uav_managers::control_manager::ControlManager::isPathToPointInSafetyArea2d(mrs_msgs::msg::ReferenceStamped_&lt;std::allocator&lt;void&gt; &gt; const&amp;, mrs_msgs::msg::ReferenceStamped_&lt;std::allocator&lt;void&gt; &gt; const&amp;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L6798">mrs_uav_managers::control_manager::ControlManager::isPathToPointInSafetyArea3d(mrs_msgs::msg::ReferenceStamped_&lt;std::allocator&lt;void&gt; &gt; const&amp;, mrs_msgs::msg::ReferenceStamped_&lt;std::allocator&lt;void&gt; &gt; const&amp;)</a></td>
+              
+              <td class="coverFnHi">1093</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L6774">mrs_uav_managers::control_manager::ControlManager::isPointInSafetyArea2d(mrs_msgs::msg::ReferenceStamped_&lt;std::allocator&lt;void&gt; &gt; const&amp;)</a></td>
+              
+              <td class="coverFnHi">4851</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L6746">mrs_uav_managers::control_manager::ControlManager::isPointInSafetyArea3d(mrs_msgs::msg::ReferenceStamped_&lt;std::allocator&lt;void&gt; &gt; const&amp;)</a></td>
+              
+              <td class="coverFnHi">2211</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L8003">mrs_uav_managers::control_manager::ControlManager::odometryCallbacksSrv(bool)</a></td>
+              
+              <td class="coverFnHi">15</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L8056">mrs_uav_managers::control_manager::ControlManager::parachuteSrv()</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L8628">mrs_uav_managers::control_manager::ControlManager::publish()</a></td>
+              
+              <td class="coverFnHi">181011</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L8841">mrs_uav_managers::control_manager::ControlManager::publishControlReferenceOdom(std::optional&lt;mrs_msgs::msg::TrackerCommand_&lt;std::allocator&lt;void&gt; &gt; &gt; const&amp;, mrs_uav_managers::Controller::ControlOutput const&amp;)</a></td>
+              
+              <td class="coverFnHi">181011</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L6508">mrs_uav_managers::control_manager::ControlManager::publishDiagnostics()</a></td>
+              
+              <td class="coverFnHi">19953</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L7869">mrs_uav_managers::control_manager::ControlManager::resumeTrajectoryTracking[abi:cxx11]()</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L6487">mrs_uav_managers::control_manager::ControlManager::setCallbacks(bool)</a></td>
+              
+              <td class="coverFnHi">101</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L6627">mrs_uav_managers::control_manager::ControlManager::setConstraints(mrs_msgs::srv::DynamicsConstraintsSrv_Request_&lt;std::allocator&lt;void&gt; &gt; const&amp;)</a></td>
+              
+              <td class="coverFnHi">101</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L6604">mrs_uav_managers::control_manager::ControlManager::setConstraintsToControllers(mrs_msgs::srv::DynamicsConstraintsSrv_Request_&lt;std::allocator&lt;void&gt; &gt; const&amp;)</a></td>
+              
+              <td class="coverFnHi">402</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L6581">mrs_uav_managers::control_manager::ControlManager::setConstraintsToTrackers(mrs_msgs::srv::DynamicsConstraintsSrv_Request_&lt;std::allocator&lt;void&gt; &gt; const&amp;)</a></td>
+              
+              <td class="coverFnHi">362</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5859">mrs_uav_managers::control_manager::ControlManager::setReference[abi:cxx11](mrs_msgs::msg::ReferenceStamped_&lt;std::allocator&lt;void&gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">65</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L6091">mrs_uav_managers::control_manager::ControlManager::setTrajectoryReference[abi:cxx11](mrs_msgs::msg::TrajectoryReference_&lt;std::allocator&lt;void&gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">6</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L5941">mrs_uav_managers::control_manager::ControlManager::setVelocityReference[abi:cxx11](mrs_msgs::msg::VelocityReferenceStamped_&lt;std::allocator&lt;void&gt; &gt; const&amp;)</a></td>
+              
+              <td class="coverFnHi">1023</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L2024">mrs_uav_managers::control_manager::ControlManager::shutdown()</a></td>
+              
+              <td class="coverFnHi">101</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L7807">mrs_uav_managers::control_manager::ControlManager::startTrajectoryTracking[abi:cxx11]()</a></td>
+              
+              <td class="coverFnHi">2</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L7838">mrs_uav_managers::control_manager::ControlManager::stopTrajectoryTracking[abi:cxx11]()</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L8305">mrs_uav_managers::control_manager::ControlManager::switchController(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;)</a></td>
+              
+              <td class="coverFnHi">231</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L8171">mrs_uav_managers::control_manager::ControlManager::switchTracker(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;)</a></td>
+              
+              <td class="coverFnHi">228</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L4272">mrs_uav_managers::control_manager::ControlManager::timeoutUavState(double const&amp;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L3407">mrs_uav_managers::control_manager::ControlManager::timerBumper()</a></td>
+              
+              <td class="coverFnHi">48533</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L3021">mrs_uav_managers::control_manager::ControlManager::timerEland()</a></td>
+              
+              <td class="coverFnHi">556</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L3113">mrs_uav_managers::control_manager::ControlManager::timerFailsafe()</a></td>
+              
+              <td class="coverFnHi">9292</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L2073">mrs_uav_managers::control_manager::ControlManager::timerHwApiCapabilities()</a></td>
+              
+              <td class="coverFnHi">118</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L3195">mrs_uav_managers::control_manager::ControlManager::timerJoystick()</a></td>
+              
+              <td class="coverFnHi">69582</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L3456">mrs_uav_managers::control_manager::ControlManager::timerPirouette()</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L912">mrs_uav_managers::control_manager::ControlManager::timerPreInitialization()</a></td>
+              
+              <td class="coverFnHi">102</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L2640">mrs_uav_managers::control_manager::ControlManager::timerSafety()</a></td>
+              
+              <td class="coverFnHi">383363</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L2141">mrs_uav_managers::control_manager::ControlManager::timerStatus()</a></td>
+              
+              <td class="coverFnHi">19853</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L8107">mrs_uav_managers::control_manager::ControlManager::toggleOutput(bool const&amp;)</a></td>
+              
+              <td class="coverFnHi">129</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L8084">mrs_uav_managers::control_manager::ControlManager::ungripSrv()</a></td>
+              
+              <td class="coverFnHi">43</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L8515">mrs_uav_managers::control_manager::ControlManager::updateControllers(mrs_msgs::msg::UavState_&lt;std::allocator&lt;void&gt; &gt; const&amp;)</a></td>
+              
+              <td class="coverFnHi">181011</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L8418">mrs_uav_managers::control_manager::ControlManager::updateTrackers()</a></td>
+              
+              <td class="coverFnHi">171719</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L8793">mrs_uav_managers::control_manager::ControlManager::velocityReferenceToReference(mrs_msgs::msg::VelocityReferenceStamped_&lt;std::allocator&lt;void&gt; &gt; const&amp;)</a></td>
+              
+              <td class="coverFnHi">1023</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L189">mrs_uav_managers::control_manager::ControllerParams::ControllerParams(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, double, double, double, bool)</a></td>
+              
+              <td class="coverFnHi">505</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="control_manager.cpp.gcov.html#L214">mrs_uav_managers::control_manager::TrackerParams::TrackerParams(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool)</a></td>
+              
+              <td class="coverFnHi">405</td>
+              
+              
+              
+            </tr>
+          </table>
+          <br>
+          </center>
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.3.1-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>
