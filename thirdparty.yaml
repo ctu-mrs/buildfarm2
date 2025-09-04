@@ -51,7 +51,7 @@ octomap_ros:
 open_vins:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/open_vins
-  gitman: true
+  gitman: false
   generate_docker_image: false
   git_refs:
     unstable: ros2
