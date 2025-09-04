@@ -47,3 +47,13 @@ octomap_ros:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+
+open_vins:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/open_vins
+  gitman: true
+  generate_docker_image: false
+  git_refs:
+    unstable: ros2
+    testing: ros2_release_candidate
+    stable: ros2_release
