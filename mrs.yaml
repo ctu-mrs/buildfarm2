@@ -273,7 +273,7 @@ mrs_vins_imu_filter:
 
 mrs_vins_republisher:
   architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_open_vins_estimator_plugin
+  source: https://github.com/ctu-mrs/mrs_vins_republisher
   gitman: false
   git_refs:
     unstable: ros2
