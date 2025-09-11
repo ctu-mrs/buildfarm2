@@ -26,3 +26,12 @@ mrs_uav_usb_configurator:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+
+px4_firmware:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/px4_firmware
+  gitman: false
+  git_refs:
+    unstable: 1.16.0-dev
+    testing: 1.16.0-dev
+    stable: 1.16.0-dev
