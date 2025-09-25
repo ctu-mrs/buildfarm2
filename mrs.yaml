@@ -310,9 +310,9 @@ mrs_open_vins_estimator_plugin:
     enabled: false
     full_test_coverage: false
 
-mrs_rviz_plugins:
+mrs_gazebo_common_resources:
   architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_rviz_plugins
+  source: https://github.com/ctu-mrs/mrs_gazebo_common_resources
   gitman: false
   git_refs:
     unstable: ros2
@@ -323,22 +323,9 @@ mrs_rviz_plugins:
     enabled: false
     full_test_coverage: false
 
-flame_ros:
+mrs_uav_gazebo_simulation:
   architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/flame_ros
-  gitman: false
-  git_refs:
-    unstable: ros2
-    testing: ros2_release_candidate
-    stable: ros2_release
-  generate_docker_image: false
-  ros_test:
-    enabled: false
-    full_test_coverage: false
-
-flame_ros_msgs:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/flame_ros_msgs
+  source: https://github.com/ctu-mrs/mrs_uav_gazebo_simulation
   gitman: false
   git_refs:
     unstable: ros2
