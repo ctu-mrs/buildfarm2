@@ -57,3 +57,13 @@ open_vins:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+
+flame:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/flame
+  gitman: false
+  generate_docker_image: false
+  git_refs:
+    unstable: ros2
+    testing: ros2_release_candidate
+    stable: ros2_release
