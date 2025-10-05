@@ -375,6 +375,19 @@ mrs_rviz_plugins:
     enabled: false
     full_test_coverage: false
 
+mrs_uav_dji_tello_api:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_dji_tello_api
+  gitman: false
+  git_refs:
+    unstable: ros2
+    testing: ros2_release_candidate
+    stable: ros2_release
+  generate_docker_image: false
+  ros_test:
+    enabled: false
+    full_test_coverage: false
+
 # mrs_mpc_solvers:
 #   architecture: [amd64, arm64]
 #   source: https://github.com/ctu-mrs/mrs_mpc_solvers
