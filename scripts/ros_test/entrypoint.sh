@@ -40,8 +40,6 @@ colcon build --cmake-args -DENABLE_COVERAGE=true -DENABLE_TESTS=true --paths $WO
 
 source $WORKSPACE/install/setup.bash
 
-ls -lah /opt/ros/jazzy/share
-
 ## | --- run tests an all ros packages within the repository -- |
 
 echo "$0: running the tests"
@@ -52,7 +50,9 @@ FAILED=0
 
 colcon test-result --delete-yes
 
-colcon test --paths $WORKSPACE/src/$REPOSITORY_NAME --executor sequential --ctest-args
+pkgs=$(colcon list -n --base-paths $WORKSPACE/src/$REPOSITORY_NAME)
+
+colcon test --executor sequential --ctest-args --packages-select $pkgs
 
 colcon test-result --all --verbose || FAILED=1
 
