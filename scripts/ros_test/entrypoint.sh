@@ -36,7 +36,7 @@ cd $WORKSPACE
 
 source $WORKSPACE/install/setup.bash
 
-colcon build --cmake-args -DENABLE_COVERAGE=true -DENABLE_TESTS=true --paths $WORKSPACE/src/$REPOSITORY_NAME
+colcon build --symlink-install --cmake-args -DENABLE_COVERAGE=true -DENABLE_TESTS=true
 
 source $WORKSPACE/install/setup.bash
 
