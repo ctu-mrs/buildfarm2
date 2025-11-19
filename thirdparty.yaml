@@ -68,19 +68,6 @@ flame:
     testing: ros2_release_candidate
     stable: ros2_release
 
-livox_ros_driver2:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/livox_ros_driver2
-  gitman: false
-  git_refs:
-    unstable: ros2
-    testing: ros2_release_candidate
-    stable: ros2_release
-  generate_docker_image: false
-  ros_test:
-    enabled: false
-    full_test_coverage: false
-
 # rmw_zenoh:
 #   architecture: [amd64, arm64]
 #   source: https://github.com/ctu-mrs/rmw_zenoh
