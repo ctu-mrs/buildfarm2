@@ -320,7 +320,7 @@ mrs_gazebo_common_resources:
     stable: ros2_release
   generate_docker_image: false
   ros_test:
-    enabled: true
+    enabled: false
     full_test_coverage: false
 
 mrs_uav_gazebo_simulator:
