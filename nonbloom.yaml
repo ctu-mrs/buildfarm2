@@ -44,3 +44,12 @@ px4_firmware:
     unstable: 1.16.0-dev
     testing: 1.16.0-dev
     stable: 1.16.0-dev
+
+libcamera_ros:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/libcamera_ros
+  gitman: false
+  git_refs:
+    unstable: ros2
+    testing: ros2_release_candidate
+    stable: ros2_release
