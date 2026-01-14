@@ -15,6 +15,8 @@ WORKSPACE=/tmp/workspace
 cd $WORKSPACE
 source /opt/ros/jazzy/setup.bash
 
+apt-get -y update
+
 rosdep install -y -v --from-path src/
 
 cd src
