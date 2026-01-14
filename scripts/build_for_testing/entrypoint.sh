@@ -35,8 +35,8 @@ for folder in `ls -d */`; do
 done
 
 # remove stuff from src so we don't build it again
-cd $WORKSPACE/src
-rm -rf ./*
+# cd $WORKSPACE/src
+# rm -rf ./*
 
 # remove logs
 cd $WORKSPACE
