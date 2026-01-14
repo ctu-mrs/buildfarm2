@@ -24,7 +24,7 @@ git config --global --add safe.directory /etc/docker/repository
 
 cd $WORKSPACE
 
-colcon build --symlink-install --cmake-args -DENABLE_COVERAGE=true
+colcon build --cmake-args -DENABLE_COVERAGE=true
 
 # clean CMakeFiles files that take up too much space (majority of the build folder)
 cd $WORKSPACE/build
