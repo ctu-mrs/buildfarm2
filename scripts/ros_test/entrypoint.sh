@@ -24,7 +24,7 @@ if [ ! -e $WORKSPACE/install ]; then
   cd $WORKSPACE
 
   source /opt/ros/jazzy/setup.bash
-  colcon build --symlink-install
+  colcon build
 
 fi
 
@@ -36,7 +36,7 @@ cd $WORKSPACE
 
 source $WORKSPACE/install/setup.bash
 
-colcon build --symlink-install --base-paths $WORKSPACE/src/$REPOSITORY_NAME --cmake-args -DENABLE_COVERAGE=true -DENABLE_TESTS=true
+colcon build --base-paths $WORKSPACE/src/$REPOSITORY_NAME --cmake-args -DENABLE_COVERAGE=true -DENABLE_TESTS=true
 
 source $WORKSPACE/install/setup.bash
 
