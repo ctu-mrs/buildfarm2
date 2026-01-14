@@ -29,10 +29,11 @@ cd $WORKSPACE
 colcon build --cmake-args -DENABLE_COVERAGE=true
 
 # clean CMakeFiles files that take up too much space (majority of the build folder)
-cd $WORKSPACE/build
-for folder in `ls -d */`; do
-  rm -rf ${folder}/CMakeFiles;
-done
+# # can not do that, we need that for coverage reporting
+# cd $WORKSPACE/build
+# for folder in `ls -d */`; do
+#   rm -rf ${folder}/CMakeFiles;
+# done
 
 # remove stuff from src so we don't build it again
 # cd $WORKSPACE/src
