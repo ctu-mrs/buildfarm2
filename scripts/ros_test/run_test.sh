@@ -83,6 +83,8 @@ if [ -e $ARTIFACTS_FOLDER/workspace.tar.gz ]; then
 
   tar -xvzf $ARTIFACTS_FOLDER/workspace.tar.gz -C /tmp/
 
+  rm $ARTIFACTS_FOLDER/workspace.tar.gz
+
 else
 
   echo "$0: creating the workspace"
