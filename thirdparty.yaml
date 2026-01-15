@@ -68,16 +68,6 @@ flame:
     testing: ros2_release_candidate
     stable: ros2_release
 
-libcamera_ros_driver:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/libcamera_ros_driver
-  gitman: false
-  generate_docker_image: false
-  git_refs:
-    unstable: ros2
-    testing: ros2_release_candidate
-    stable: ros2_release
-
 # rmw_zenoh:
 #   architecture: [amd64, arm64]
 #   source: https://github.com/ctu-mrs/rmw_zenoh
