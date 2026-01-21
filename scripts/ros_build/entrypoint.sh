@@ -103,7 +103,11 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
 
     ## don't run if COLCON_IGNORE is present
 
-    [ -e $PKG_PATH/COLCON_IGNORE ] && continue
+    if [ -e ./COLCON_IGNORE ]; then
+
+      echo "$0: COLCON_IGNORE present, skipping $PACKAGE"
+      continue
+    fi
 
     apt-get -y update
 
