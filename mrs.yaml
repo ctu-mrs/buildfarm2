@@ -427,6 +427,32 @@ mrs_octomap_server:
     enabled: false
     full_test_coverage: false
 
+mrs_subt_planning_lib:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_subt_planning_lib
+  gitman: false
+  git_refs:
+    unstable: ros2
+    testing: ros2_release_candidate
+    stable: ros2_release
+  generate_docker_image: false
+  ros_test:
+    enabled: false
+    full_test_coverage: false
+
+mrs_octomap_planner:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_octomap_planner
+  gitman: false
+  git_refs:
+    unstable: ros2
+    testing: ros2_release_candidate
+    stable: ros2_release
+  generate_docker_image: false
+  ros_test:
+    enabled: false
+    full_test_coverage: false
+
 point-lio:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/point-lio
