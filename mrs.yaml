@@ -547,6 +547,20 @@ mrs_cmake:
     enabled: false
     full_test_coverage: false
 
+mrs_bumper:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_bumper
+  gitman: false
+  generate_docker_image: false
+  git_refs:
+    unstable: ros2
+    testing: ros2_release_candidate
+    stable: ros2_release
+  generate_docker_image: false
+  ros_test:
+    enabled: false
+    full_test_coverage: false
+
 # mrs_mpc_solvers:
 #   architecture: [amd64, arm64]
 #   source: https://github.com/ctu-mrs/mrs_mpc_solvers
