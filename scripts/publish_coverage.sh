@@ -106,7 +106,7 @@ docker run \
   -v $WORKSPACE:/tmp/workspace \
   -v $ARTIFACT_FOLDER:/tmp/artifacts \
   klaxalk/lcov \
-  /bin/bash -c "cd /tmp/workspace && gcovr $ARGS --filter='^.*\/src\/.*$' --exclude='^.*\/eth_trajectory_generation\/.*$' --lcov /tmp/workspace/coverage.info"
+  /bin/bash -c "cd /tmp/workspace && gcovr $ARGS --filter='^.*\/(src|include|tests?)\/.*$' --exclude='^.*\/eth_trajectory_generation\/.*$' --lcov /tmp/workspace/coverage.info"
 
 echo "$0: filtering coverage report"
 
