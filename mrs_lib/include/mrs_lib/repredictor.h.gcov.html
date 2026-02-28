@@ -1,0 +1,669 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - MRS UAV System - Test coverage report - mrs_lib/include/mrs_lib/repredictor.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../../index.html" target="_parent" title="Click to go to top-level">top level</a> - <a href="index.html" target="_parent" title="Click to go to directory mrs_lib/include/mrs_lib">mrs_lib/include/mrs_lib</a> - repredictor.h<span style="font-size: 80%;"> (source / <a href="repredictor.h.func-c.html" title="Click to go to function table">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">MRS UAV System - Test coverage report</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryMed">87.9&nbsp;%</td>
+            <td class="headerCovTableEntry">116</td>
+            <td class="headerCovTableEntry">102</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2026-02-28 19:12:04</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
+            <td class="headerCovTableEntry">20</td>
+            <td class="headerCovTableEntry">20</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:&nbsp&nbsp&nbsp&nbsp
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+                  <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : #ifndef REPREDICTOR_H</span>
+<span id="L2"><span class="lineNum">       2</span>              : #define REPREDICTOR_H</span>
+<span id="L3"><span class="lineNum">       3</span>              : </span>
+<span id="L4"><span class="lineNum">       4</span>              : #include &lt;Eigen/Dense&gt;</span>
+<span id="L5"><span class="lineNum">       5</span>              : #include &lt;boost/circular_buffer.hpp&gt;</span>
+<span id="L6"><span class="lineNum">       6</span>              : #include &lt;std_msgs/msg/header.hpp&gt;</span>
+<span id="L7"><span class="lineNum">       7</span>              : #include &lt;rclcpp/rclcpp.hpp&gt;</span>
+<span id="L8"><span class="lineNum">       8</span>              : #include &lt;mrs_lib/utils.h&gt;</span>
+<span id="L9"><span class="lineNum">       9</span>              : </span>
+<span id="L10"><span class="lineNum">      10</span>              : namespace mrs_lib</span>
+<span id="L11"><span class="lineNum">      11</span>              : {</span>
+<span id="L12"><span class="lineNum">      12</span>              :   /**</span>
+<span id="L13"><span class="lineNum">      13</span>              :    * \brief Implementation of the Repredictor for fusing measurements with variable delays.</span>
+<span id="L14"><span class="lineNum">      14</span>              :    *</span>
+<span id="L15"><span class="lineNum">      15</span>              :    * A standard state-space system model is assumed for the repredictor with system inputs and measurements,</span>
+<span id="L16"><span class="lineNum">      16</span>              :    * generated from the system state vector. The inputs and measurements may be delayed with varying durations (an older measurement may become available after</span>
+<span id="L17"><span class="lineNum">      17</span>              :    * a newer one). A typical use-case scenario is when you have one &quot;fast&quot; but imprecise sensor and one &quot;slow&quot; but precise sensor and you want to use them both</span>
+<span id="L18"><span class="lineNum">      18</span>              :    * to get a good prediction (eg. height from the Garmin LiDAR, which comes at 100Hz, and position from a SLAM, which comes at 10Hz with a long delay). If the</span>
+<span id="L19"><span class="lineNum">      19</span>              :    * slow sensor is significantly slower than the fast one, fusing its measurement at the time it arrives without taking into account the sensor's delay may</span>
+<span id="L20"><span class="lineNum">      20</span>              :    * significantly bias your latest estimate.</span>
+<span id="L21"><span class="lineNum">      21</span>              :    *</span>
+<span id="L22"><span class="lineNum">      22</span>              :    * To accomodate this, the Repredictor keeps a buffer of N last inputs and measurements (N is specified</span>
+<span id="L23"><span class="lineNum">      23</span>              :    * in the constructor). This buffer is then used to re-predict the desired state to a specific time, as</span>
+<span id="L24"><span class="lineNum">      24</span>              :    * requested by the user. Note that the re-prediction is evaluated in a lazy manner only when the user requests it,</span>
+<span id="L25"><span class="lineNum">      25</span>              :    * so it goes through the whole history buffer every time a prediction is requested.</span>
+<span id="L26"><span class="lineNum">      26</span>              :    *</span>
+<span id="L27"><span class="lineNum">      27</span>              :    * The Repredictor utilizes a fusion Model (specified as the template parameter), which should implement</span>
+<span id="L28"><span class="lineNum">      28</span>              :    * the predict() and correct() methods. This Model is used for fusing the system inputs and measurements</span>
+<span id="L29"><span class="lineNum">      29</span>              :    * as well as for predictions. Typically, this Model will be some kind of a Kalman Filter (LKF, UKF etc.).</span>
+<span id="L30"><span class="lineNum">      30</span>              :    * \note The Model should be able to accomodate predictions with varying time steps in order for</span>
+<span id="L31"><span class="lineNum">      31</span>              :    * the Repredictor to work correctly (see eg. the varstepLKF class).</span>
+<span id="L32"><span class="lineNum">      32</span>              :    *</span>
+<span id="L33"><span class="lineNum">      33</span>              :    * \tparam Model                  the prediction and correction model (eg. a Kalman Filter).</span>
+<span id="L34"><span class="lineNum">      34</span>              :    * \tparam disable_reprediction   if true, reprediction is disabled and the class will act like a dumb LKF (for evaluation purposes).</span>
+<span id="L35"><span class="lineNum">      35</span>              :    *</span>
+<span id="L36"><span class="lineNum">      36</span>              :    */</span>
+<span id="L37"><span class="lineNum">      37</span>              :   template &lt;class Model, bool disable_reprediction = false&gt;</span>
+<span id="L38"><span class="lineNum">      38</span>              :   class Repredictor</span>
+<span id="L39"><span class="lineNum">      39</span>              :   {</span>
+<span id="L40"><span class="lineNum">      40</span>              :   public:</span>
+<span id="L41"><span class="lineNum">      41</span>              :     /* states, inputs etc. definitions (typedefs, constants etc) //{ */</span>
+<span id="L42"><span class="lineNum">      42</span>              : </span>
+<span id="L43"><span class="lineNum">      43</span>              :     using x_t = typename Model::x_t;                  /*!&lt; \brief State vector type \f$n \times 1\f$ */</span>
+<span id="L44"><span class="lineNum">      44</span>              :     using u_t = typename Model::u_t;                  /*!&lt; \brief Input vector type \f$m \times 1\f$ */</span>
+<span id="L45"><span class="lineNum">      45</span>              :     using z_t = typename Model::z_t;                  /*!&lt; \brief Measurement vector type \f$p \times 1\f$ */</span>
+<span id="L46"><span class="lineNum">      46</span>              :     using P_t = typename Model::P_t;                  /*!&lt; \brief State uncertainty covariance matrix type \f$n \times n\f$ */</span>
+<span id="L47"><span class="lineNum">      47</span>              :     using R_t = typename Model::R_t;                  /*!&lt; \brief Measurement noise covariance matrix type \f$p \times p\f$ */</span>
+<span id="L48"><span class="lineNum">      48</span>              :     using Q_t = typename Model::Q_t;                  /*!&lt; \brief Process noise covariance matrix type \f$n \times n\f$ */</span>
+<span id="L49"><span class="lineNum">      49</span>              :     using statecov_t = typename Model::statecov_t;    /*!&lt; \brief Helper struct for passing around the state and its covariance in one variable */</span>
+<span id="L50"><span class="lineNum">      50</span>              :     using ModelPtr = typename std::shared_ptr&lt;Model&gt;; /*!&lt; \brief Shorthand type for a shared pointer-to-Model */</span>
+<span id="L51"><span class="lineNum">      51</span>              : </span>
+<span id="L52"><span class="lineNum">      52</span>              :     //}</span>
+<span id="L53"><span class="lineNum">      53</span>              : </span>
+<span id="L54"><span class="lineNum">      54</span>              :     /* predictTo() method //{ */</span>
+<span id="L55"><span class="lineNum">      55</span>              :     /*!</span>
+<span id="L56"><span class="lineNum">      56</span>              :      * \brief Estimates the system state and covariance matrix at the specified time.</span>
+<span id="L57"><span class="lineNum">      57</span>              :      *</span>
+<span id="L58"><span class="lineNum">      58</span>              :      * The measurement and system input histories are used to estimate the state vector and</span>
+<span id="L59"><span class="lineNum">      59</span>              :      * covariance matrix values at the specified time, which are returned.</span>
+<span id="L60"><span class="lineNum">      60</span>              :      *</span>
+<span id="L61"><span class="lineNum">      61</span>              :      * \param to_stamp   The desired time at which the state vector and covariance matrix should be estimated.</span>
+<span id="L62"><span class="lineNum">      62</span>              :      * \return           Returns the estimated state vector and covariance matrix in a single struct.</span>
+<span id="L63"><span class="lineNum">      63</span>              :      *</span>
+<span id="L64"><span class="lineNum">      64</span>              :      */</span>
+<span id="L65"><span class="lineNum">      65</span>              :     template &lt;bool check = disable_reprediction&gt;</span>
+<span id="L66"><span class="lineNum">      66</span> <span class="tlaGNC">         102 :     std::enable_if_t&lt;!check, statecov_t&gt; predictTo(const rclcpp::Time&amp; to_stamp)</span></span>
+<span id="L67"><span class="lineNum">      67</span>              :     {</span>
+<span id="L68"><span class="lineNum">      68</span>              : </span>
+<span id="L69"><span class="lineNum">      69</span> <span class="tlaGNC">         102 :       assert(!m_history.empty());</span></span>
+<span id="L70"><span class="lineNum">      70</span> <span class="tlaGNC">         204 :       auto hist_it = std::begin(m_history);</span></span>
+<span id="L71"><span class="lineNum">      71</span>              : </span>
+<span id="L72"><span class="lineNum">      72</span> <span class="tlaGNC">         102 :       if (hist_it-&gt;is_measurement)</span></span>
+<span id="L73"><span class="lineNum">      73</span>              :       {</span>
+<span id="L74"><span class="lineNum">      74</span>              :         // if the first history point is measurement, don't use it for correction (to prevent it from being used twice)</span>
+<span id="L75"><span class="lineNum">      75</span> <span class="tlaUNC">           0 :         hist_it-&gt;is_measurement = false;</span></span>
+<span id="L76"><span class="lineNum">      76</span>              :       }</span>
+<span id="L77"><span class="lineNum">      77</span>              :       // cur_stamp corresponds to the time point of cur_sc estimation</span>
+<span id="L78"><span class="lineNum">      78</span> <span class="tlaGNC">         102 :       auto cur_stamp = hist_it-&gt;stamp;</span></span>
+<span id="L79"><span class="lineNum">      79</span>              :       // cur_sc is the current state and covariance estimate</span>
+<span id="L80"><span class="lineNum">      80</span> <span class="tlaGNC">       16519 :       auto cur_sc = m_sc;</span></span>
+<span id="L81"><span class="lineNum">      81</span>              :       do</span>
+<span id="L82"><span class="lineNum">      82</span>              :       {</span>
+<span id="L83"><span class="lineNum">      83</span> <span class="tlaGNC">       16417 :         cur_sc.stamp = hist_it-&gt;stamp;</span></span>
+<span id="L84"><span class="lineNum">      84</span>              :         // do the correction if current history point is a measurement</span>
+<span id="L85"><span class="lineNum">      85</span> <span class="tlaGNC">       16417 :         if ((hist_it-&gt;is_measurement))</span></span>
+<span id="L86"><span class="lineNum">      86</span> <span class="tlaGNC">       10300 :           cur_sc = correctFrom(cur_sc, *hist_it);</span></span>
+<span id="L87"><span class="lineNum">      87</span>              : </span>
+<span id="L88"><span class="lineNum">      88</span>              :         // decide whether to predict to the next history point or straight to the desired stamp already</span>
+<span id="L89"><span class="lineNum">      89</span>              :         // (whichever comes sooner or directly to the desired stamp if no further history point is available)</span>
+<span id="L90"><span class="lineNum">      90</span> <span class="tlaGNC">       16417 :         rclcpp::Time next_stamp = to_stamp;</span></span>
+<span id="L91"><span class="lineNum">      91</span>              : </span>
+<span id="L92"><span class="lineNum">      92</span> <span class="tlaGNC">       16417 :         if ((hist_it + 1) != std::end(m_history) &amp;&amp; (hist_it + 1)-&gt;stamp &lt;= to_stamp)</span></span>
+<span id="L93"><span class="lineNum">      93</span> <span class="tlaGNC">       16315 :           next_stamp = (hist_it + 1)-&gt;stamp;</span></span>
+<span id="L94"><span class="lineNum">      94</span>              : </span>
+<span id="L95"><span class="lineNum">      95</span>              :         // do the prediction</span>
+<span id="L96"><span class="lineNum">      96</span> <span class="tlaGNC">       32834 :         cur_sc = predictFrom(cur_sc, *hist_it, cur_stamp, next_stamp);</span></span>
+<span id="L97"><span class="lineNum">      97</span> <span class="tlaGNC">       16417 :         cur_stamp = next_stamp;</span></span>
+<span id="L98"><span class="lineNum">      98</span>              : </span>
+<span id="L99"><span class="lineNum">      99</span>              :         // increment the history pointer</span>
+<span id="L100"><span class="lineNum">     100</span> <span class="tlaGNC">       16417 :         hist_it++;</span></span>
+<span id="L101"><span class="lineNum">     101</span> <span class="tlaGNC">       16417 :       } while (hist_it != std::end(m_history) &amp;&amp; hist_it-&gt;stamp &lt;= to_stamp);</span></span>
+<span id="L102"><span class="lineNum">     102</span>              : </span>
+<span id="L103"><span class="lineNum">     103</span> <span class="tlaGNC">         102 :       cur_sc.stamp = to_stamp;</span></span>
+<span id="L104"><span class="lineNum">     104</span>              : </span>
+<span id="L105"><span class="lineNum">     105</span> <span class="tlaGNC">         102 :       return cur_sc;</span></span>
+<span id="L106"><span class="lineNum">     106</span> <span class="tlaGNC">         102 :     }</span></span>
+<span id="L107"><span class="lineNum">     107</span>              : </span>
+<span id="L108"><span class="lineNum">     108</span>              :     /*!</span>
+<span id="L109"><span class="lineNum">     109</span>              :      * \brief Estimates the system state and covariance matrix at the specified time.</span>
+<span id="L110"><span class="lineNum">     110</span>              :      *</span>
+<span id="L111"><span class="lineNum">     111</span>              :      * The measurement and system input histories are used to estimate the state vector and</span>
+<span id="L112"><span class="lineNum">     112</span>              :      * covariance matrix values at the specified time, which are returned.</span>
+<span id="L113"><span class="lineNum">     113</span>              :      *</span>
+<span id="L114"><span class="lineNum">     114</span>              :      * \param to_stamp   The desired time at which the state vector and covariance matrix should be estimated.</span>
+<span id="L115"><span class="lineNum">     115</span>              :      * \return           Returns the estimated state vector and covariance matrix in a single struct.</span>
+<span id="L116"><span class="lineNum">     116</span>              :      *</span>
+<span id="L117"><span class="lineNum">     117</span>              :      * \note This is the variant of the method when reprediction is disabled and will function like a dumb LKF.</span>
+<span id="L118"><span class="lineNum">     118</span>              :      *</span>
+<span id="L119"><span class="lineNum">     119</span>              :      */</span>
+<span id="L120"><span class="lineNum">     120</span>              :     template &lt;bool check = disable_reprediction&gt;</span>
+<span id="L121"><span class="lineNum">     121</span> <span class="tlaGNC">         616 :     std::enable_if_t&lt;check, statecov_t&gt; predictTo(const rclcpp::Time&amp; to_stamp)</span></span>
+<span id="L122"><span class="lineNum">     122</span>              :     {</span>
+<span id="L123"><span class="lineNum">     123</span>              : </span>
+<span id="L124"><span class="lineNum">     124</span> <span class="tlaGNC">         616 :       assert(!m_history.empty());</span></span>
+<span id="L125"><span class="lineNum">     125</span> <span class="tlaGNC">         616 :       const auto&amp; info = m_history.front();</span></span>
+<span id="L126"><span class="lineNum">     126</span> <span class="tlaGNC">         616 :       auto sc = predictFrom(m_sc, info, info.stamp, to_stamp);</span></span>
+<span id="L127"><span class="lineNum">     127</span> <span class="tlaGNC">         616 :       sc.stamp = to_stamp;</span></span>
+<span id="L128"><span class="lineNum">     128</span>              : </span>
+<span id="L129"><span class="lineNum">     129</span> <span class="tlaGNC">         616 :       return sc;</span></span>
+<span id="L130"><span class="lineNum">     130</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L131"><span class="lineNum">     131</span>              :     //}</span>
+<span id="L132"><span class="lineNum">     132</span>              : </span>
+<span id="L133"><span class="lineNum">     133</span>              :     /* addInputChangeWithNoise() method //{ */</span>
+<span id="L134"><span class="lineNum">     134</span>              :     /*!</span>
+<span id="L135"><span class="lineNum">     135</span>              :      * \brief Adds one system input to the history buffer, removing the oldest element in the buffer if it is full.</span>
+<span id="L136"><span class="lineNum">     136</span>              :      *</span>
+<span id="L137"><span class="lineNum">     137</span>              :      * \param u      The system input vector to be added.</span>
+<span id="L138"><span class="lineNum">     138</span>              :      * \param Q      The process noise covariance matrix.</span>
+<span id="L139"><span class="lineNum">     139</span>              :      * \param stamp  Time stamp of the input vector and covariance matrix.</span>
+<span id="L140"><span class="lineNum">     140</span>              :      * \param model  Optional pointer to a specific Model to be used with this input (eg. mapping it to different states). If it equals to nullptr, the default</span>
+<span id="L141"><span class="lineNum">     141</span>              :      * model specified in the constructor will be used.</span>
+<span id="L142"><span class="lineNum">     142</span>              :      *</span>
+<span id="L143"><span class="lineNum">     143</span>              :      * \note The system input vector will not be added if it is older than the oldest element in the history buffer.</span>
+<span id="L144"><span class="lineNum">     144</span>              :      *</span>
+<span id="L145"><span class="lineNum">     145</span>              :      */</span>
+<span id="L146"><span class="lineNum">     146</span>              :     template &lt;bool check = disable_reprediction&gt;</span>
+<span id="L147"><span class="lineNum">     147</span> <span class="tlaGNC">         200 :     std::enable_if_t&lt;!check&gt; addInputChangeWithNoise(const u_t&amp; u, const Q_t&amp; Q, const rclcpp::Time&amp; stamp, const ModelPtr&amp; model = nullptr)</span></span>
+<span id="L148"><span class="lineNum">     148</span>              :     {</span>
+<span id="L149"><span class="lineNum">     149</span> <span class="tlaGNC">         200 :       const info_t info(stamp, u, Q, model);</span></span>
+<span id="L150"><span class="lineNum">     150</span>              :       // find the next point in the history buffer</span>
+<span id="L151"><span class="lineNum">     151</span> <span class="tlaGNC">         399 :       const auto next_it = std::lower_bound(std::begin(m_history), std::end(m_history), info, &amp;Repredictor&lt;Model&gt;::earlier);</span></span>
+<span id="L152"><span class="lineNum">     152</span>              :       // add the point to the history buffer</span>
+<span id="L153"><span class="lineNum">     153</span> <span class="tlaGNC">         200 :       const auto added = addInfo(info, next_it);</span></span>
+<span id="L154"><span class="lineNum">     154</span>              :       // update all measurements following the newly added system input up to the next system input</span>
+<span id="L155"><span class="lineNum">     155</span> <span class="tlaGNC">         200 :       if (added != std::end(m_history))</span></span>
+<span id="L156"><span class="lineNum">     156</span> <span class="tlaGNC">        6803 :         for (auto it = added + 1; it != std::end(m_history) &amp;&amp; it-&gt;is_measurement; it++)</span></span>
+<span id="L157"><span class="lineNum">     157</span> <span class="tlaGNC">        6403 :           it-&gt;updateUsing(info);</span></span>
+<span id="L158"><span class="lineNum">     158</span> <span class="tlaGNC">         200 :     }</span></span>
+<span id="L159"><span class="lineNum">     159</span>              : </span>
+<span id="L160"><span class="lineNum">     160</span>              :     /*!</span>
+<span id="L161"><span class="lineNum">     161</span>              :      * \brief Adds one system input to the history buffer, removing the oldest element in the buffer if it is full.</span>
+<span id="L162"><span class="lineNum">     162</span>              :      *</span>
+<span id="L163"><span class="lineNum">     163</span>              :      * \param u      The system input vector to be added.</span>
+<span id="L164"><span class="lineNum">     164</span>              :      * \param Q      The process noise covariance matrix.</span>
+<span id="L165"><span class="lineNum">     165</span>              :      * \param stamp  Time stamp of the input vector and covariance matrix.</span>
+<span id="L166"><span class="lineNum">     166</span>              :      * \param model  Optional pointer to a specific Model to be used with this input (eg. mapping it to different states). If it equals to nullptr, the default</span>
+<span id="L167"><span class="lineNum">     167</span>              :      * model specified in the constructor will be used.</span>
+<span id="L168"><span class="lineNum">     168</span>              :      *</span>
+<span id="L169"><span class="lineNum">     169</span>              :      * \note This is the variant of the method when reprediction is disabled and will function like a dumb LKF.</span>
+<span id="L170"><span class="lineNum">     170</span>              :      *</span>
+<span id="L171"><span class="lineNum">     171</span>              :      */</span>
+<span id="L172"><span class="lineNum">     172</span>              :     template &lt;bool check = disable_reprediction&gt;</span>
+<span id="L173"><span class="lineNum">     173</span> <span class="tlaGNC">         181 :     std::enable_if_t&lt;check&gt; addInputChangeWithNoise(const u_t&amp; u, const Q_t&amp; Q, [[maybe_unused]] const rclcpp::Time&amp; stamp, const ModelPtr&amp; model = nullptr)</span></span>
+<span id="L174"><span class="lineNum">     174</span>              :     {</span>
+<span id="L175"><span class="lineNum">     175</span> <span class="tlaGNC">         181 :       if (m_history.empty())</span></span>
+<span id="L176"><span class="lineNum">     176</span> <span class="tlaGNC">           4 :         m_history.push_back({stamp});</span></span>
+<span id="L177"><span class="lineNum">     177</span> <span class="tlaGNC">         181 :       m_history.front().u = u;</span></span>
+<span id="L178"><span class="lineNum">     178</span> <span class="tlaGNC">         181 :       m_history.front().Q = Q;</span></span>
+<span id="L179"><span class="lineNum">     179</span> <span class="tlaGNC">         181 :       m_history.front().stamp = stamp;</span></span>
+<span id="L180"><span class="lineNum">     180</span> <span class="tlaGNC">         181 :       m_history.front().predict_model = model;</span></span>
+<span id="L181"><span class="lineNum">     181</span> <span class="tlaGNC">         181 :     }</span></span>
+<span id="L182"><span class="lineNum">     182</span>              :     //}</span>
+<span id="L183"><span class="lineNum">     183</span>              : </span>
+<span id="L184"><span class="lineNum">     184</span>              :     /* addInputChange() method //{ */</span>
+<span id="L185"><span class="lineNum">     185</span>              :     /*!</span>
+<span id="L186"><span class="lineNum">     186</span>              :      * \brief Adds one system input to the history buffer, removing the oldest element in the buffer if it is full.</span>
+<span id="L187"><span class="lineNum">     187</span>              :      *</span>
+<span id="L188"><span class="lineNum">     188</span>              :      * \param u      The system input vector to be added.</span>
+<span id="L189"><span class="lineNum">     189</span>              :      * \param stamp  Time stamp of the input vector and covariance matrix.</span>
+<span id="L190"><span class="lineNum">     190</span>              :      * \param model  Optional pointer to a specific Model to be used with this input (eg. mapping it to different states). If it equals to nullptr, the default</span>
+<span id="L191"><span class="lineNum">     191</span>              :      * model specified in the constructor will be used.</span>
+<span id="L192"><span class="lineNum">     192</span>              :      *</span>
+<span id="L193"><span class="lineNum">     193</span>              :      * \note The system input vector will not be added if it is older than the oldest element in the history buffer.</span>
+<span id="L194"><span class="lineNum">     194</span>              :      *</span>
+<span id="L195"><span class="lineNum">     195</span>              :      */</span>
+<span id="L196"><span class="lineNum">     196</span>              :     template &lt;bool check = disable_reprediction&gt;</span>
+<span id="L197"><span class="lineNum">     197</span>              :     std::enable_if_t&lt;!check&gt; addInputChange(const u_t&amp; u, const rclcpp::Time&amp; stamp, const ModelPtr&amp; model = nullptr)</span>
+<span id="L198"><span class="lineNum">     198</span>              :     {</span>
+<span id="L199"><span class="lineNum">     199</span>              : </span>
+<span id="L200"><span class="lineNum">     200</span>              :       assert(!m_history.empty());</span>
+<span id="L201"><span class="lineNum">     201</span>              : </span>
+<span id="L202"><span class="lineNum">     202</span>              :       // find the next point in the history buffer</span>
+<span id="L203"><span class="lineNum">     203</span>              :       const auto next_it = std::lower_bound(std::begin(m_history), std::end(m_history), stamp, &amp;Repredictor&lt;Model&gt;::earlier);</span>
+<span id="L204"><span class="lineNum">     204</span>              : </span>
+<span id="L205"><span class="lineNum">     205</span>              :       // get the previous history point (or the first one to avoid out of bounds)</span>
+<span id="L206"><span class="lineNum">     206</span>              :       const auto prev_it = next_it == std::begin(m_history) ? next_it : next_it - 1;</span>
+<span id="L207"><span class="lineNum">     207</span>              : </span>
+<span id="L208"><span class="lineNum">     208</span>              :       // initialize a new history info point</span>
+<span id="L209"><span class="lineNum">     209</span>              :       const info_t info(stamp, u, prev_it-&gt;Q, model);</span>
+<span id="L210"><span class="lineNum">     210</span>              : </span>
+<span id="L211"><span class="lineNum">     211</span>              :       // add the point to the history buffer</span>
+<span id="L212"><span class="lineNum">     212</span>              :       const auto added = addInfo(info, next_it);</span>
+<span id="L213"><span class="lineNum">     213</span>              : </span>
+<span id="L214"><span class="lineNum">     214</span>              :       // update all measurements following the newly added system input up to the next system input</span>
+<span id="L215"><span class="lineNum">     215</span>              :       if (added != std::end(m_history))</span>
+<span id="L216"><span class="lineNum">     216</span>              :         for (auto it = added + 1; it != std::end(m_history) &amp;&amp; it-&gt;is_measurement; it++)</span>
+<span id="L217"><span class="lineNum">     217</span>              :           it-&gt;updateUsing(info);</span>
+<span id="L218"><span class="lineNum">     218</span>              :     }</span>
+<span id="L219"><span class="lineNum">     219</span>              : </span>
+<span id="L220"><span class="lineNum">     220</span>              :     /*!</span>
+<span id="L221"><span class="lineNum">     221</span>              :      * \brief Adds one system input to the history buffer, removing the oldest element in the buffer if it is full.</span>
+<span id="L222"><span class="lineNum">     222</span>              :      *</span>
+<span id="L223"><span class="lineNum">     223</span>              :      * \param u      The system input vector to be added.</span>
+<span id="L224"><span class="lineNum">     224</span>              :      * \param stamp  Time stamp of the input vector and covariance matrix.</span>
+<span id="L225"><span class="lineNum">     225</span>              :      * \param model  Optional pointer to a specific Model to be used with this input (eg. mapping it to different states). If it equals to nullptr, the default</span>
+<span id="L226"><span class="lineNum">     226</span>              :      * model specified in the constructor will be used.</span>
+<span id="L227"><span class="lineNum">     227</span>              :      *</span>
+<span id="L228"><span class="lineNum">     228</span>              :      * \note This is the variant of the method when reprediction is disabled and will function like a dumb LKF.</span>
+<span id="L229"><span class="lineNum">     229</span>              :      *</span>
+<span id="L230"><span class="lineNum">     230</span>              :      */</span>
+<span id="L231"><span class="lineNum">     231</span>              :     template &lt;bool check = disable_reprediction&gt;</span>
+<span id="L232"><span class="lineNum">     232</span> <span class="tlaGNC">         110 :     std::enable_if_t&lt;check&gt; addInputChange(const u_t&amp; u, [[maybe_unused]] const rclcpp::Time&amp; stamp, const ModelPtr&amp; model = nullptr)</span></span>
+<span id="L233"><span class="lineNum">     233</span>              :     {</span>
+<span id="L234"><span class="lineNum">     234</span> <span class="tlaGNC">         110 :       if (m_history.empty())</span></span>
+<span id="L235"><span class="lineNum">     235</span> <span class="tlaUNC">           0 :         m_history.push_back({stamp});</span></span>
+<span id="L236"><span class="lineNum">     236</span> <span class="tlaGNC">         110 :       m_history.front().u = u;</span></span>
+<span id="L237"><span class="lineNum">     237</span> <span class="tlaGNC">         110 :       m_history.front().stamp = stamp;</span></span>
+<span id="L238"><span class="lineNum">     238</span> <span class="tlaGNC">         110 :       m_history.front().predict_model = model;</span></span>
+<span id="L239"><span class="lineNum">     239</span> <span class="tlaGNC">         110 :     }</span></span>
+<span id="L240"><span class="lineNum">     240</span>              :     //}</span>
+<span id="L241"><span class="lineNum">     241</span>              : </span>
+<span id="L242"><span class="lineNum">     242</span>              :     /* addProcessNoiseChange() method //{ */</span>
+<span id="L243"><span class="lineNum">     243</span>              :     /*!</span>
+<span id="L244"><span class="lineNum">     244</span>              :      * \brief Adds one system input to the history buffer, removing the oldest element in the buffer if it is full.</span>
+<span id="L245"><span class="lineNum">     245</span>              :      *</span>
+<span id="L246"><span class="lineNum">     246</span>              :      * \param Q      The process noise covariance matrix.</span>
+<span id="L247"><span class="lineNum">     247</span>              :      * \param stamp  Time stamp of the input vector and covariance matrix.</span>
+<span id="L248"><span class="lineNum">     248</span>              :      * \param model  Optional pointer to a specific Model to be used with this covariance matrix (eg. mapping it to different states). If it equals to nullptr,</span>
+<span id="L249"><span class="lineNum">     249</span>              :      * the default model specified in the constructor will be used.</span>
+<span id="L250"><span class="lineNum">     250</span>              :      *</span>
+<span id="L251"><span class="lineNum">     251</span>              :      * \note The new element will not be added if it is older than the oldest element in the history buffer.</span>
+<span id="L252"><span class="lineNum">     252</span>              :      *</span>
+<span id="L253"><span class="lineNum">     253</span>              :      */</span>
+<span id="L254"><span class="lineNum">     254</span>              :     template &lt;bool check = disable_reprediction&gt;</span>
+<span id="L255"><span class="lineNum">     255</span>              :     std::enable_if_t&lt;!check&gt; addProcessNoiseChange(const Q_t&amp; Q, const rclcpp::Time&amp; stamp, const ModelPtr&amp; model = nullptr)</span>
+<span id="L256"><span class="lineNum">     256</span>              :     {</span>
+<span id="L257"><span class="lineNum">     257</span>              : </span>
+<span id="L258"><span class="lineNum">     258</span>              :       assert(!m_history.empty());</span>
+<span id="L259"><span class="lineNum">     259</span>              : </span>
+<span id="L260"><span class="lineNum">     260</span>              :       // find the next point in the history buffer</span>
+<span id="L261"><span class="lineNum">     261</span>              :       const auto next_it = std::lower_bound(std::begin(m_history), std::end(m_history), stamp, &amp;Repredictor&lt;Model&gt;::earlier);</span>
+<span id="L262"><span class="lineNum">     262</span>              : </span>
+<span id="L263"><span class="lineNum">     263</span>              :       // get the previous history point (or the first one to avoid out of bounds)</span>
+<span id="L264"><span class="lineNum">     264</span>              :       const auto prev_it = next_it == std::begin(m_history) ? next_it : next_it - 1;</span>
+<span id="L265"><span class="lineNum">     265</span>              : </span>
+<span id="L266"><span class="lineNum">     266</span>              :       // initialize a new history info point</span>
+<span id="L267"><span class="lineNum">     267</span>              :       const info_t info(stamp, prev_it-&gt;u, Q, model);</span>
+<span id="L268"><span class="lineNum">     268</span>              : </span>
+<span id="L269"><span class="lineNum">     269</span>              :       // add the point to the history buffer</span>
+<span id="L270"><span class="lineNum">     270</span>              :       const auto added = addInfo(info, next_it);</span>
+<span id="L271"><span class="lineNum">     271</span>              : </span>
+<span id="L272"><span class="lineNum">     272</span>              :       // update all measurements following the newly added system input up to the next system input</span>
+<span id="L273"><span class="lineNum">     273</span>              :       if (added != std::end(m_history))</span>
+<span id="L274"><span class="lineNum">     274</span>              :         for (auto it = added + 1; it != std::end(m_history) &amp;&amp; it-&gt;is_measurement; it++)</span>
+<span id="L275"><span class="lineNum">     275</span>              :           it-&gt;updateUsing(info);</span>
+<span id="L276"><span class="lineNum">     276</span>              :     }</span>
+<span id="L277"><span class="lineNum">     277</span>              : </span>
+<span id="L278"><span class="lineNum">     278</span>              :     /*!</span>
+<span id="L279"><span class="lineNum">     279</span>              :      * \brief Adds one system input to the history buffer, removing the oldest element in the buffer if it is full.</span>
+<span id="L280"><span class="lineNum">     280</span>              :      *</span>
+<span id="L281"><span class="lineNum">     281</span>              :      * \param Q      The process noise covariance matrix.</span>
+<span id="L282"><span class="lineNum">     282</span>              :      * \param stamp  Time stamp of the input vector and covariance matrix.</span>
+<span id="L283"><span class="lineNum">     283</span>              :      * \param model  Optional pointer to a specific Model to be used with this covariance matrix (eg. mapping it to different states). If it equals to nullptr,</span>
+<span id="L284"><span class="lineNum">     284</span>              :      * the default model specified in the constructor will be used.</span>
+<span id="L285"><span class="lineNum">     285</span>              :      *</span>
+<span id="L286"><span class="lineNum">     286</span>              :      * \note This is the variant of the method when reprediction is disabled and will function like a dumb LKF.</span>
+<span id="L287"><span class="lineNum">     287</span>              :      *</span>
+<span id="L288"><span class="lineNum">     288</span>              :      */</span>
+<span id="L289"><span class="lineNum">     289</span>              :     template &lt;bool check = disable_reprediction&gt;</span>
+<span id="L290"><span class="lineNum">     290</span>              :     std::enable_if_t&lt;check&gt; addProcessNoiseChange(const Q_t&amp; Q, [[maybe_unused]] const rclcpp::Time&amp; stamp, const ModelPtr&amp; model = nullptr)</span>
+<span id="L291"><span class="lineNum">     291</span>              :     {</span>
+<span id="L292"><span class="lineNum">     292</span>              : </span>
+<span id="L293"><span class="lineNum">     293</span>              :       if (m_history.empty())</span>
+<span id="L294"><span class="lineNum">     294</span>              :         m_history.push_back({stamp});</span>
+<span id="L295"><span class="lineNum">     295</span>              : </span>
+<span id="L296"><span class="lineNum">     296</span>              :       m_history.front().Q = Q;</span>
+<span id="L297"><span class="lineNum">     297</span>              :       m_history.front().stamp = stamp;</span>
+<span id="L298"><span class="lineNum">     298</span>              :       m_history.front().predict_model = model;</span>
+<span id="L299"><span class="lineNum">     299</span>              :     }</span>
+<span id="L300"><span class="lineNum">     300</span>              :     //}</span>
+<span id="L301"><span class="lineNum">     301</span>              : </span>
+<span id="L302"><span class="lineNum">     302</span>              :     /* addMeasurement() method //{ */</span>
+<span id="L303"><span class="lineNum">     303</span>              :     /*!</span>
+<span id="L304"><span class="lineNum">     304</span>              :      * \brief Adds one measurement to the history buffer, removing the oldest element in the buffer if it is full.</span>
+<span id="L305"><span class="lineNum">     305</span>              :      *</span>
+<span id="L306"><span class="lineNum">     306</span>              :      * \param z      The measurement vector to be added.</span>
+<span id="L307"><span class="lineNum">     307</span>              :      * \param R      The measurement noise covariance matrix, corresponding to the measurement vector.</span>
+<span id="L308"><span class="lineNum">     308</span>              :      * \param stamp  Time stamp of the measurement vector and covariance matrix.</span>
+<span id="L309"><span class="lineNum">     309</span>              :      * \param model  Optional pointer to a specific Model to be used with this measurement (eg. mapping it from different states). If it equals to nullptr, the</span>
+<span id="L310"><span class="lineNum">     310</span>              :      * default model specified in the constructor will be used.</span>
+<span id="L311"><span class="lineNum">     311</span>              :      *</span>
+<span id="L312"><span class="lineNum">     312</span>              :      * \note The measurement vector will not be added if it is older than the oldest element in the history buffer.</span>
+<span id="L313"><span class="lineNum">     313</span>              :      *</span>
+<span id="L314"><span class="lineNum">     314</span>              :      */</span>
+<span id="L315"><span class="lineNum">     315</span>              :     template &lt;bool check = disable_reprediction&gt;</span>
+<span id="L316"><span class="lineNum">     316</span> <span class="tlaGNC">         100 :     std::enable_if_t&lt;!check&gt; addMeasurement(const z_t&amp; z, const R_t&amp; R, const rclcpp::Time&amp; stamp, const ModelPtr&amp; model = nullptr, const double&amp; meas_id = -1)</span></span>
+<span id="L317"><span class="lineNum">     317</span>              :     {</span>
+<span id="L318"><span class="lineNum">     318</span>              : </span>
+<span id="L319"><span class="lineNum">     319</span> <span class="tlaGNC">         100 :       assert(!m_history.empty());</span></span>
+<span id="L320"><span class="lineNum">     320</span>              : </span>
+<span id="L321"><span class="lineNum">     321</span>              :       // helper variable for searching of the next point in the history buffer</span>
+<span id="L322"><span class="lineNum">     322</span> <span class="tlaGNC">         200 :       const auto next_it = std::lower_bound(std::begin(m_history), std::end(m_history), stamp, &amp;Repredictor&lt;Model&gt;::earlier);</span></span>
+<span id="L323"><span class="lineNum">     323</span>              : </span>
+<span id="L324"><span class="lineNum">     324</span>              :       // get the previous history point (or the first one to avoid out of bounds)</span>
+<span id="L325"><span class="lineNum">     325</span> <span class="tlaGNC">         200 :       const auto prev_it = next_it == std::begin(m_history) ? next_it : next_it - 1;</span></span>
+<span id="L326"><span class="lineNum">     326</span>              : </span>
+<span id="L327"><span class="lineNum">     327</span>              :       // initialize a new history info point</span>
+<span id="L328"><span class="lineNum">     328</span> <span class="tlaGNC">         100 :       const info_t info(stamp, z, R, model, *prev_it, meas_id);</span></span>
+<span id="L329"><span class="lineNum">     329</span>              : </span>
+<span id="L330"><span class="lineNum">     330</span>              :       // add the point to the history buffer</span>
+<span id="L331"><span class="lineNum">     331</span> <span class="tlaGNC">         100 :       addInfo(info, next_it);</span></span>
+<span id="L332"><span class="lineNum">     332</span> <span class="tlaGNC">         100 :     }</span></span>
+<span id="L333"><span class="lineNum">     333</span>              : </span>
+<span id="L334"><span class="lineNum">     334</span>              :     /*!</span>
+<span id="L335"><span class="lineNum">     335</span>              :      * \brief Adds one measurement to the history buffer, removing the oldest element in the buffer if it is full.</span>
+<span id="L336"><span class="lineNum">     336</span>              :      *</span>
+<span id="L337"><span class="lineNum">     337</span>              :      * \param z      The measurement vector to be added.</span>
+<span id="L338"><span class="lineNum">     338</span>              :      * \param R      The measurement noise covariance matrix, corresponding to the measurement vector.</span>
+<span id="L339"><span class="lineNum">     339</span>              :      * \param stamp  Time stamp of the measurement vector and covariance matrix.</span>
+<span id="L340"><span class="lineNum">     340</span>              :      * \param model  Optional pointer to a specific Model to be used with this measurement (eg. mapping it from different states). If it equals to nullptr, the</span>
+<span id="L341"><span class="lineNum">     341</span>              :      * default model specified in the constructor will be used.</span>
+<span id="L342"><span class="lineNum">     342</span>              :      *</span>
+<span id="L343"><span class="lineNum">     343</span>              :      * \note This is the variant of the method when reprediction is disabled and will function like a dumb LKF.</span>
+<span id="L344"><span class="lineNum">     344</span>              :      *</span>
+<span id="L345"><span class="lineNum">     345</span>              :      */</span>
+<span id="L346"><span class="lineNum">     346</span>              :     template &lt;bool check = disable_reprediction&gt;</span>
+<span id="L347"><span class="lineNum">     347</span> <span class="tlaGNC">         308 :     std::enable_if_t&lt;check&gt; addMeasurement(const z_t&amp; z, const R_t&amp; R, const rclcpp::Time&amp; stamp, const ModelPtr&amp; model = nullptr, const double&amp; meas_id = -1)</span></span>
+<span id="L348"><span class="lineNum">     348</span>              :     {</span>
+<span id="L349"><span class="lineNum">     349</span>              : </span>
+<span id="L350"><span class="lineNum">     350</span> <span class="tlaGNC">         308 :       if (m_history.empty())</span></span>
+<span id="L351"><span class="lineNum">     351</span> <span class="tlaUNC">           0 :         m_history.push_back({stamp});</span></span>
+<span id="L352"><span class="lineNum">     352</span>              : </span>
+<span id="L353"><span class="lineNum">     353</span> <span class="tlaGNC">         308 :       auto&amp; info = m_history.front();</span></span>
+<span id="L354"><span class="lineNum">     354</span> <span class="tlaGNC">         416 :       const rclcpp::Time to_stamp = stamp &gt; info.stamp ? stamp : info.stamp;</span></span>
+<span id="L355"><span class="lineNum">     355</span> <span class="tlaGNC">         308 :       const auto sc = predictTo(to_stamp);</span></span>
+<span id="L356"><span class="lineNum">     356</span>              : </span>
+<span id="L357"><span class="lineNum">     357</span> <span class="tlaGNC">         308 :       info.z = z;</span></span>
+<span id="L358"><span class="lineNum">     358</span> <span class="tlaGNC">         308 :       info.R = R;</span></span>
+<span id="L359"><span class="lineNum">     359</span> <span class="tlaGNC">         308 :       info.stamp = to_stamp;</span></span>
+<span id="L360"><span class="lineNum">     360</span> <span class="tlaGNC">         308 :       info.is_measurement = true;</span></span>
+<span id="L361"><span class="lineNum">     361</span> <span class="tlaGNC">         308 :       info.meas_id = meas_id;</span></span>
+<span id="L362"><span class="lineNum">     362</span> <span class="tlaGNC">         308 :       info.correct_model = model;</span></span>
+<span id="L363"><span class="lineNum">     363</span> <span class="tlaGNC">         308 :       m_sc = correctFrom(sc, info);</span></span>
+<span id="L364"><span class="lineNum">     364</span> <span class="tlaGNC">         308 :     }</span></span>
+<span id="L365"><span class="lineNum">     365</span>              :     //}</span>
+<span id="L366"><span class="lineNum">     366</span>              : </span>
+<span id="L367"><span class="lineNum">     367</span>              :   public:</span>
+<span id="L368"><span class="lineNum">     368</span>              :     /* constructor //{ */</span>
+<span id="L369"><span class="lineNum">     369</span>              : </span>
+<span id="L370"><span class="lineNum">     370</span>              :     /*!</span>
+<span id="L371"><span class="lineNum">     371</span>              :      * \brief The main constructor.</span>
+<span id="L372"><span class="lineNum">     372</span>              :      *</span>
+<span id="L373"><span class="lineNum">     373</span>              :      * Initializes the Repredictor with the necessary initial and default values.</span>
+<span id="L374"><span class="lineNum">     374</span>              :      *</span>
+<span id="L375"><span class="lineNum">     375</span>              :      * \param x0             Initial state.</span>
+<span id="L376"><span class="lineNum">     376</span>              :      * \param P0             Covariance matrix of the initial state uncertainty.</span>
+<span id="L377"><span class="lineNum">     377</span>              :      * \param u0             Initial system input.</span>
+<span id="L378"><span class="lineNum">     378</span>              :      * \param Q0             Default covariance matrix of the process noise.</span>
+<span id="L379"><span class="lineNum">     379</span>              :      * \param t0             Time stamp of the initial state.</span>
+<span id="L380"><span class="lineNum">     380</span>              :      * \param model          Default prediction and correction model.</span>
+<span id="L381"><span class="lineNum">     381</span>              :      * \param hist_len       Length of the history buffer for system inputs and measurements.</span>
+<span id="L382"><span class="lineNum">     382</span>              :      */</span>
+<span id="L383"><span class="lineNum">     383</span> <span class="tlaGNC">           6 :     Repredictor(const x_t&amp; x0, const P_t&amp; P0, const u_t&amp; u0, const Q_t&amp; Q0, const rclcpp::Time&amp; t0, const ModelPtr&amp; model, const unsigned hist_len)</span></span>
+<span id="L384"><span class="lineNum">     384</span> <span class="tlaGNC">          12 :         : m_sc{x0, P0}, m_default_model(model), m_history(history_t(hist_len))</span></span>
+<span id="L385"><span class="lineNum">     385</span>              :     {</span>
+<span id="L386"><span class="lineNum">     386</span>              : </span>
+<span id="L387"><span class="lineNum">     387</span> <span class="tlaGNC">           6 :       assert(hist_len &gt; 0);</span></span>
+<span id="L388"><span class="lineNum">     388</span>              : </span>
+<span id="L389"><span class="lineNum">     389</span> <span class="tlaGNC">           6 :       addInputChangeWithNoise(u0, Q0, t0, model);</span></span>
+<span id="L390"><span class="lineNum">     390</span> <span class="tlaGNC">           6 :     };</span></span>
+<span id="L391"><span class="lineNum">     391</span>              : </span>
+<span id="L392"><span class="lineNum">     392</span>              :     /*!</span>
+<span id="L393"><span class="lineNum">     393</span>              :      * \brief Empty constructor.</span>
+<span id="L394"><span class="lineNum">     394</span>              :      *</span>
+<span id="L395"><span class="lineNum">     395</span>              :      */</span>
+<span id="L396"><span class="lineNum">     396</span>              :     Repredictor(){};</span>
+<span id="L397"><span class="lineNum">     397</span>              : </span>
+<span id="L398"><span class="lineNum">     398</span>              :     /*!</span>
+<span id="L399"><span class="lineNum">     399</span>              :      * \brief Variation of the constructor for cases without a system input.</span>
+<span id="L400"><span class="lineNum">     400</span>              :      *</span>
+<span id="L401"><span class="lineNum">     401</span>              :      * Initializes the Repredictor with the necessary initial and default values.</span>
+<span id="L402"><span class="lineNum">     402</span>              :      * Assumes the system input is zero at t0.</span>
+<span id="L403"><span class="lineNum">     403</span>              :      *</span>
+<span id="L404"><span class="lineNum">     404</span>              :      * \param x0             Initial state.</span>
+<span id="L405"><span class="lineNum">     405</span>              :      * \param P0             Covariance matrix of the initial state uncertainty.</span>
+<span id="L406"><span class="lineNum">     406</span>              :      * \param Q0             Default covariance matrix of the process noise.</span>
+<span id="L407"><span class="lineNum">     407</span>              :      * \param t0             Time stamp of the initial state.</span>
+<span id="L408"><span class="lineNum">     408</span>              :      * \param model          Default prediction and correction model.</span>
+<span id="L409"><span class="lineNum">     409</span>              :      * \param hist_len       Length of the history buffer for system inputs and measurements.</span>
+<span id="L410"><span class="lineNum">     410</span>              :      */</span>
+<span id="L411"><span class="lineNum">     411</span>              :     Repredictor(const x_t&amp; x0, const P_t&amp; P0, const Q_t&amp; Q0, const rclcpp::Time&amp; t0, const ModelPtr&amp; model, const unsigned hist_len)</span>
+<span id="L412"><span class="lineNum">     412</span>              :         : m_sc{x0, P0}, m_default_model(model), m_history(history_t(hist_len))</span>
+<span id="L413"><span class="lineNum">     413</span>              :     {</span>
+<span id="L414"><span class="lineNum">     414</span>              : </span>
+<span id="L415"><span class="lineNum">     415</span>              :       assert(hist_len &gt; 0);</span>
+<span id="L416"><span class="lineNum">     416</span>              : </span>
+<span id="L417"><span class="lineNum">     417</span>              :       const u_t u0{0};</span>
+<span id="L418"><span class="lineNum">     418</span>              : </span>
+<span id="L419"><span class="lineNum">     419</span>              :       addInputChangeWithNoise(u0, Q0, t0, model);</span>
+<span id="L420"><span class="lineNum">     420</span>              :     };</span>
+<span id="L421"><span class="lineNum">     421</span>              :     //}</span>
+<span id="L422"><span class="lineNum">     422</span>              : </span>
+<span id="L423"><span class="lineNum">     423</span>              :   protected:</span>
+<span id="L424"><span class="lineNum">     424</span>              :     // state and covariance corresponding to the oldest element in the history buffer</span>
+<span id="L425"><span class="lineNum">     425</span>              :     statecov_t m_sc;</span>
+<span id="L426"><span class="lineNum">     426</span>              :     // default model to use for updates</span>
+<span id="L427"><span class="lineNum">     427</span>              :     ModelPtr m_default_model;</span>
+<span id="L428"><span class="lineNum">     428</span>              : </span>
+<span id="L429"><span class="lineNum">     429</span>              :   private:</span>
+<span id="L430"><span class="lineNum">     430</span>              :     /* helper structs and usings //{ */</span>
+<span id="L431"><span class="lineNum">     431</span>              : </span>
+<span id="L432"><span class="lineNum">     432</span>              :     struct info_t</span>
+<span id="L433"><span class="lineNum">     433</span>              :     {</span>
+<span id="L434"><span class="lineNum">     434</span>              :       rclcpp::Time stamp;</span>
+<span id="L435"><span class="lineNum">     435</span>              : </span>
+<span id="L436"><span class="lineNum">     436</span>              :       // system input-related information</span>
+<span id="L437"><span class="lineNum">     437</span>              :       u_t u;</span>
+<span id="L438"><span class="lineNum">     438</span>              :       Q_t Q;</span>
+<span id="L439"><span class="lineNum">     439</span>              :       ModelPtr predict_model;</span>
+<span id="L440"><span class="lineNum">     440</span>              : </span>
+<span id="L441"><span class="lineNum">     441</span>              :       // measurement-related information (unused in case is_measurement=false)</span>
+<span id="L442"><span class="lineNum">     442</span>              :       z_t z;</span>
+<span id="L443"><span class="lineNum">     443</span>              :       R_t R;</span>
+<span id="L444"><span class="lineNum">     444</span>              :       ModelPtr correct_model;</span>
+<span id="L445"><span class="lineNum">     445</span>              :       bool is_measurement;</span>
+<span id="L446"><span class="lineNum">     446</span>              :       int meas_id;</span>
+<span id="L447"><span class="lineNum">     447</span>              : </span>
+<span id="L448"><span class="lineNum">     448</span>              :       // constructor for a dummy info (for searching in the history)</span>
+<span id="L449"><span class="lineNum">     449</span> <span class="tlaGNC">        1288 :       info_t(const rclcpp::Time&amp; stamp) : stamp(stamp), is_measurement(false){};</span></span>
+<span id="L450"><span class="lineNum">     450</span>              : </span>
+<span id="L451"><span class="lineNum">     451</span>              :       // constructor for a system input</span>
+<span id="L452"><span class="lineNum">     452</span> <span class="tlaGNC">         200 :       info_t(const rclcpp::Time&amp; stamp, const u_t&amp; u, const Q_t&amp; Q, const ModelPtr&amp; model)</span></span>
+<span id="L453"><span class="lineNum">     453</span> <span class="tlaGNC">         200 :           : stamp(stamp), u(u), Q(Q), predict_model(model), is_measurement(false){};</span></span>
+<span id="L454"><span class="lineNum">     454</span>              : </span>
+<span id="L455"><span class="lineNum">     455</span>              :       // constructor for a measurement</span>
+<span id="L456"><span class="lineNum">     456</span> <span class="tlaGNC">         100 :       info_t(const rclcpp::Time&amp; stamp, const z_t&amp; z, const R_t&amp; R, const ModelPtr&amp; model, const info_t&amp; prev_info, const int&amp; meas_id)</span></span>
+<span id="L457"><span class="lineNum">     457</span> <span class="tlaGNC">         100 :           : stamp(stamp), z(z), R(R), correct_model(model), is_measurement(true), meas_id(meas_id)</span></span>
+<span id="L458"><span class="lineNum">     458</span>              :       {</span>
+<span id="L459"><span class="lineNum">     459</span> <span class="tlaGNC">         100 :         updateUsing(prev_info);</span></span>
+<span id="L460"><span class="lineNum">     460</span> <span class="tlaGNC">         100 :       };</span></span>
+<span id="L461"><span class="lineNum">     461</span>              : </span>
+<span id="L462"><span class="lineNum">     462</span>              :       // copy system input-related information from a previous info</span>
+<span id="L463"><span class="lineNum">     463</span> <span class="tlaGNC">        6503 :       void updateUsing(const info_t&amp; info)</span></span>
+<span id="L464"><span class="lineNum">     464</span>              :       {</span>
+<span id="L465"><span class="lineNum">     465</span> <span class="tlaGNC">        6503 :         u = info.u;</span></span>
+<span id="L466"><span class="lineNum">     466</span> <span class="tlaGNC">        6503 :         Q = info.Q;</span></span>
+<span id="L467"><span class="lineNum">     467</span> <span class="tlaGNC">        6503 :         predict_model = info.predict_model;</span></span>
+<span id="L468"><span class="lineNum">     468</span> <span class="tlaGNC">        6503 :       };</span></span>
+<span id="L469"><span class="lineNum">     469</span>              :     };</span>
+<span id="L470"><span class="lineNum">     470</span>              : </span>
+<span id="L471"><span class="lineNum">     471</span>              : </span>
+<span id="L472"><span class="lineNum">     472</span>              :     //}</span>
+<span id="L473"><span class="lineNum">     473</span>              : </span>
+<span id="L474"><span class="lineNum">     474</span>              :   protected:</span>
+<span id="L475"><span class="lineNum">     475</span>              :     using history_t = boost::circular_buffer&lt;info_t&gt;;</span>
+<span id="L476"><span class="lineNum">     476</span>              :     // the history buffer</span>
+<span id="L477"><span class="lineNum">     477</span>              :     history_t m_history;</span>
+<span id="L478"><span class="lineNum">     478</span>              : </span>
+<span id="L479"><span class="lineNum">     479</span>              :     // | ---------------- helper debugging methods ---------------- |</span>
+<span id="L480"><span class="lineNum">     480</span>              :     /* checkMonotonicity() method //{ */</span>
+<span id="L481"><span class="lineNum">     481</span>              :     template &lt;typename T&gt;</span>
+<span id="L482"><span class="lineNum">     482</span>              :     bool checkMonotonicity(const T&amp; buf)</span>
+<span id="L483"><span class="lineNum">     483</span>              :     {</span>
+<span id="L484"><span class="lineNum">     484</span>              :       if (buf.empty())</span>
+<span id="L485"><span class="lineNum">     485</span>              :         return true;</span>
+<span id="L486"><span class="lineNum">     486</span>              :       for (auto it = std::begin(buf) + 1; it != std::end(buf); it++)</span>
+<span id="L487"><span class="lineNum">     487</span>              :         if (earlier(*it, *(it - 1)))</span>
+<span id="L488"><span class="lineNum">     488</span>              :           return false;</span>
+<span id="L489"><span class="lineNum">     489</span>              :       return true;</span>
+<span id="L490"><span class="lineNum">     490</span>              :     }</span>
+<span id="L491"><span class="lineNum">     491</span>              :     //}</span>
+<span id="L492"><span class="lineNum">     492</span>              : </span>
+<span id="L493"><span class="lineNum">     493</span>              :     /* printBuffer() method //{ */</span>
+<span id="L494"><span class="lineNum">     494</span>              :     template &lt;typename T&gt;</span>
+<span id="L495"><span class="lineNum">     495</span>              :     void printBuffer(const T&amp; buf)</span>
+<span id="L496"><span class="lineNum">     496</span>              :     {</span>
+<span id="L497"><span class="lineNum">     497</span>              :       if (buf.empty())</span>
+<span id="L498"><span class="lineNum">     498</span>              :         return;</span>
+<span id="L499"><span class="lineNum">     499</span>              :       const auto first_stamp = buf.front().stamp;</span>
+<span id="L500"><span class="lineNum">     500</span>              :       std::cerr &lt;&lt; &quot;first stamp: &quot; &lt;&lt; first_stamp &lt;&lt; std::endl;</span>
+<span id="L501"><span class="lineNum">     501</span>              :       for (size_t it = 0; it &lt; buf.size(); it++)</span>
+<span id="L502"><span class="lineNum">     502</span>              :       {</span>
+<span id="L503"><span class="lineNum">     503</span>              :         std::cerr &lt;&lt; it &lt;&lt; &quot;:\t&quot; &lt;&lt; buf.at(it).stamp - first_stamp &lt;&lt; std::endl;</span>
+<span id="L504"><span class="lineNum">     504</span>              :       }</span>
+<span id="L505"><span class="lineNum">     505</span>              :     }</span>
+<span id="L506"><span class="lineNum">     506</span>              :     //}</span>
+<span id="L507"><span class="lineNum">     507</span>              : </span>
+<span id="L508"><span class="lineNum">     508</span>              :   private:</span>
+<span id="L509"><span class="lineNum">     509</span>              :     // | -------------- helper implementation methods ------------- |</span>
+<span id="L510"><span class="lineNum">     510</span>              : </span>
+<span id="L511"><span class="lineNum">     511</span>              :     /* addInfo() method //{ */</span>
+<span id="L512"><span class="lineNum">     512</span> <span class="tlaGNC">         300 :     typename history_t::iterator addInfo(const info_t&amp; info, const typename history_t::iterator&amp; next_it)</span></span>
+<span id="L513"><span class="lineNum">     513</span>              :     {</span>
+<span id="L514"><span class="lineNum">     514</span>              :       // check if the new element would be added before the first element of the history buffer and ignore it if so</span>
+<span id="L515"><span class="lineNum">     515</span> <span class="tlaGNC">         599 :       if (next_it == std::begin(m_history) &amp;&amp; !m_history.empty())</span></span>
+<span id="L516"><span class="lineNum">     516</span>              :       {</span>
+<span id="L517"><span class="lineNum">     517</span> <span class="tlaUNC">           0 :         std::cout &lt;&lt; &quot;[Repredictor]: Added history point is older than the oldest by &quot; &lt;&lt; (next_it-&gt;stamp - info.stamp).seconds()</span></span>
+<span id="L518"><span class="lineNum">     518</span> <span class="tlaUNC">           0 :                   &lt;&lt; &quot;s. Ignoring it! Consider increasing the history buffer size (currently: &quot; &lt;&lt; m_history.size() &lt;&lt; &quot;)&quot; &lt;&lt; std::endl;</span></span>
+<span id="L519"><span class="lineNum">     519</span> <span class="tlaUNC">           0 :         return std::end(m_history);</span></span>
+<span id="L520"><span class="lineNum">     520</span>              :       }</span>
+<span id="L521"><span class="lineNum">     521</span>              : </span>
+<span id="L522"><span class="lineNum">     522</span>              :       // check if adding a new element would throw out the oldest one</span>
+<span id="L523"><span class="lineNum">     523</span> <span class="tlaGNC">         300 :       if (m_history.size() == m_history.capacity())</span></span>
+<span id="L524"><span class="lineNum">     524</span>              :       { // if so, first update m_sc</span>
+<span id="L525"><span class="lineNum">     525</span>              :         // figure out, what will be the oldest element in the buffer after inserting the newly received one</span>
+<span id="L526"><span class="lineNum">     526</span> <span class="tlaUNC">           0 :         auto new_oldest = m_history.front();</span></span>
+<span id="L527"><span class="lineNum">     527</span> <span class="tlaUNC">           0 :         if (m_history.size() == 1 || (m_history.size() &gt; 1 &amp;&amp; info.stamp &gt; m_history.at(0).stamp &amp;&amp; info.stamp &lt; m_history.at(1).stamp))</span></span>
+<span id="L528"><span class="lineNum">     528</span>              :         {</span>
+<span id="L529"><span class="lineNum">     529</span> <span class="tlaUNC">           0 :           new_oldest = info;</span></span>
+<span id="L530"><span class="lineNum">     530</span> <span class="tlaUNC">           0 :         } else if (m_history.size() &gt; 1)</span></span>
+<span id="L531"><span class="lineNum">     531</span>              :         {</span>
+<span id="L532"><span class="lineNum">     532</span> <span class="tlaUNC">           0 :           new_oldest = m_history.at(1);</span></span>
+<span id="L533"><span class="lineNum">     533</span>              :         }</span>
+<span id="L534"><span class="lineNum">     534</span>              :         // update m_sc to the time of the new oldest element (after inserting the new element)</span>
+<span id="L535"><span class="lineNum">     535</span> <span class="tlaUNC">           0 :         m_sc = predictTo(new_oldest.stamp);</span></span>
+<span id="L536"><span class="lineNum">     536</span>              :         // insert the new element into the history buffer, causing the original oldest element to be removed</span>
+<span id="L537"><span class="lineNum">     537</span> <span class="tlaUNC">           0 :       }</span></span>
+<span id="L538"><span class="lineNum">     538</span>              : </span>
+<span id="L539"><span class="lineNum">     539</span>              :       // add the new point finally</span>
+<span id="L540"><span class="lineNum">     540</span> <span class="tlaGNC">         300 :       const auto ret = m_history.insert(next_it, info);</span></span>
+<span id="L541"><span class="lineNum">     541</span>              :       /* debug check //{ */</span>
+<span id="L542"><span class="lineNum">     542</span>              : </span>
+<span id="L543"><span class="lineNum">     543</span>              : #ifdef REPREDICTOR_DEBUG</span>
+<span id="L544"><span class="lineNum">     544</span>              :       if (!checkMonotonicity(m_history))</span>
+<span id="L545"><span class="lineNum">     545</span>              :       {</span>
+<span id="L546"><span class="lineNum">     546</span>              :         std::cerr &lt;&lt; &quot;History buffer is not monotonous after modification!&quot; &lt;&lt; std::endl;</span>
+<span id="L547"><span class="lineNum">     547</span>              :       }</span>
+<span id="L548"><span class="lineNum">     548</span>              :       std::cerr &lt;&lt; &quot;Added info (&quot; &lt;&lt; m_history.size() &lt;&lt; &quot; total)&quot; &lt;&lt; std::endl;</span>
+<span id="L549"><span class="lineNum">     549</span>              : #endif</span>
+<span id="L550"><span class="lineNum">     550</span>              : </span>
+<span id="L551"><span class="lineNum">     551</span>              :       //}</span>
+<span id="L552"><span class="lineNum">     552</span> <span class="tlaGNC">         300 :       return ret;</span></span>
+<span id="L553"><span class="lineNum">     553</span>              :     }</span>
+<span id="L554"><span class="lineNum">     554</span>              :     //}</span>
+<span id="L555"><span class="lineNum">     555</span>              : </span>
+<span id="L556"><span class="lineNum">     556</span>              :     /* earlier() method //{ */</span>
+<span id="L557"><span class="lineNum">     557</span> <span class="tlaGNC">        2042 :     static bool earlier(const info_t&amp; ob1, const info_t&amp; ob2)</span></span>
+<span id="L558"><span class="lineNum">     558</span>              :     {</span>
+<span id="L559"><span class="lineNum">     559</span> <span class="tlaGNC">        2042 :       return ob1.stamp &lt; ob2.stamp;</span></span>
+<span id="L560"><span class="lineNum">     560</span>              :     }</span>
+<span id="L561"><span class="lineNum">     561</span>              :     //}</span>
+<span id="L562"><span class="lineNum">     562</span>              : </span>
+<span id="L563"><span class="lineNum">     563</span>              :     /* predictFrom() method //{ */</span>
+<span id="L564"><span class="lineNum">     564</span> <span class="tlaGNC">       34066 :     statecov_t predictFrom(const statecov_t&amp; sc, const info_t&amp; inpt, const rclcpp::Time&amp; from_stamp, const rclcpp::Time&amp; to_stamp)</span></span>
+<span id="L565"><span class="lineNum">     565</span>              :     {</span>
+<span id="L566"><span class="lineNum">     566</span> <span class="tlaGNC">       34066 :       const auto model = inpt.predict_model == nullptr ? m_default_model : inpt.predict_model;</span></span>
+<span id="L567"><span class="lineNum">     567</span> <span class="tlaGNC">       34066 :       const auto dt = (to_stamp - from_stamp).seconds();</span></span>
+<span id="L568"><span class="lineNum">     568</span> <span class="tlaGNC">       34066 :       return model-&gt;predict(sc, inpt.u, inpt.Q, dt);</span></span>
+<span id="L569"><span class="lineNum">     569</span> <span class="tlaGNC">       34066 :     }</span></span>
+<span id="L570"><span class="lineNum">     570</span>              :     //}</span>
+<span id="L571"><span class="lineNum">     571</span>              : </span>
+<span id="L572"><span class="lineNum">     572</span>              :     /* correctFrom() method //{ */</span>
+<span id="L573"><span class="lineNum">     573</span> <span class="tlaGNC">       10916 :     statecov_t correctFrom(const statecov_t&amp; sc, const info_t&amp; meas)</span></span>
+<span id="L574"><span class="lineNum">     574</span>              :     {</span>
+<span id="L575"><span class="lineNum">     575</span> <span class="tlaGNC">       10916 :       assert(meas.is_measurement);</span></span>
+<span id="L576"><span class="lineNum">     576</span> <span class="tlaGNC">       21832 :       const auto model = meas.correct_model == nullptr ? m_default_model : meas.correct_model;</span></span>
+<span id="L577"><span class="lineNum">     577</span> <span class="tlaGNC">       10916 :       auto sc_tmp = sc;</span></span>
+<span id="L578"><span class="lineNum">     578</span> <span class="tlaGNC">       10916 :       return model-&gt;correct(sc_tmp, meas.z, meas.R);</span></span>
+<span id="L579"><span class="lineNum">     579</span> <span class="tlaGNC">       21832 :     }</span></span>
+<span id="L580"><span class="lineNum">     580</span>              :     //}</span>
+<span id="L581"><span class="lineNum">     581</span>              :   };</span>
+<span id="L582"><span class="lineNum">     582</span>              : } // namespace mrs_lib</span>
+<span id="L583"><span class="lineNum">     583</span>              : </span>
+<span id="L584"><span class="lineNum">     584</span>              : </span>
+<span id="L585"><span class="lineNum">     585</span>              : #endif // REPREDICTOR_H</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.3.1-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>

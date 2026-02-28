@@ -1,0 +1,396 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - MRS UAV System - Test coverage report - mrs_lib/src/attitude_converter/attitude_converter.cpp - functions</title>
+  <link rel="stylesheet" type="text/css" href="../../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../../index.html" target="_parent" title="Click to go to top-level">top level</a> - <a href="index.html" target="_parent" title="Click to go to directory mrs_lib/src/attitude_converter">mrs_lib/src/attitude_converter</a> - attitude_converter.cpp<span style="font-size: 80%;"> (<a href="attitude_converter.cpp.gcov.html" title="Click to go to source detail">source</a> / functions)</span></td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">MRS UAV System - Test coverage report</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryHi">92.9&nbsp;%</td>
+            <td class="headerCovTableEntry">210</td>
+            <td class="headerCovTableEntry">195</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2026-02-28 19:12:04</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryHi">92.3&nbsp;%</td>
+            <td class="headerCovTableEntry">39</td>
+            <td class="headerCovTableEntry">36</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:&nbsp&nbsp&nbsp&nbsp
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+                  <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <center>
+          <table cellpadding=1 cellspacing=1 border=0>
+            <tr><td><br></td></tr>
+            <tr>
+              <td class="tableHead">Function Name <span  title="Click to sort table by function name" class="tableHeadSort"><img src="../../../glass.png" width=10 height=14 alt="Sort by function name" title="Click to sort table by function name" border=0></span></td>
+              
+              <td class="tableHead">Hit count <span  title="Click to sort table by function hit count" class="tableHeadSort"><a href="attitude_converter.cpp.func-c.html"><img src="../../../updown.png" width=10 height=14 alt="Sort by function hit count" title="Click to sort table by function hit count" border=0></a></span></td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L145">mrs_lib::AttitudeConverter::AttitudeConverter(Eigen::Matrix&lt;double, 3, 3, 0, 3, 3&gt;)</a></td>
+              
+              <td class="coverFnHi">1200</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L135">mrs_lib::AttitudeConverter::AttitudeConverter(Eigen::Quaternion&lt;double, 0&gt;)</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L88">mrs_lib::AttitudeConverter::AttitudeConverter(double const&amp;, double const&amp;, double const&amp;, mrs_lib::RPY_convention_t const&amp;)</a></td>
+              
+              <td class="coverFnHi">1040</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L118">mrs_lib::AttitudeConverter::AttitudeConverter(geometry_msgs::msg::Quaternion_&lt;std::allocator&lt;void&gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">15</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L128">mrs_lib::AttitudeConverter::AttitudeConverter(mrs_lib::EulerAttitude const&amp;)</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L165">mrs_lib::AttitudeConverter::AttitudeConverter(tf2::Matrix3x3)</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L157">mrs_lib::AttitudeConverter::AttitudeConverter(tf2::Quaternion)</a></td>
+              
+              <td class="coverFnHi">4999</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L477">mrs_lib::AttitudeConverter::calculateRPY()</a></td>
+              
+              <td class="coverFnHi">30</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L389">mrs_lib::AttitudeConverter::getExtrinsicRPY()</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L260">mrs_lib::AttitudeConverter::getHeading()</a></td>
+              
+              <td class="coverFnHi">2070</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L324">mrs_lib::AttitudeConverter::getHeadingRate(mrs_lib::Vector3Converter const&amp;)</a></td>
+              
+              <td class="coverFnHi">63</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L399">mrs_lib::AttitudeConverter::getIntrinsicRPY()</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L252">mrs_lib::AttitudeConverter::getPitch()</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L244">mrs_lib::AttitudeConverter::getRoll()</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L359">mrs_lib::AttitudeConverter::getVectorX()</a></td>
+              
+              <td class="coverFnHi">3</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L369">mrs_lib::AttitudeConverter::getVectorY()</a></td>
+              
+              <td class="coverFnHi">3</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L379">mrs_lib::AttitudeConverter::getVectorZ()</a></td>
+              
+              <td class="coverFnHi">3007</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L236">mrs_lib::AttitudeConverter::getYaw()</a></td>
+              
+              <td class="coverFnHi">7</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L275">mrs_lib::AttitudeConverter::getYawRateIntrinsic(double const&amp;)</a></td>
+              
+              <td class="coverFnHi">63</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L204">mrs_lib::AttitudeConverter::operator Eigen::Matrix&lt;double, 3, 3, 0, 3, 3&gt;() const</a></td>
+              
+              <td class="coverFnHi">133</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L182">mrs_lib::AttitudeConverter::operator geometry_msgs::msg::Quaternion_&lt;std::allocator&lt;void&gt; &gt;() const</a></td>
+              
+              <td class="coverFnHi">15</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L195">mrs_lib::AttitudeConverter::operator mrs_lib::EulerAttitude() const</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L212">mrs_lib::AttitudeConverter::operator std::tuple&lt;double&amp;, double&amp;, double&amp;&gt;()</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L220">mrs_lib::AttitudeConverter::operator tf2::Matrix3x3() const</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L177">mrs_lib::AttitudeConverter::operator tf2::Quaternion() const</a></td>
+              
+              <td class="coverFnHi">2004</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L226">mrs_lib::AttitudeConverter::operator tf2::Transform() const</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L423">mrs_lib::AttitudeConverter::setHeading(double const&amp;)</a></td>
+              
+              <td class="coverFnHi">1007</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L413">mrs_lib::AttitudeConverter::setYaw(double const&amp;)</a></td>
+              
+              <td class="coverFnHi">6</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L491">mrs_lib::AttitudeConverter::validateOrientation()</a></td>
+              
+              <td class="coverFnHi">7257</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L13">mrs_lib::EulerAttitude::EulerAttitude(double const&amp;, double const&amp;, double const&amp;)</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L22">mrs_lib::EulerAttitude::pitch() const</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L17">mrs_lib::EulerAttitude::roll() const</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L27">mrs_lib::EulerAttitude::yaw() const</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L36">mrs_lib::Vector3Converter::Vector3Converter(Eigen::Matrix&lt;double, 3, 1, 0, 3, 1&gt; const&amp;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L52">mrs_lib::Vector3Converter::Vector3Converter(double const&amp;, double const&amp;, double const&amp;)</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L44">mrs_lib::Vector3Converter::Vector3Converter(geometry_msgs::msg::Vector3_&lt;std::allocator&lt;void&gt; &gt; const&amp;)</a></td>
+              
+              <td class="coverFnHi">64</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L66">mrs_lib::Vector3Converter::operator Eigen::Matrix&lt;double, 3, 1, 0, 3, 1&gt;() const</a></td>
+              
+              <td class="coverFnHi">3077</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L72">mrs_lib::Vector3Converter::operator geometry_msgs::msg::Vector3_&lt;std::allocator&lt;void&gt; &gt;() const</a></td>
+              
+              <td class="coverFnHi">1</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="attitude_converter.cpp.gcov.html#L60">mrs_lib::Vector3Converter::operator tf2::Vector3() const</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+          </table>
+          <br>
+          </center>
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.3.1-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>

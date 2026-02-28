@@ -1,0 +1,1140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - MRS UAV System - Test coverage report - mrs_uav_state_estimators/include/mrs_uav_state_estimators/estimators/correction.h - functions</title>
+  <link rel="stylesheet" type="text/css" href="../../../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../../../index.html" target="_parent" title="Click to go to top-level">top level</a> - <a href="index.html" target="_parent" title="Click to go to directory mrs_uav_state_estimators/include/mrs_uav_state_estimators/estimators">mrs_uav_state_estimators/include/mrs_uav_state_estimators/estimators</a> - correction.h<span style="font-size: 80%;"> (<a href="correction.h.gcov.html" title="Click to go to source detail">source</a> / functions)</span></td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">MRS UAV System - Test coverage report</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryLo">34.4&nbsp;%</td>
+            <td class="headerCovTableEntry">1107</td>
+            <td class="headerCovTableEntry">381</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2026-02-28 19:12:04</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryLo">54.5&nbsp;%</td>
+            <td class="headerCovTableEntry">88</td>
+            <td class="headerCovTableEntry">48</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:&nbsp&nbsp&nbsp&nbsp
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+                  <tr><td><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <center>
+          <table cellpadding=1 cellspacing=1 border=0>
+            <tr><td><br></td></tr>
+            <tr>
+              <td class="tableHead">Function Name <span  title="Click to sort table by function name" class="tableHeadSort"><img src="../../../../glass.png" width=10 height=14 alt="Sort by function name" title="Click to sort table by function name" border=0></span></td>
+              
+              <td class="tableHead">Hit count <span  title="Click to sort table by function hit count" class="tableHeadSort"><a href="correction.h.func-c.html"><img src="../../../../updown.png" width=10 height=14 alt="Sort by function hit count" title="Click to sort table by function hit count" border=0></a></span></td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L279">mrs_uav_state_estimators::Correction&lt;1&gt;::Correction(std::shared_ptr&lt;rclcpp::Node&gt; const&amp;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;, mrs_uav_state_estimators::EstimatorType_t const&amp;, std::shared_ptr&lt;mrs_uav_managers::estimation_manager::CommonHandlers_t&gt; const&amp;, std::shared_ptr&lt;mrs_uav_managers::estimation_manager::PrivateHandlers_t&gt; const&amp;, std::function&lt;double (int, int)&gt;, std::function&lt;void (mrs_uav_state_estimators::Correction&lt;1&gt;::MeasurementStamped, double, mrs_uav_managers::estimation_manager::StateId_t)&gt;)</a></td>
+              
+              <td class="coverFnHi">17</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L279">mrs_uav_state_estimators::Correction&lt;1&gt;::Correction(std::shared_ptr&lt;rclcpp::Node&gt; const&amp;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;, mrs_uav_state_estimators::EstimatorType_t const&amp;, std::shared_ptr&lt;mrs_uav_managers::estimation_manager::CommonHandlers_t&gt; const&amp;, std::shared_ptr&lt;mrs_uav_managers::estimation_manager::PrivateHandlers_t&gt; const&amp;, std::function&lt;double (int, int)&gt;, std::function&lt;void (mrs_uav_state_estimators::Correction&lt;1&gt;::MeasurementStamped, double, mrs_uav_managers::estimation_manager::StateId_t)&gt;)</a></td>
+              
+              <td class="coverFnAliasHi">10</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L279">mrs_uav_state_estimators::Correction&lt;2&gt;::Correction(std::shared_ptr&lt;rclcpp::Node&gt; const&amp;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;, mrs_uav_state_estimators::EstimatorType_t const&amp;, std::shared_ptr&lt;mrs_uav_managers::estimation_manager::CommonHandlers_t&gt; const&amp;, std::shared_ptr&lt;mrs_uav_managers::estimation_manager::PrivateHandlers_t&gt; const&amp;, std::function&lt;double (int, int)&gt;, std::function&lt;void (mrs_uav_state_estimators::Correction&lt;2&gt;::MeasurementStamped, double, mrs_uav_managers::estimation_manager::StateId_t)&gt;)</a></td>
+              
+              <td class="coverFnAliasHi">7</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L2282">mrs_uav_state_estimators::Correction&lt;1&gt;::applyCorrection(Eigen::Matrix&lt;double, 1, 1, 0, 1, 1&gt; const&amp;, rclcpp::Time const&amp;)</a></td>
+              
+              <td class="coverFnHi">51331</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2282">mrs_uav_state_estimators::Correction&lt;1&gt;::applyCorrection(Eigen::Matrix&lt;double, 1, 1, 0, 1, 1&gt; const&amp;, rclcpp::Time const&amp;)</a></td>
+              
+              <td class="coverFnAliasHi">31877</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2282">mrs_uav_state_estimators::Correction&lt;2&gt;::applyCorrection(Eigen::Matrix&lt;double, 2, 1, 0, 2, 1&gt; const&amp;, rclcpp::Time const&amp;)</a></td>
+              
+              <td class="coverFnAliasHi">19454</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L1365">mrs_uav_state_estimators::Correction&lt;1&gt;::callbackImu(std::shared_ptr&lt;sensor_msgs::msg::Imu_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1365">mrs_uav_state_estimators::Correction&lt;1&gt;::callbackImu(std::shared_ptr&lt;sensor_msgs::msg::Imu_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1365">mrs_uav_state_estimators::Correction&lt;2&gt;::callbackImu(std::shared_ptr&lt;sensor_msgs::msg::Imu_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L1873">mrs_uav_state_estimators::Correction&lt;1&gt;::callbackMagField(std::shared_ptr&lt;sensor_msgs::msg::MagneticField_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1873">mrs_uav_state_estimators::Correction&lt;1&gt;::callbackMagField(std::shared_ptr&lt;sensor_msgs::msg::MagneticField_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1873">mrs_uav_state_estimators::Correction&lt;2&gt;::callbackMagField(std::shared_ptr&lt;sensor_msgs::msg::MagneticField_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L1799">mrs_uav_state_estimators::Correction&lt;1&gt;::callbackMagHeading(std::shared_ptr&lt;mrs_msgs::msg::Float64Stamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1799">mrs_uav_state_estimators::Correction&lt;1&gt;::callbackMagHeading(std::shared_ptr&lt;mrs_msgs::msg::Float64Stamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1799">mrs_uav_state_estimators::Correction&lt;2&gt;::callbackMagHeading(std::shared_ptr&lt;mrs_msgs::msg::Float64Stamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L1667">mrs_uav_state_estimators::Correction&lt;1&gt;::callbackNavSatFix(std::shared_ptr&lt;sensor_msgs::msg::NavSatFix_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1667">mrs_uav_state_estimators::Correction&lt;1&gt;::callbackNavSatFix(std::shared_ptr&lt;sensor_msgs::msg::NavSatFix_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1667">mrs_uav_state_estimators::Correction&lt;2&gt;::callbackNavSatFix(std::shared_ptr&lt;sensor_msgs::msg::NavSatFix_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L884">mrs_uav_state_estimators::Correction&lt;1&gt;::callbackOdometry(std::shared_ptr&lt;nav_msgs::msg::Odometry_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L884">mrs_uav_state_estimators::Correction&lt;1&gt;::callbackOdometry(std::shared_ptr&lt;nav_msgs::msg::Odometry_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L884">mrs_uav_state_estimators::Correction&lt;2&gt;::callbackOdometry(std::shared_ptr&lt;nav_msgs::msg::Odometry_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L1992">mrs_uav_state_estimators::Correction&lt;1&gt;::callbackPoint(std::shared_ptr&lt;geometry_msgs::msg::PointStamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnHi">9731</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1992">mrs_uav_state_estimators::Correction&lt;1&gt;::callbackPoint(std::shared_ptr&lt;geometry_msgs::msg::PointStamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1992">mrs_uav_state_estimators::Correction&lt;2&gt;::callbackPoint(std::shared_ptr&lt;geometry_msgs::msg::PointStamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasHi">9731</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L1180">mrs_uav_state_estimators::Correction&lt;1&gt;::callbackPoseStamped(std::shared_ptr&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1180">mrs_uav_state_estimators::Correction&lt;1&gt;::callbackPoseStamped(std::shared_ptr&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1180">mrs_uav_state_estimators::Correction&lt;2&gt;::callbackPoseStamped(std::shared_ptr&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L1305">mrs_uav_state_estimators::Correction&lt;1&gt;::callbackRange(std::shared_ptr&lt;sensor_msgs::msg::Range_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnHi">14003</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1305">mrs_uav_state_estimators::Correction&lt;1&gt;::callbackRange(std::shared_ptr&lt;sensor_msgs::msg::Range_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasHi">14003</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1305">mrs_uav_state_estimators::Correction&lt;2&gt;::callbackRange(std::shared_ptr&lt;sensor_msgs::msg::Range_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L1526">mrs_uav_state_estimators::Correction&lt;1&gt;::callbackRtk(std::shared_ptr&lt;mrs_msgs::msg::RtkGps_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnHi">4274</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1526">mrs_uav_state_estimators::Correction&lt;1&gt;::callbackRtk(std::shared_ptr&lt;mrs_msgs::msg::RtkGps_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasHi">1346</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1526">mrs_uav_state_estimators::Correction&lt;2&gt;::callbackRtk(std::shared_ptr&lt;mrs_msgs::msg::RtkGps_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasHi">2928</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L2313">mrs_uav_state_estimators::Correction&lt;1&gt;::callbackToggleRange(std::shared_ptr&lt;std_srvs::srv::SetBool_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;std_srvs::srv::SetBool_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2313">mrs_uav_state_estimators::Correction&lt;1&gt;::callbackToggleRange(std::shared_ptr&lt;std_srvs::srv::SetBool_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;std_srvs::srv::SetBool_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2313">mrs_uav_state_estimators::Correction&lt;2&gt;::callbackToggleRange(std::shared_ptr&lt;std_srvs::srv::SetBool_Request_&lt;std::allocator&lt;void&gt; &gt; &gt;, std::shared_ptr&lt;std_srvs::srv::SetBool_Response_&lt;std::allocator&lt;void&gt; &gt; &gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L2098">mrs_uav_state_estimators::Correction&lt;1&gt;::callbackVector(std::shared_ptr&lt;geometry_msgs::msg::Vector3Stamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnHi">23336</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2098">mrs_uav_state_estimators::Correction&lt;1&gt;::callbackVector(std::shared_ptr&lt;geometry_msgs::msg::Vector3Stamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasHi">16533</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2098">mrs_uav_state_estimators::Correction&lt;2&gt;::callbackVector(std::shared_ptr&lt;geometry_msgs::msg::Vector3Stamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasHi">6803</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L2598">mrs_uav_state_estimators::Correction&lt;1&gt;::createProcessorFromName(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;, std::shared_ptr&lt;rclcpp::Node&gt; const&amp;)</a></td>
+              
+              <td class="coverFnHi">15</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2598">mrs_uav_state_estimators::Correction&lt;1&gt;::createProcessorFromName(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;, std::shared_ptr&lt;rclcpp::Node&gt; const&amp;)</a></td>
+              
+              <td class="coverFnAliasHi">10</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2598">mrs_uav_state_estimators::Correction&lt;2&gt;::createProcessorFromName(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;, std::shared_ptr&lt;rclcpp::Node&gt; const&amp;)</a></td>
+              
+              <td class="coverFnAliasHi">5</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L2485">mrs_uav_state_estimators::Correction&lt;1&gt;::getAvgInitZ(double)</a></td>
+              
+              <td class="coverFnHi">11</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2485">mrs_uav_state_estimators::Correction&lt;1&gt;::getAvgInitZ(double)</a></td>
+              
+              <td class="coverFnAliasHi">11</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2485">mrs_uav_state_estimators::Correction&lt;2&gt;::getAvgInitZ(double)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L1383">mrs_uav_state_estimators::Correction&lt;1&gt;::getCorrectionFromImu(std::shared_ptr&lt;sensor_msgs::msg::Imu_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1383">mrs_uav_state_estimators::Correction&lt;1&gt;::getCorrectionFromImu(std::shared_ptr&lt;sensor_msgs::msg::Imu_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1383">mrs_uav_state_estimators::Correction&lt;2&gt;::getCorrectionFromImu(std::shared_ptr&lt;sensor_msgs::msg::Imu_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L1892">mrs_uav_state_estimators::Correction&lt;1&gt;::getCorrectionFromMagField(std::shared_ptr&lt;sensor_msgs::msg::MagneticField_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1892">mrs_uav_state_estimators::Correction&lt;1&gt;::getCorrectionFromMagField(std::shared_ptr&lt;sensor_msgs::msg::MagneticField_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1892">mrs_uav_state_estimators::Correction&lt;2&gt;::getCorrectionFromMagField(std::shared_ptr&lt;sensor_msgs::msg::MagneticField_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L1817">mrs_uav_state_estimators::Correction&lt;1&gt;::getCorrectionFromMagHeading(std::shared_ptr&lt;mrs_msgs::msg::Float64Stamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1817">mrs_uav_state_estimators::Correction&lt;1&gt;::getCorrectionFromMagHeading(std::shared_ptr&lt;mrs_msgs::msg::Float64Stamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1817">mrs_uav_state_estimators::Correction&lt;2&gt;::getCorrectionFromMagHeading(std::shared_ptr&lt;mrs_msgs::msg::Float64Stamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L1683">mrs_uav_state_estimators::Correction&lt;1&gt;::getCorrectionFromNavSatFix(std::shared_ptr&lt;sensor_msgs::msg::NavSatFix_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1683">mrs_uav_state_estimators::Correction&lt;1&gt;::getCorrectionFromNavSatFix(std::shared_ptr&lt;sensor_msgs::msg::NavSatFix_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1683">mrs_uav_state_estimators::Correction&lt;2&gt;::getCorrectionFromNavSatFix(std::shared_ptr&lt;sensor_msgs::msg::NavSatFix_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L900">mrs_uav_state_estimators::Correction&lt;1&gt;::getCorrectionFromOdometry(std::shared_ptr&lt;nav_msgs::msg::Odometry_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L900">mrs_uav_state_estimators::Correction&lt;1&gt;::getCorrectionFromOdometry(std::shared_ptr&lt;nav_msgs::msg::Odometry_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L900">mrs_uav_state_estimators::Correction&lt;2&gt;::getCorrectionFromOdometry(std::shared_ptr&lt;nav_msgs::msg::Odometry_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L2008">mrs_uav_state_estimators::Correction&lt;1&gt;::getCorrectionFromPoint(std::shared_ptr&lt;geometry_msgs::msg::PointStamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnHi">9734</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2008">mrs_uav_state_estimators::Correction&lt;1&gt;::getCorrectionFromPoint(std::shared_ptr&lt;geometry_msgs::msg::PointStamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2008">mrs_uav_state_estimators::Correction&lt;2&gt;::getCorrectionFromPoint(std::shared_ptr&lt;geometry_msgs::msg::PointStamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasHi">9734</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L1196">mrs_uav_state_estimators::Correction&lt;1&gt;::getCorrectionFromPoseStamped(std::shared_ptr&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1196">mrs_uav_state_estimators::Correction&lt;1&gt;::getCorrectionFromPoseStamped(std::shared_ptr&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1196">mrs_uav_state_estimators::Correction&lt;2&gt;::getCorrectionFromPoseStamped(std::shared_ptr&lt;geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L2237">mrs_uav_state_estimators::Correction&lt;1&gt;::getCorrectionFromQuat(std::shared_ptr&lt;geometry_msgs::msg::QuaternionStamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2237">mrs_uav_state_estimators::Correction&lt;1&gt;::getCorrectionFromQuat(std::shared_ptr&lt;geometry_msgs::msg::QuaternionStamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2237">mrs_uav_state_estimators::Correction&lt;2&gt;::getCorrectionFromQuat(std::shared_ptr&lt;geometry_msgs::msg::QuaternionStamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L1321">mrs_uav_state_estimators::Correction&lt;1&gt;::getCorrectionFromRange(std::shared_ptr&lt;sensor_msgs::msg::Range_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnHi">14154</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1321">mrs_uav_state_estimators::Correction&lt;1&gt;::getCorrectionFromRange(std::shared_ptr&lt;sensor_msgs::msg::Range_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasHi">14154</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1321">mrs_uav_state_estimators::Correction&lt;2&gt;::getCorrectionFromRange(std::shared_ptr&lt;sensor_msgs::msg::Range_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L1542">mrs_uav_state_estimators::Correction&lt;1&gt;::getCorrectionFromRtk(std::shared_ptr&lt;mrs_msgs::msg::RtkGps_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnHi">4288</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1542">mrs_uav_state_estimators::Correction&lt;1&gt;::getCorrectionFromRtk(std::shared_ptr&lt;mrs_msgs::msg::RtkGps_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasHi">1353</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L1542">mrs_uav_state_estimators::Correction&lt;2&gt;::getCorrectionFromRtk(std::shared_ptr&lt;mrs_msgs::msg::RtkGps_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasHi">2935</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L2116">mrs_uav_state_estimators::Correction&lt;1&gt;::getCorrectionFromVector(std::shared_ptr&lt;geometry_msgs::msg::Vector3Stamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnHi">23348</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2116">mrs_uav_state_estimators::Correction&lt;1&gt;::getCorrectionFromVector(std::shared_ptr&lt;geometry_msgs::msg::Vector3Stamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasHi">16538</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2116">mrs_uav_state_estimators::Correction&lt;2&gt;::getCorrectionFromVector(std::shared_ptr&lt;geometry_msgs::msg::Vector3Stamped_&lt;std::allocator&lt;void&gt; &gt; const&gt;)</a></td>
+              
+              <td class="coverFnAliasHi">6810</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L2416">mrs_uav_state_estimators::Correction&lt;1&gt;::getInFrame(geometry_msgs::msg::Point_&lt;std::allocator&lt;void&gt; &gt; const&amp;, std_msgs::msg::Header_&lt;std::allocator&lt;void&gt; &gt; const&amp;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;)</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2416">mrs_uav_state_estimators::Correction&lt;1&gt;::getInFrame(geometry_msgs::msg::Point_&lt;std::allocator&lt;void&gt; &gt; const&amp;, std_msgs::msg::Header_&lt;std::allocator&lt;void&gt; &gt; const&amp;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2416">mrs_uav_state_estimators::Correction&lt;2&gt;::getInFrame(geometry_msgs::msg::Point_&lt;std::allocator&lt;void&gt; &gt; const&amp;, std_msgs::msg::Header_&lt;std::allocator&lt;void&gt; &gt; const&amp;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L470">mrs_uav_state_estimators::Correction&lt;1&gt;::getName[abi:cxx11]() const</a></td>
+              
+              <td class="coverFnHi">34</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L470">mrs_uav_state_estimators::Correction&lt;1&gt;::getName[abi:cxx11]() const</a></td>
+              
+              <td class="coverFnAliasHi">20</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L470">mrs_uav_state_estimators::Correction&lt;2&gt;::getName[abi:cxx11]() const</a></td>
+              
+              <td class="coverFnAliasHi">14</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L477">mrs_uav_state_estimators::Correction&lt;1&gt;::getNamespacedName[abi:cxx11]() const</a></td>
+              
+              <td class="coverFnHi">29</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L477">mrs_uav_state_estimators::Correction&lt;1&gt;::getNamespacedName[abi:cxx11]() const</a></td>
+              
+              <td class="coverFnAliasHi">19</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L477">mrs_uav_state_estimators::Correction&lt;2&gt;::getNamespacedName[abi:cxx11]() const</a></td>
+              
+              <td class="coverFnAliasHi">10</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L484">mrs_uav_state_estimators::Correction&lt;1&gt;::getPrintName[abi:cxx11]() const</a></td>
+              
+              <td class="coverFnHi">32</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L484">mrs_uav_state_estimators::Correction&lt;1&gt;::getPrintName[abi:cxx11]() const</a></td>
+              
+              <td class="coverFnAliasHi">21</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L484">mrs_uav_state_estimators::Correction&lt;2&gt;::getPrintName[abi:cxx11]() const</a></td>
+              
+              <td class="coverFnAliasHi">11</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L864">mrs_uav_state_estimators::Correction&lt;1&gt;::getProcessedCorrection()</a></td>
+              
+              <td class="coverFnHi">225</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L864">mrs_uav_state_estimators::Correction&lt;1&gt;::getProcessedCorrection()</a></td>
+              
+              <td class="coverFnAliasHi">180</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L864">mrs_uav_state_estimators::Correction&lt;2&gt;::getProcessedCorrection()</a></td>
+              
+              <td class="coverFnAliasHi">45</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L491">mrs_uav_state_estimators::Correction&lt;1&gt;::getR()</a></td>
+              
+              <td class="coverFnHi">192816</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L491">mrs_uav_state_estimators::Correction&lt;1&gt;::getR()</a></td>
+              
+              <td class="coverFnAliasHi">95498</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L491">mrs_uav_state_estimators::Correction&lt;2&gt;::getR()</a></td>
+              
+              <td class="coverFnAliasHi">97318</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L550">mrs_uav_state_estimators::Correction&lt;1&gt;::getRawCorrection()</a></td>
+              
+              <td class="coverFnHi">225</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L550">mrs_uav_state_estimators::Correction&lt;1&gt;::getRawCorrection()</a></td>
+              
+              <td class="coverFnAliasHi">180</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L550">mrs_uav_state_estimators::Correction&lt;2&gt;::getRawCorrection()</a></td>
+              
+              <td class="coverFnAliasHi">45</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L513">mrs_uav_state_estimators::Correction&lt;1&gt;::getStateId() const</a></td>
+              
+              <td class="coverFnHi">51215</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L513">mrs_uav_state_estimators::Correction&lt;1&gt;::getStateId() const</a></td>
+              
+              <td class="coverFnAliasHi">31737</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L513">mrs_uav_state_estimators::Correction&lt;2&gt;::getStateId() const</a></td>
+              
+              <td class="coverFnAliasHi">19478</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L2394">mrs_uav_state_estimators::Correction&lt;1&gt;::getVecInFrame(geometry_msgs::msg::Vector3_&lt;std::allocator&lt;void&gt; &gt; const&amp;, std_msgs::msg::Header_&lt;std::allocator&lt;void&gt; &gt; const&amp;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">6810</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2394">mrs_uav_state_estimators::Correction&lt;1&gt;::getVecInFrame(geometry_msgs::msg::Vector3_&lt;std::allocator&lt;void&gt; &gt; const&amp;, std_msgs::msg::Header_&lt;std::allocator&lt;void&gt; &gt; const&amp;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2394">mrs_uav_state_estimators::Correction&lt;2&gt;::getVecInFrame(geometry_msgs::msg::Vector3_&lt;std::allocator&lt;void&gt; &gt; const&amp;, std_msgs::msg::Header_&lt;std::allocator&lt;void&gt; &gt; const&amp;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;)</a></td>
+              
+              <td class="coverFnAliasHi">6810</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L2347">mrs_uav_state_estimators::Correction&lt;1&gt;::getZVelUntilted(geometry_msgs::msg::Vector3_&lt;std::allocator&lt;void&gt; &gt; const&amp;, std_msgs::msg::Header_&lt;std::allocator&lt;void&gt; &gt; const&amp;)</a></td>
+              
+              <td class="coverFnHi">16538</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2347">mrs_uav_state_estimators::Correction&lt;1&gt;::getZVelUntilted(geometry_msgs::msg::Vector3_&lt;std::allocator&lt;void&gt; &gt; const&amp;, std_msgs::msg::Header_&lt;std::allocator&lt;void&gt; &gt; const&amp;)</a></td>
+              
+              <td class="coverFnAliasHi">16538</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2347">mrs_uav_state_estimators::Correction&lt;2&gt;::getZVelUntilted(geometry_msgs::msg::Vector3_&lt;std::allocator&lt;void&gt; &gt; const&amp;, std_msgs::msg::Header_&lt;std::allocator&lt;void&gt; &gt; const&amp;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L520">mrs_uav_state_estimators::Correction&lt;1&gt;::isHealthy()</a></td>
+              
+              <td class="coverFnHi">56510</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L520">mrs_uav_state_estimators::Correction&lt;1&gt;::isHealthy()</a></td>
+              
+              <td class="coverFnAliasHi">33205</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L520">mrs_uav_state_estimators::Correction&lt;2&gt;::isHealthy()</a></td>
+              
+              <td class="coverFnAliasHi">23305</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L2572">mrs_uav_state_estimators::Correction&lt;1&gt;::isMsgComing()</a></td>
+              
+              <td class="coverFnHi">56510</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2572">mrs_uav_state_estimators::Correction&lt;1&gt;::isMsgComing()</a></td>
+              
+              <td class="coverFnAliasHi">33205</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2572">mrs_uav_state_estimators::Correction&lt;2&gt;::isMsgComing()</a></td>
+              
+              <td class="coverFnAliasHi">23305</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L2627">mrs_uav_state_estimators::Correction&lt;1&gt;::process(Eigen::Matrix&lt;double, 1, 1, 0, 1, 1&gt;&amp;)</a></td>
+              
+              <td class="coverFnHi">51500</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2627">mrs_uav_state_estimators::Correction&lt;1&gt;::process(Eigen::Matrix&lt;double, 1, 1, 0, 1, 1&gt;&amp;)</a></td>
+              
+              <td class="coverFnAliasHi">32034</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2627">mrs_uav_state_estimators::Correction&lt;2&gt;::process(Eigen::Matrix&lt;double, 2, 1, 0, 2, 1&gt;&amp;)</a></td>
+              
+              <td class="coverFnAliasHi">19466</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L2667">mrs_uav_state_estimators::Correction&lt;1&gt;::publishCorrection(mrs_uav_state_estimators::Correction&lt;1&gt;::MeasurementStamped const&amp;, mrs_lib::PublisherHandler&lt;mrs_msgs::msg::EstimatorCorrection_&lt;std::allocator&lt;void&gt; &gt; &gt;&amp;)</a></td>
+              
+              <td class="coverFnHi">102703</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2667">mrs_uav_state_estimators::Correction&lt;1&gt;::publishCorrection(mrs_uav_state_estimators::Correction&lt;1&gt;::MeasurementStamped const&amp;, mrs_lib::PublisherHandler&lt;mrs_msgs::msg::EstimatorCorrection_&lt;std::allocator&lt;void&gt; &gt; &gt;&amp;)</a></td>
+              
+              <td class="coverFnAliasHi">63771</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2667">mrs_uav_state_estimators::Correction&lt;2&gt;::publishCorrection(mrs_uav_state_estimators::Correction&lt;2&gt;::MeasurementStamped const&amp;, mrs_lib::PublisherHandler&lt;mrs_msgs::msg::EstimatorCorrection_&lt;std::allocator&lt;void&gt; &gt; &gt;&amp;)</a></td>
+              
+              <td class="coverFnAliasHi">38932</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L2655">mrs_uav_state_estimators::Correction&lt;1&gt;::resetProcessors()</a></td>
+              
+              <td class="coverFnLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2655">mrs_uav_state_estimators::Correction&lt;1&gt;::resetProcessors()</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2655">mrs_uav_state_estimators::Correction&lt;2&gt;::resetProcessors()</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L505">mrs_uav_state_estimators::Correction&lt;1&gt;::setR(double)</a></td>
+              
+              <td class="coverFnHi">51203</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L505">mrs_uav_state_estimators::Correction&lt;1&gt;::setR(double)</a></td>
+              
+              <td class="coverFnAliasHi">31737</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L505">mrs_uav_state_estimators::Correction&lt;2&gt;::setR(double)</a></td>
+              
+              <td class="coverFnAliasHi">19466</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L2440">mrs_uav_state_estimators::Correction&lt;1&gt;::transformRtkToFcu(geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt; const&amp;) const</a></td>
+              
+              <td class="coverFnHi">4288</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2440">mrs_uav_state_estimators::Correction&lt;1&gt;::transformRtkToFcu(geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt; const&amp;) const</a></td>
+              
+              <td class="coverFnAliasHi">1353</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2440">mrs_uav_state_estimators::Correction&lt;2&gt;::transformRtkToFcu(geometry_msgs::msg::PoseStamped_&lt;std::allocator&lt;void&gt; &gt; const&amp;) const</a></td>
+              
+              <td class="coverFnAliasHi">2935</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFn"><a href="correction.h.gcov.html#L2375">mrs_uav_state_estimators::Correction&lt;1&gt;::transformVecToFrame(geometry_msgs::msg::Vector3_&lt;std::allocator&lt;void&gt; &gt; const&amp;, std_msgs::msg::Header_&lt;std::allocator&lt;void&gt; &gt; const&amp;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;)</a></td>
+              
+              <td class="coverFnHi">6810</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2375">mrs_uav_state_estimators::Correction&lt;1&gt;::transformVecToFrame(geometry_msgs::msg::Vector3_&lt;std::allocator&lt;void&gt; &gt; const&amp;, std_msgs::msg::Header_&lt;std::allocator&lt;void&gt; &gt; const&amp;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;)</a></td>
+              
+              <td class="coverFnAliasLo">0</td>
+              
+              
+              
+            </tr>
+            <tr>
+              <td class="coverFnAlias"><a href="correction.h.gcov.html#L2375">mrs_uav_state_estimators::Correction&lt;2&gt;::transformVecToFrame(geometry_msgs::msg::Vector3_&lt;std::allocator&lt;void&gt; &gt; const&amp;, std_msgs::msg::Header_&lt;std::allocator&lt;void&gt; &gt; const&amp;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;)</a></td>
+              
+              <td class="coverFnAliasHi">6810</td>
+              
+              
+              
+            </tr>
+          </table>
+          <br>
+          </center>
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.3.1-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>

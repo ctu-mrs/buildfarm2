@@ -1,0 +1,399 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - MRS UAV System - Test coverage report - mrs_lib/include/mrs_lib/param_provider.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../../index.html" target="_parent" title="Click to go to top-level">top level</a> - <a href="index.html" target="_parent" title="Click to go to directory mrs_lib/include/mrs_lib">mrs_lib/include/mrs_lib</a> - param_provider.h</td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">MRS UAV System - Test coverage report</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryLo">66.7&nbsp;%</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">2</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2026-02-28 19:12:04</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryHi">-</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:&nbsp&nbsp&nbsp&nbsp
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+                  <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : // clang: MatousFormat</span>
+<span id="L2"><span class="lineNum">       2</span>              : /**  \file</span>
+<span id="L3"><span class="lineNum">       3</span>              :      \brief Defines ParamProvider - a convenience class for seamlessly loading parameters from YAML or ROS.</span>
+<span id="L4"><span class="lineNum">       4</span>              :      \author Matouš Vrba - vrbamato@fel.cvut.cz</span>
+<span id="L5"><span class="lineNum">       5</span>              :      \author Afzal Ahmad</span>
+<span id="L6"><span class="lineNum">       6</span>              :  */</span>
+<span id="L7"><span class="lineNum">       7</span>              : #pragma once</span>
+<span id="L8"><span class="lineNum">       8</span>              : </span>
+<span id="L9"><span class="lineNum">       9</span>              : #include &lt;concepts&gt;</span>
+<span id="L10"><span class="lineNum">      10</span>              : #include &lt;memory&gt;</span>
+<span id="L11"><span class="lineNum">      11</span>              : #include &lt;optional&gt;</span>
+<span id="L12"><span class="lineNum">      12</span>              : </span>
+<span id="L13"><span class="lineNum">      13</span>              : #include &lt;yaml-cpp/yaml.h&gt;</span>
+<span id="L14"><span class="lineNum">      14</span>              : #include &lt;rclcpp/rclcpp.hpp&gt;</span>
+<span id="L15"><span class="lineNum">      15</span>              : </span>
+<span id="L16"><span class="lineNum">      16</span>              : namespace mrs_lib</span>
+<span id="L17"><span class="lineNum">      17</span>              : {</span>
+<span id="L18"><span class="lineNum">      18</span>              : </span>
+<span id="L19"><span class="lineNum">      19</span>              :   /*!</span>
+<span id="L20"><span class="lineNum">      20</span>              :    * \brief Helper overload for printing of std::vectors.</span>
+<span id="L21"><span class="lineNum">      21</span>              :    *</span>
+<span id="L22"><span class="lineNum">      22</span>              :    * \param os          The output stream to send the printed vector to.</span>
+<span id="L23"><span class="lineNum">      23</span>              :    * \param var         The vector to be printed.</span>
+<span id="L24"><span class="lineNum">      24</span>              :    * \return            A reference to the output stream.</span>
+<span id="L25"><span class="lineNum">      25</span>              :    */</span>
+<span id="L26"><span class="lineNum">      26</span>              :   template &lt;typename T&gt;</span>
+<span id="L27"><span class="lineNum">      27</span>              :   std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const std::vector&lt;T&gt;&amp; var);</span>
+<span id="L28"><span class="lineNum">      28</span>              : </span>
+<span id="L29"><span class="lineNum">      29</span>              :   /*!</span>
+<span id="L30"><span class="lineNum">      30</span>              :    * \brief Helper overload for printing of std::maps.</span>
+<span id="L31"><span class="lineNum">      31</span>              :    *</span>
+<span id="L32"><span class="lineNum">      32</span>              :    * \param os          The output stream to send the printed map to.</span>
+<span id="L33"><span class="lineNum">      33</span>              :    * \param var         The map to be printed.</span>
+<span id="L34"><span class="lineNum">      34</span>              :    * \return            A reference to the output stream.</span>
+<span id="L35"><span class="lineNum">      35</span>              :    */</span>
+<span id="L36"><span class="lineNum">      36</span>              :   template &lt;typename Key, typename Value&gt;</span>
+<span id="L37"><span class="lineNum">      37</span>              :   std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const std::map&lt;Key, Value&gt;&amp; var);</span>
+<span id="L38"><span class="lineNum">      38</span>              : </span>
+<span id="L39"><span class="lineNum">      39</span>              :   /*!</span>
+<span id="L40"><span class="lineNum">      40</span>              :    * \brief Helper overload for printing of rclcpp::ParameterType.</span>
+<span id="L41"><span class="lineNum">      41</span>              :    *</span>
+<span id="L42"><span class="lineNum">      42</span>              :    * \param os          The output stream to send the printed map to.</span>
+<span id="L43"><span class="lineNum">      43</span>              :    * \param var         The parameter type to be printed.</span>
+<span id="L44"><span class="lineNum">      44</span>              :    * \return            A reference to the output stream.</span>
+<span id="L45"><span class="lineNum">      45</span>              :    */</span>
+<span id="L46"><span class="lineNum">      46</span>              :   std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, rclcpp::ParameterType&amp; var);</span>
+<span id="L47"><span class="lineNum">      47</span>              : </span>
+<span id="L48"><span class="lineNum">      48</span>              :   /*!</span>
+<span id="L49"><span class="lineNum">      49</span>              :    * \brief Convenince function to get the corresponding rclcpp::ParamType from a C++ type.</span>
+<span id="L50"><span class="lineNum">      50</span>              :    *</span>
+<span id="L51"><span class="lineNum">      51</span>              :    * \return            the rclcpp::ParamType enum value corresponding to the C++ type specified by the template.</span>
+<span id="L52"><span class="lineNum">      52</span>              :    */</span>
+<span id="L53"><span class="lineNum">      53</span>              :   template &lt;typename T&gt;</span>
+<span id="L54"><span class="lineNum">      54</span>              :   rclcpp::ParameterType to_param_type();</span>
+<span id="L55"><span class="lineNum">      55</span>              : </span>
+<span id="L56"><span class="lineNum">      56</span>              :   /** \brief Convenience concept of a numeric value (i.e. either integral or floating point, and not bool). */</span>
+<span id="L57"><span class="lineNum">      57</span>              :   template &lt;typename T&gt;</span>
+<span id="L58"><span class="lineNum">      58</span>              :   concept numeric = (std::integral&lt;T&gt; || std::floating_point&lt;T&gt;) &amp;&amp; !std::same_as&lt;T, bool&gt;;</span>
+<span id="L59"><span class="lineNum">      59</span>              : </span>
+<span id="L60"><span class="lineNum">      60</span>              :   /*** ParamProvider CLASS //{ **/</span>
+<span id="L61"><span class="lineNum">      61</span>              : </span>
+<span id="L62"><span class="lineNum">      62</span>              :   /**</span>
+<span id="L63"><span class="lineNum">      63</span>              :    * \brief Helper class for ParamLoader and DynparamMgr.</span>
+<span id="L64"><span class="lineNum">      64</span>              :    *</span>
+<span id="L65"><span class="lineNum">      65</span>              :    * This class abstracts away loading of parameters from ROS parameter server and directly from</span>
+<span id="L66"><span class="lineNum">      66</span>              :    * YAML files (&quot;static&quot; parameters). The user can specify a number of YAML files that will be</span>
+<span id="L67"><span class="lineNum">      67</span>              :    * parsed and when a parameter value is requested, these are checked first before attempting</span>
+<span id="L68"><span class="lineNum">      68</span>              :    * to load the parameter from the ROS server (which can be slow). The YAML files are searched</span>
+<span id="L69"><span class="lineNum">      69</span>              :    * in FIFO order and when a matching name is found in a file, its value is returned.</span>
+<span id="L70"><span class="lineNum">      70</span>              :    *</span>
+<span id="L71"><span class="lineNum">      71</span>              :    */</span>
+<span id="L72"><span class="lineNum">      72</span>              :   class ParamProvider</span>
+<span id="L73"><span class="lineNum">      73</span>              :   {</span>
+<span id="L74"><span class="lineNum">      74</span>              :   public:</span>
+<span id="L75"><span class="lineNum">      75</span>              :     /** \brief Helper struct to distinguish standard names from resolved names.</span>
+<span id="L76"><span class="lineNum">      76</span>              :      *</span>
+<span id="L77"><span class="lineNum">      77</span>              :      * This struct serves as a strong type different from std::string (used for non-resolved parameter</span>
+<span id="L78"><span class="lineNum">      78</span>              :      * names) so that the user cannot accidentally call a method expecting the &quot;raw&quot; name with a resolved name</span>
+<span id="L79"><span class="lineNum">      79</span>              :      * and vice-versa.</span>
+<span id="L80"><span class="lineNum">      80</span>              :      *</span>
+<span id="L81"><span class="lineNum">      81</span>              :      */</span>
+<span id="L82"><span class="lineNum">      82</span>              :     struct resolved_name_t;</span>
+<span id="L83"><span class="lineNum">      83</span>              : </span>
+<span id="L84"><span class="lineNum">      84</span>              :     /** \brief Helper struct for a numeric range with named members to make the code a bit more readable. */</span>
+<span id="L85"><span class="lineNum">      85</span>              :     template &lt;typename T&gt;</span>
+<span id="L86"><span class="lineNum">      86</span> <span class="tlaUNC">           0 :     struct range_t</span></span>
+<span id="L87"><span class="lineNum">      87</span>              :     {</span>
+<span id="L88"><span class="lineNum">      88</span>              :       /** \brief Minimal value of a parameter. */</span>
+<span id="L89"><span class="lineNum">      89</span>              :       T minimum;</span>
+<span id="L90"><span class="lineNum">      90</span>              :       /** \brief Maximal value of a parameter. */</span>
+<span id="L91"><span class="lineNum">      91</span>              :       T maximum;</span>
+<span id="L92"><span class="lineNum">      92</span>              :     };</span>
+<span id="L93"><span class="lineNum">      93</span>              : </span>
+<span id="L94"><span class="lineNum">      94</span>              :     /** \brief Struct of options when declaring a parameter to ROS.</span>
+<span id="L95"><span class="lineNum">      95</span>              :      *</span>
+<span id="L96"><span class="lineNum">      96</span>              :      * If the optionals are not filled (i.e. equal to std::nullopt), no default value, minimum</span>
+<span id="L97"><span class="lineNum">      97</span>              :      * or maximum will be defined for the declared variable.</span>
+<span id="L98"><span class="lineNum">      98</span>              :      *</span>
+<span id="L99"><span class="lineNum">      99</span>              :      */</span>
+<span id="L100"><span class="lineNum">     100</span>              :     template &lt;typename T&gt;</span>
+<span id="L101"><span class="lineNum">     101</span>              :     struct declare_options_t</span>
+<span id="L102"><span class="lineNum">     102</span>              :     {</span>
+<span id="L103"><span class="lineNum">     103</span>              :       /** \brief If true, the parameter will be dynamically reconfigurable, otherwise it will be declared as read-only. */</span>
+<span id="L104"><span class="lineNum">     104</span>              :       bool reconfigurable = false;</span>
+<span id="L105"><span class="lineNum">     105</span>              :       /** \brief An optional default value to initialize the parameter with. */</span>
+<span id="L106"><span class="lineNum">     106</span>              :       std::optional&lt;T&gt; default_value = std::nullopt;</span>
+<span id="L107"><span class="lineNum">     107</span>              :       /** \brief An optional range of valid values of the parameter (only for numerical types). */</span>
+<span id="L108"><span class="lineNum">     108</span>              :       std::optional&lt;range_t&lt;T&gt;&gt; range = std::nullopt;</span>
+<span id="L109"><span class="lineNum">     109</span>              :     };</span>
+<span id="L110"><span class="lineNum">     110</span>              : </span>
+<span id="L111"><span class="lineNum">     111</span>              :     /** \brief Struct of options when getting a parameter from ROS.</span>
+<span id="L112"><span class="lineNum">     112</span>              :      *</span>
+<span id="L113"><span class="lineNum">     113</span>              :      * If the optionals are not filled (i.e. equal to std::nullopt), the values set in the ParamProvider class are used.</span>
+<span id="L114"><span class="lineNum">     114</span>              :      *</span>
+<span id="L115"><span class="lineNum">     115</span>              :      */</span>
+<span id="L116"><span class="lineNum">     116</span>              :     template &lt;typename T&gt;</span>
+<span id="L117"><span class="lineNum">     117</span> <span class="tlaGNC">         230 :     struct get_options_t</span></span>
+<span id="L118"><span class="lineNum">     118</span>              :     {</span>
+<span id="L119"><span class="lineNum">     119</span>              :       /** \brief Iff true, the parameter will be declared to ROS even if it's value was loaded from a YAML. */</span>
+<span id="L120"><span class="lineNum">     120</span>              :       bool always_declare = false;</span>
+<span id="L121"><span class="lineNum">     121</span>              :       /** \brief Iff false, loading from YAML will be skipped even if some YAML files were specified. */</span>
+<span id="L122"><span class="lineNum">     122</span>              :       bool use_yaml = true;</span>
+<span id="L123"><span class="lineNum">     123</span>              :       /** \brief Specifies whether the parameter should be attempted to be loaded from ROS if it cannot be loaded from a YAML. */</span>
+<span id="L124"><span class="lineNum">     124</span>              :       std::optional&lt;bool&gt; use_rosparam = std::nullopt;</span>
+<span id="L125"><span class="lineNum">     125</span>              :       /** \brief If filled, overrides any prefix set using the setPrefix() method. */</span>
+<span id="L126"><span class="lineNum">     126</span>              :       std::optional&lt;std::string&gt; prefix = std::nullopt;</span>
+<span id="L127"><span class="lineNum">     127</span>              :       /** \brief Options when declaring a parameter to ROS (see the declare_options_t&lt;T&gt; documentation). */</span>
+<span id="L128"><span class="lineNum">     128</span>              :       declare_options_t&lt;T&gt; declare_options = {};</span>
+<span id="L129"><span class="lineNum">     129</span>              :     };</span>
+<span id="L130"><span class="lineNum">     130</span>              : </span>
+<span id="L131"><span class="lineNum">     131</span>              :     /** \brief Struct of options when setting a parameter to ROS.</span>
+<span id="L132"><span class="lineNum">     132</span>              :      *</span>
+<span id="L133"><span class="lineNum">     133</span>              :      * If the optionals are not filled (i.e. equal to std::nullopt), the values set in the ParamProvider class are used.</span>
+<span id="L134"><span class="lineNum">     134</span>              :      *</span>
+<span id="L135"><span class="lineNum">     135</span>              :      */</span>
+<span id="L136"><span class="lineNum">     136</span>              :     template &lt;typename T&gt;</span>
+<span id="L137"><span class="lineNum">     137</span> <span class="tlaGNC">         100 :     struct set_options_t</span></span>
+<span id="L138"><span class="lineNum">     138</span>              :     {</span>
+<span id="L139"><span class="lineNum">     139</span>              :       /** \brief If filled, overrides any prefix set using the setPrefix() method. */</span>
+<span id="L140"><span class="lineNum">     140</span>              :       std::optional&lt;std::string&gt; prefix = std::nullopt;</span>
+<span id="L141"><span class="lineNum">     141</span>              :       /** \brief Options when declaring a parameter to ROS (see the declare_options_t&lt;T&gt; documentation). */</span>
+<span id="L142"><span class="lineNum">     142</span>              :       declare_options_t&lt;T&gt; declare_options = {};</span>
+<span id="L143"><span class="lineNum">     143</span>              :     };</span>
+<span id="L144"><span class="lineNum">     144</span>              : </span>
+<span id="L145"><span class="lineNum">     145</span>              :     /*!</span>
+<span id="L146"><span class="lineNum">     146</span>              :      * \brief Main constructor.</span>
+<span id="L147"><span class="lineNum">     147</span>              :      *</span>
+<span id="L148"><span class="lineNum">     148</span>              :      * \param nh            The parameters will be loaded from rosparam using this node handle.</span>
+<span id="L149"><span class="lineNum">     149</span>              :      * \param use_rosparam  If true, parameters that weren't found in the YAML files will be attempted to be loaded from ROS.</span>
+<span id="L150"><span class="lineNum">     150</span>              :      */</span>
+<span id="L151"><span class="lineNum">     151</span>              :     ParamProvider(const std::shared_ptr&lt;rclcpp::Node&gt;&amp; node, const bool use_rosparam = true);</span>
+<span id="L152"><span class="lineNum">     152</span>              : </span>
+<span id="L153"><span class="lineNum">     153</span>              :     /*!</span>
+<span id="L154"><span class="lineNum">     154</span>              :      * \brief Add a YAML file to be parsed and used for loading parameters.</span>
+<span id="L155"><span class="lineNum">     155</span>              :      *</span>
+<span id="L156"><span class="lineNum">     156</span>              :      * The first file added will be the first file searched for a parameter when using getParam().</span>
+<span id="L157"><span class="lineNum">     157</span>              :      *</span>
+<span id="L158"><span class="lineNum">     158</span>              :      * \param filepath  Path to the YAML file.</span>
+<span id="L159"><span class="lineNum">     159</span>              :      */</span>
+<span id="L160"><span class="lineNum">     160</span>              :     bool addYamlFile(const std::string&amp; filepath);</span>
+<span id="L161"><span class="lineNum">     161</span>              : </span>
+<span id="L162"><span class="lineNum">     162</span>              :     /*!</span>
+<span id="L163"><span class="lineNum">     163</span>              :      * \brief Copy parsed YAMLs from another ParamProvider.</span>
+<span id="L164"><span class="lineNum">     164</span>              :      *</span>
+<span id="L165"><span class="lineNum">     165</span>              :      * \param param_provider  The ParamProvider object to copy the YAMLs from.</span>
+<span id="L166"><span class="lineNum">     166</span>              :      */</span>
+<span id="L167"><span class="lineNum">     167</span>              :     void copyYamls(const ParamProvider&amp; param_provider);</span>
+<span id="L168"><span class="lineNum">     168</span>              : </span>
+<span id="L169"><span class="lineNum">     169</span>              :     /*!</span>
+<span id="L170"><span class="lineNum">     170</span>              :      * \brief Gets the value of a parameter.</span>
+<span id="L171"><span class="lineNum">     171</span>              :      *</span>
+<span id="L172"><span class="lineNum">     172</span>              :      * Firstly, the parameter is attempted to be loaded from the YAML files added by the addYamlFile() method</span>
+<span id="L173"><span class="lineNum">     173</span>              :      * in the same order that they were added. If the parameter is not found in any YAML file, and the use_rosparam</span>
+<span id="L174"><span class="lineNum">     174</span>              :      * flag of the constructor is true, the ParamProvider will declare it in ROS and attempt to load it from ROS.</span>
+<span id="L175"><span class="lineNum">     175</span>              :      *</span>
+<span id="L176"><span class="lineNum">     176</span>              :      * \param param_name      Name of the parameter to be loaded. Namespaces should be separated with a forward slash '/'.</span>
+<span id="L177"><span class="lineNum">     177</span>              :      * \param value_out       Output argument that will hold the value of the loaded parameter, if successfull. Not modified otherwise.</span>
+<span id="L178"><span class="lineNum">     178</span>              :      * \return                true iff the parameter was successfully loaded.</span>
+<span id="L179"><span class="lineNum">     179</span>              :      */</span>
+<span id="L180"><span class="lineNum">     180</span>              :     template &lt;typename T&gt;</span>
+<span id="L181"><span class="lineNum">     181</span>              :     bool getParam(const std::string&amp; param_name, T&amp; value_out) const;</span>
+<span id="L182"><span class="lineNum">     182</span>              : </span>
+<span id="L183"><span class="lineNum">     183</span>              :     /*!</span>
+<span id="L184"><span class="lineNum">     184</span>              :      * \brief Gets the value of a parameter.</span>
+<span id="L185"><span class="lineNum">     185</span>              :      *</span>
+<span id="L186"><span class="lineNum">     186</span>              :      * Firstly, the parameter is attempted to be loaded from the YAML files added by the addYamlFile() method</span>
+<span id="L187"><span class="lineNum">     187</span>              :      * in the same order that they were added. If the parameter is not found in any YAML file, and the use_rosparam</span>
+<span id="L188"><span class="lineNum">     188</span>              :      * flag of the constructor is true, the ParamProvider will declare it in ROS and attempt to load it from ROS.</span>
+<span id="L189"><span class="lineNum">     189</span>              :      *</span>
+<span id="L190"><span class="lineNum">     190</span>              :      * \param param_name      Name of the parameter to be loaded. Namespaces should be separated with a forward slash '/'.</span>
+<span id="L191"><span class="lineNum">     191</span>              :      * \param value_out       Output argument that will hold the value of the loaded parameter, if successfull. Not modified otherwise.</span>
+<span id="L192"><span class="lineNum">     192</span>              :      * \param opts            Options regarding getting and declaring the parameter (see the get_options_t&lt;T&gt; documentation).</span>
+<span id="L193"><span class="lineNum">     193</span>              :      * \return                true iff the parameter was successfully loaded.</span>
+<span id="L194"><span class="lineNum">     194</span>              :      */</span>
+<span id="L195"><span class="lineNum">     195</span>              :     template &lt;typename T&gt;</span>
+<span id="L196"><span class="lineNum">     196</span>              :     bool getParam(const resolved_name_t&amp; resolved_name, T&amp; value_out, const get_options_t&lt;T&gt;&amp; opts = {}) const;</span>
+<span id="L197"><span class="lineNum">     197</span>              : </span>
+<span id="L198"><span class="lineNum">     198</span>              :     /*!</span>
+<span id="L199"><span class="lineNum">     199</span>              :      * \brief Sets the value of a parameter to ROS.</span>
+<span id="L200"><span class="lineNum">     200</span>              :      *</span>
+<span id="L201"><span class="lineNum">     201</span>              :      * This method sets the parameter to ROS with the desired value.</span>
+<span id="L202"><span class="lineNum">     202</span>              :      *</span>
+<span id="L203"><span class="lineNum">     203</span>              :      * \param param_name      Name of the parameter to be set. Namespaces should be separated with a forward slash '/'.</span>
+<span id="L204"><span class="lineNum">     204</span>              :      * \param value           The desired value of the parameter.</span>
+<span id="L205"><span class="lineNum">     205</span>              :      * \return                true iff the parameter was successfully set.</span>
+<span id="L206"><span class="lineNum">     206</span>              :      */</span>
+<span id="L207"><span class="lineNum">     207</span>              :     template &lt;typename T&gt;</span>
+<span id="L208"><span class="lineNum">     208</span>              :     bool setParam(const std::string&amp; param_name, const T&amp; value) const;</span>
+<span id="L209"><span class="lineNum">     209</span>              : </span>
+<span id="L210"><span class="lineNum">     210</span>              :     /*!</span>
+<span id="L211"><span class="lineNum">     211</span>              :      * \brief Sets the value of a parameter to ROS.</span>
+<span id="L212"><span class="lineNum">     212</span>              :      *</span>
+<span id="L213"><span class="lineNum">     213</span>              :      * This method sets the parameter to ROS with the behavior controlled by the options allowing to</span>
+<span id="L214"><span class="lineNum">     214</span>              :      * set a default value, valid value range (for numerical types), declare the parameter as reconfigurable, etc.</span>
+<span id="L215"><span class="lineNum">     215</span>              :      *</span>
+<span id="L216"><span class="lineNum">     216</span>              :      * \param param_name      Name of the parameter to be set. Namespaces should be separated with a forward slash '/'.</span>
+<span id="L217"><span class="lineNum">     217</span>              :      * \param value           The desired value of the parameter.</span>
+<span id="L218"><span class="lineNum">     218</span>              :      * \param opts            Options regarding setting and declaring the parameter (see the set_options_t&lt;T&gt; documentation).</span>
+<span id="L219"><span class="lineNum">     219</span>              :      * \return                true iff the parameter was successfully set.</span>
+<span id="L220"><span class="lineNum">     220</span>              :      */</span>
+<span id="L221"><span class="lineNum">     221</span>              :     template &lt;typename T&gt;</span>
+<span id="L222"><span class="lineNum">     222</span>              :     bool setParam(const resolved_name_t&amp; resolved_name, const T&amp; value, const set_options_t&lt;T&gt;&amp; opts = {}) const;</span>
+<span id="L223"><span class="lineNum">     223</span>              : </span>
+<span id="L224"><span class="lineNum">     224</span>              :     /*!</span>
+<span id="L225"><span class="lineNum">     225</span>              :      * \brief Defines a parameter.</span>
+<span id="L226"><span class="lineNum">     226</span>              :      *</span>
+<span id="L227"><span class="lineNum">     227</span>              :      * This method only declares the parameter in ROS.</span>
+<span id="L228"><span class="lineNum">     228</span>              :      *</span>
+<span id="L229"><span class="lineNum">     229</span>              :      * \param param_name      Name of the parameter to be loaded.</span>
+<span id="L230"><span class="lineNum">     230</span>              :      * \return                true iff the parameter was successfully declared.</span>
+<span id="L231"><span class="lineNum">     231</span>              :      */</span>
+<span id="L232"><span class="lineNum">     232</span>              :     template &lt;typename T&gt;</span>
+<span id="L233"><span class="lineNum">     233</span>              :     bool declareParam(const std::string&amp; param_name) const;</span>
+<span id="L234"><span class="lineNum">     234</span>              : </span>
+<span id="L235"><span class="lineNum">     235</span>              :     /*!</span>
+<span id="L236"><span class="lineNum">     236</span>              :      * \brief Defines a parameter with a default value.</span>
+<span id="L237"><span class="lineNum">     237</span>              :      *</span>
+<span id="L238"><span class="lineNum">     238</span>              :      * This method declares the parameter in ROS and sets the default value if there is no value in ROS.</span>
+<span id="L239"><span class="lineNum">     239</span>              :      *</span>
+<span id="L240"><span class="lineNum">     240</span>              :      * \param param_name      Name of the parameter to be loaded.</span>
+<span id="L241"><span class="lineNum">     241</span>              :      * \param default_value   The default value to be set if there is no value of the parameter.</span>
+<span id="L242"><span class="lineNum">     242</span>              :      * \return                true iff the parameter was successfully declared.</span>
+<span id="L243"><span class="lineNum">     243</span>              :      */</span>
+<span id="L244"><span class="lineNum">     244</span>              :     template &lt;typename T&gt;</span>
+<span id="L245"><span class="lineNum">     245</span>              :     bool declareParam(const std::string&amp; param_name, const T&amp; default_value) const;</span>
+<span id="L246"><span class="lineNum">     246</span>              : </span>
+<span id="L247"><span class="lineNum">     247</span>              :     /*!</span>
+<span id="L248"><span class="lineNum">     248</span>              :      * \brief Defines a parameter with various options.</span>
+<span id="L249"><span class="lineNum">     249</span>              :      *</span>
+<span id="L250"><span class="lineNum">     250</span>              :      * This method declares the parameter in ROS with the behavior controlled by the options allowing</span>
+<span id="L251"><span class="lineNum">     251</span>              :      * to set a default value, valid value range (for numerical types), declare the parameter as reconfigurable, etc.</span>
+<span id="L252"><span class="lineNum">     252</span>              :      *</span>
+<span id="L253"><span class="lineNum">     253</span>              :      * \param param_name      Name of the parameter to be loaded.</span>
+<span id="L254"><span class="lineNum">     254</span>              :      * \param opts            Options regarding declaring the parameter (see the declare_options_t&lt;T&gt; documentation).</span>
+<span id="L255"><span class="lineNum">     255</span>              :      * \return                true iff the parameter was successfully declared.</span>
+<span id="L256"><span class="lineNum">     256</span>              :      */</span>
+<span id="L257"><span class="lineNum">     257</span>              :     template &lt;typename T&gt;</span>
+<span id="L258"><span class="lineNum">     258</span>              :     bool declareParam(const resolved_name_t&amp; resolved_name, const declare_options_t&lt;T&gt;&amp; opts = {}) const;</span>
+<span id="L259"><span class="lineNum">     259</span>              : </span>
+<span id="L260"><span class="lineNum">     260</span>              :     /*!</span>
+<span id="L261"><span class="lineNum">     261</span>              :      * \brief Sets a prefix that will be applied to parameter names before subnode namespaces.</span>
+<span id="L262"><span class="lineNum">     262</span>              :      *</span>
+<span id="L263"><span class="lineNum">     263</span>              :      * The prefix will be applied as-is, so if you need to separate it from the parameter name</span>
+<span id="L264"><span class="lineNum">     264</span>              :      * e.g. using a forward slash '/', you must include it in the prefix.</span>
+<span id="L265"><span class="lineNum">     265</span>              :      *</span>
+<span id="L266"><span class="lineNum">     266</span>              :      * \param prefix      The prefix to be applied to all parameter names.</span>
+<span id="L267"><span class="lineNum">     267</span>              :      */</span>
+<span id="L268"><span class="lineNum">     268</span>              :     void setPrefix(const std::string&amp; prefix);</span>
+<span id="L269"><span class="lineNum">     269</span>              : </span>
+<span id="L270"><span class="lineNum">     270</span>              :     /*!</span>
+<span id="L271"><span class="lineNum">     271</span>              :      * \brief Returns the current parameter name prefix.</span>
+<span id="L272"><span class="lineNum">     272</span>              :      *</span>
+<span id="L273"><span class="lineNum">     273</span>              :      * \return The current prefix to be applied to all parameter names.</span>
+<span id="L274"><span class="lineNum">     274</span>              :      */</span>
+<span id="L275"><span class="lineNum">     275</span>              :     std::string getPrefix() const;</span>
+<span id="L276"><span class="lineNum">     276</span>              : </span>
+<span id="L277"><span class="lineNum">     277</span>              :     /*!</span>
+<span id="L278"><span class="lineNum">     278</span>              :      * \brief Returns the parameter name with prefixes and subnode namespaces.</span>
+<span id="L279"><span class="lineNum">     279</span>              :      *</span>
+<span id="L280"><span class="lineNum">     280</span>              :      * \param param_name      Name of the parameter.</span>
+<span id="L281"><span class="lineNum">     281</span>              :      * \return                name of the parameter with the appropriate prefixes and subnode namespaces applied.</span>
+<span id="L282"><span class="lineNum">     282</span>              :      */</span>
+<span id="L283"><span class="lineNum">     283</span>              :     resolved_name_t resolveName(const std::string&amp; param_name) const;</span>
+<span id="L284"><span class="lineNum">     284</span>              : </span>
+<span id="L285"><span class="lineNum">     285</span>              :   private:</span>
+<span id="L286"><span class="lineNum">     286</span>              :     std::vector&lt;std::shared_ptr&lt;YAML::Node&gt;&gt; m_yamls;</span>
+<span id="L287"><span class="lineNum">     287</span>              :     std::shared_ptr&lt;rclcpp::Node&gt; m_node;</span>
+<span id="L288"><span class="lineNum">     288</span>              :     std::string m_node_name;</span>
+<span id="L289"><span class="lineNum">     289</span>              :     bool m_use_rosparam;</span>
+<span id="L290"><span class="lineNum">     290</span>              :     std::string m_prefix;</span>
+<span id="L291"><span class="lineNum">     291</span>              : </span>
+<span id="L292"><span class="lineNum">     292</span>              :     std::optional&lt;YAML::Node&gt; findYamlNode(const resolved_name_t&amp; resolved_name) const;</span>
+<span id="L293"><span class="lineNum">     293</span>              : </span>
+<span id="L294"><span class="lineNum">     294</span>              :     template &lt;typename T&gt;</span>
+<span id="L295"><span class="lineNum">     295</span>              :     static inline T degrees2radians(const T degrees);</span>
+<span id="L296"><span class="lineNum">     296</span>              : </span>
+<span id="L297"><span class="lineNum">     297</span>              :     template &lt;typename T&gt;</span>
+<span id="L298"><span class="lineNum">     298</span>              :     T applyTag(const YAML::Node&amp; node) const;</span>
+<span id="L299"><span class="lineNum">     299</span>              : </span>
+<span id="L300"><span class="lineNum">     300</span>              :     template &lt;typename T&gt;</span>
+<span id="L301"><span class="lineNum">     301</span>              :     bool ranges_match(const rcl_interfaces::msg::ParameterDescriptor&amp; descriptor, const range_t&lt;T&gt;&amp; declare_range) const;</span>
+<span id="L302"><span class="lineNum">     302</span>              : </span>
+<span id="L303"><span class="lineNum">     303</span>              :     template &lt;typename T&gt;</span>
+<span id="L304"><span class="lineNum">     304</span>              :     bool loadFromYaml(const resolved_name_t&amp; resolved_name, T&amp; value_out, const get_options_t&lt;T&gt;&amp; opts) const;</span>
+<span id="L305"><span class="lineNum">     305</span>              : </span>
+<span id="L306"><span class="lineNum">     306</span>              :     template &lt;typename T&gt;</span>
+<span id="L307"><span class="lineNum">     307</span>              :     bool loadFromROS(const resolved_name_t&amp; resolved_name, T&amp; value_out, const get_options_t&lt;T&gt;&amp; opts) const;</span>
+<span id="L308"><span class="lineNum">     308</span>              :   };</span>
+<span id="L309"><span class="lineNum">     309</span>              :   //}</span>
+<span id="L310"><span class="lineNum">     310</span>              : </span>
+<span id="L311"><span class="lineNum">     311</span>              : } // namespace mrs_lib</span>
+<span id="L312"><span class="lineNum">     312</span>              : </span>
+<span id="L313"><span class="lineNum">     313</span>              : #ifndef PARAM_PROVIDER_HPP</span>
+<span id="L314"><span class="lineNum">     314</span>              : #include &lt;mrs_lib/impl/param_provider.hpp&gt;</span>
+<span id="L315"><span class="lineNum">     315</span>              : #endif</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.3.1-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>
