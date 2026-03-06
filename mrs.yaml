@@ -552,7 +552,7 @@ libcamera_ros_driver:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
-  generate_docker_image: false
+  generate_docker_image: true
   ros_test:
     enabled: false
     full_test_coverage: false
