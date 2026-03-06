@@ -548,7 +548,6 @@ libcamera_ros_driver:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/libcamera_ros_driver
   gitman: false
-  generate_docker_image: false
   git_refs:
     unstable: ros2
     testing: ros2_release_candidate
@@ -562,7 +561,6 @@ mrs_utils:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mrs_utils
   gitman: false
-  generate_docker_image: false
   git_refs:
     unstable: ros2
     testing: ros2_release_candidate
@@ -576,7 +574,6 @@ mrs_cmake:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mrs_cmake
   gitman: false
-  generate_docker_image: false
   git_refs:
     unstable: ros2
     testing: ros2_release_candidate
@@ -590,7 +587,6 @@ mrs_bumper:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mrs_bumper
   gitman: false
-  generate_docker_image: false
   git_refs:
     unstable: ros2
     testing: ros2_release_candidate
