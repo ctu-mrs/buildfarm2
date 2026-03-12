@@ -53,3 +53,12 @@ libcamera_ros:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+
+mrs_uav_bluetooth:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_bluetooth
+  gitman: false
+  git_refs:
+    unstable: ros2
+    testing: ros2_release_candidate
+    stable: ros2_release
