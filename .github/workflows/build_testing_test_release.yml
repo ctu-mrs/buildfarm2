@@ -150,11 +150,12 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
-      - name: Delete current image
+      - name: Delete old images
         uses: dataaxiom/ghcr-cleanup-action@v1
         with:
           packages: '${{github.event.repository.name}}'
-          delete-tags: '${{env.BUILDER_IMAGE}}'
+          older-than: 7 days
+          keep-n-tagged: 1
           token: ${{secrets.PUSH_TOKEN}}
 
   wait-for-ppa:
