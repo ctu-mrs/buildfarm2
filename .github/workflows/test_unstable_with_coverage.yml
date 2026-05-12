@@ -28,12 +28,12 @@ jobs:
     env:
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: 'recursive'
       - name: Checkout CI scripts
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           repository: ctu-mrs/ci_scripts
           ref: ros2
@@ -45,7 +45,7 @@ jobs:
         run: |
           ./ci_scripts/docker/prime_image_testing/prime_image.sh ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.VARIANT}} ${{env.ARTIFACTS_FOLDER}} buildfarm2
       - name: Save artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: artifacts_workspace
           path: ${{env.ARTIFACTS_FOLDER}}
@@ -60,12 +60,12 @@ jobs:
       - id: init_artifacts
         run: |
           mkdir -p ${{env.ARTIFACTS_FOLDER}}
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: 'recursive'
       - name: Checkout CI scripts
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           repository: ctu-mrs/ci_scripts
           ref: ros2
@@ -74,7 +74,7 @@ jobs:
         run: |
           ./scripts/build_for_testing/build.sh ${{env.APP_LIST}} ${{env.VARIANT}} ${{env.BUILDER_IMAGE}} ${{env.ARTIFACTS_FOLDER}}
       - name: Save artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: artifacts_workspace
           path: ${{env.ARTIFACTS_FOLDER}}
@@ -86,7 +86,7 @@ jobs:
     outputs:
       packages: ${{ steps.generate.outputs.packages }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: 'recursive'
@@ -106,18 +106,18 @@ jobs:
     env:
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: 'recursive'
       - name: Load artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           pattern: artifacts_workspace
           merge-multiple: true
           path: ${{env.ARTIFACTS_FOLDER}}
       - name: Checkout CI scripts
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           repository: ctu-mrs/ci_scripts
           ref: ros2
@@ -127,7 +127,7 @@ jobs:
         run: |
           ./scripts/ros_test/run_test.sh ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job}}" ${{env.BUILDER_IMAGE}} ${{env.ARTIFACTS_FOLDER}}
       - name: Save artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: artifacts_${{matrix.job}}
           path: ${{env.ARTIFACTS_FOLDER}}
@@ -140,17 +140,17 @@ jobs:
       PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
     steps:
       - name: Load artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           pattern: artifacts_*
           merge-multiple: true
           path: ${{env.ARTIFACTS_FOLDER}}
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: 'recursive'
       - name: Checkout CI scripts
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           repository: ctu-mrs/ci_scripts
           ref: ros2
@@ -160,7 +160,7 @@ jobs:
           ls -la ${{env.ARTIFACTS_FOLDER}}
           ./scripts/publish_coverage.sh ${{env.APP_LIST}} ${{env.VARIANT}} ${{env.ARTIFACTS_FOLDER}}
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{secrets.PUSH_TOKEN}}
           publish_dir: /tmp/artifacts/coverage_html

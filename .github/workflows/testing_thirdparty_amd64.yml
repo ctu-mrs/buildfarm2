@@ -28,12 +28,12 @@ jobs:
     env:
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: 'recursive'
       - name: Checkout CI scripts
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           repository: ctu-mrs/ci_scripts
           ref: ros2
@@ -45,7 +45,7 @@ jobs:
         run: |
           ./ci_scripts/docker/prime_image/prime_image.sh ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.VARIANT}} ${{env.ARTIFACTS_FOLDER}} buildfarm2
       - name: Save artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: artifacts
           path: ${{env.ARTIFACTS_FOLDER}}
@@ -57,12 +57,12 @@ jobs:
     outputs:
       packages: ${{ steps.generate.outputs.packages }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: 'recursive'
       - name: Checkout CI scripts
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           repository: ctu-mrs/ci_scripts
           ref: ros2
@@ -85,16 +85,16 @@ jobs:
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     steps:
       - name: Load artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: artifacts
           path: ${{env.ARTIFACTS_FOLDER}}
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: 'recursive'
       - name: Checkout CI scripts
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           repository: ctu-mrs/ci_scripts
           ref: ros2
@@ -105,12 +105,12 @@ jobs:
           ./scripts/ros_build/build.sh ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job}}" ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.ARTIFACTS_FOLDER}}
           ls /tmp/artifacts
       - name: Delete old artifacts
-        uses: geekyeggo/delete-artifact@v5
+        uses: geekyeggo/delete-artifact@v6
         with:
           name: artifacts
           failOnError: false
       - name: Save artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: artifacts
           path: ${{env.ARTIFACTS_FOLDER}}
@@ -123,7 +123,7 @@ jobs:
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     steps:
       - name: Load artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: artifacts
           path: ${{env.ARTIFACTS_FOLDER}}
@@ -131,12 +131,12 @@ jobs:
         run: |
           rm ${{env.ARTIFACTS_FOLDER}}/compiled.txt 2> /dev/null || true
           rm ${{env.ARTIFACTS_FOLDER}}/base_sha.txt 2> /dev/null || true
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: 'recursive'
       - name: Checkout CI scripts
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           repository: ctu-mrs/ci_scripts
           ref: ros2
