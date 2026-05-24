@@ -50,9 +50,9 @@ px4_firmware:
   source: https://github.com/ctu-mrs/px4_firmware
   gitman: false
   git_refs:
-    unstable: 1.16.0-dev
-    testing: 1.16.0-dev
-    stable: 1.16.0-dev
+    unstable: 1.17.0-dev
+    testing: 1.17.0-dev
+    stable: 1.17.0-dev
 
 libcamera_ros:
   architecture: [amd64, arm64]
