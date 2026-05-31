@@ -3,6 +3,7 @@ nlopt_ros:
   source: https://github.com/ctu-mrs/nlopt_ros
   gitman: false
   generate_docker_image: false
+  nix: true
   git_refs:
     unstable: ros2
     testing: ros2_release_candidate
@@ -13,6 +14,7 @@ realsense:
   source: https://github.com/ctu-mrs/realsense
   gitman: false
   generate_docker_image: false
+  nix: false
   git_refs:
     unstable: ros2
     testing: ros2_release_candidate
@@ -23,6 +25,7 @@ bluefox2:
   source: https://github.com/ctu-mrs/bluefox2
   gitman: false
   generate_docker_image: true
+  nix: false
   git_refs:
     unstable: ros2
     testing: ros2_release_candidate
@@ -33,6 +36,7 @@ ouster-ros:
   source: https://github.com/ctu-mrs/ouster-ros
   gitman: false
   generate_docker_image: false
+  nix: false
   git_refs:
     unstable: ros2
     testing: ros2_release_candidate
@@ -43,6 +47,7 @@ octomap_ros:
   source: https://github.com/ctu-mrs/octomap_ros
   gitman: true
   generate_docker_image: false
+  nix: false
   git_refs:
     unstable: ros2
     testing: ros2_release_candidate
@@ -53,6 +58,7 @@ open_vins:
   source: https://github.com/ctu-mrs/open_vins
   gitman: false
   generate_docker_image: false
+  nix: false
   git_refs:
     unstable: ros2
     testing: ros2_release_candidate
@@ -63,6 +69,7 @@ flame:
   source: https://github.com/ctu-mrs/flame
   gitman: false
   generate_docker_image: false
+  nix: false
   git_refs:
     unstable: ros2
     testing: ros2_release_candidate

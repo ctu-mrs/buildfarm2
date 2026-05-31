@@ -35,6 +35,7 @@ def main():
                 full_coverage = False
                 gitman = False
                 docker = False
+                nix = False
 
                 refs = properties['git_refs']
 
@@ -78,7 +79,12 @@ def main():
                 except:
                     pass
 
-                print("{} {} {} {} {} {} {} {} {}".format(package, url, stable_ref, testing_ref, unstable_ref, ros_test_enabled, full_coverage, gitman, docker))
+                try:
+                    nix = bool(properties['nix'])
+                except:
+                    pass
+
+                print("{} {} {} {} {} {} {} {} {} {}".format(package, url, stable_ref, testing_ref, unstable_ref, ros_test_enabled, full_coverage, gitman, docker, nix))
 
 if __name__ == '__main__':
     main()
