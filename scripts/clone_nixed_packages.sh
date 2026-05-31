@@ -26,9 +26,9 @@ REPOS=$($REPO_PATH/scripts/helpers/parse_yaml.py $YAML_FILE $ARCH)
 
 WORKSPACE=/tmp/workspace
 
-if [ -e $WORKSPACE ]; then
-  rm -rf $WORKSPACE
-fi
+# if [ -e $WORKSPACE ]; then
+#   rm -rf $WORKSPACE
+# fi
 
 mkdir -p $WORKSPACE >> /tmp/log.txt 2>&1
 
