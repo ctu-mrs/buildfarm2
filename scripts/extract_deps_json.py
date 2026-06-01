@@ -168,7 +168,7 @@ def generate_nix_json(root_dir):
                 "git_branch": git_branch,
                 "git_rev": git_rev,
                 "build_type": meta.get("build_type", "raw_copy"),
-                "source_dir": meta.get("source_dir", "."),
+                "install_mapping": meta.get("install_mapping", {"*": "."}),
                 "buildtool_depends": [],
                 "build_depends": meta.get("build_depends", []),
                 "build_export_depends": [],
