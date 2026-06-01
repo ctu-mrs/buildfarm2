@@ -18,6 +18,9 @@ chmod +x $OTHER_FILES_FOLDER/get_package_dependencies.py
 
 git config --global --add safe.directory $REPO_FOLDER
 
+REPO_URL=$(git -C "$REPO_FOLDER" config --get remote.origin.url | sed -E 's#^ssh://git@([^/:]+)(:[0-9]+)?/#https://\1/#; s#^git@([^:]+):#https://\1/#; s#\.git$##')
+HOMEPAGE_URL="$REPO_URL/tree/$(git -C "$REPO_FOLDER" rev-parse HEAD)"
+
 BUILD_ORDER=$(cat /etc/docker/other_files/build_order.txt)
 
 echo ""
@@ -138,6 +141,21 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
     DEB_NAME=$(dpkg --field ../*.deb | grep "Package:" | head -n 1 | awk '{print $2}')
 
     DEBS=(../*.deb)
+
+    for DEB in "${DEBS[@]}"; do
+      [ -e "$DEB" ] || continue
+      TMPDIR=$(mktemp -d)
+      echo "$0: modifying homepage in $DEB ($TMPDIR) to $HOMEPAGE_URL"
+      dpkg-deb -R "$DEB" "$TMPDIR"
+      rm -f $DEB
+      if grep -q '^Homepage:' "$TMPDIR/DEBIAN/control"; then
+        sed -i "s#^Homepage:.*#Homepage: ${HOMEPAGE_URL}#" "$TMPDIR/DEBIAN/control"
+      else
+        printf 'Homepage: %s\n' "${HOMEPAGE_URL}" >> "$TMPDIR/DEBIAN/control"
+      fi
+      dpkg-deb -b "$TMPDIR" "$DEB"
+      rm -rf "$TMPDIR"
+    done
 
     echo "$0: installing newly compiled deb file"
     [ -e "${DEBS[0]}" ] && apt-get -y install --allow-downgrades ../*.deb || echo "$0: no artifacts to be installed"
