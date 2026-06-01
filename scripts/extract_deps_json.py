@@ -11,10 +11,10 @@ def clean_xml(file_path):
     """ Reads an XML file, removes invalid comments, and returns a clean string. """
     with open(file_path, "r", encoding="utf-8") as f:
         xml_content = f.read()
-    
+
     # Remove illegal comments (e.g., those containing "--" incorrectly)
     xml_content = re.sub(r'<!\s*--[^>]*--\s*>', '', xml_content, flags=re.DOTALL)
-    
+
     return xml_content.strip()
 
 def sanitize_git_remote(remote_url):
@@ -57,15 +57,18 @@ def generate_nix_json(root_dir):
     packages_data = {}
 
     for subdir, dirs, files in os.walk(root_dir):
+        # Skip colcon ignored directories
         if "COLCON_IGNORE" in files:
-            dirs[:] = [] 
+            dirs[:] = []
             continue
 
+        # --- 1. ROS PACKAGE HANDLING ---
         if "package.xml" in files:
+
             package_path = os.path.join(subdir, "package.xml")
-            
+
             try:
-                xml_content = clean_xml(package_path)           
+                xml_content = clean_xml(package_path)
                 root = ET.fromstring(xml_content)
             except Exception as e:
                 print(f"Warning: Failed to parse {package_path}: {e}", file=sys.stderr)
@@ -75,24 +78,20 @@ def generate_nix_json(root_dir):
             if name_elem is None:
                 continue
             package_name = name_elem.text.strip()
-            
-            # Extract the package version
+
             version_elem = root.find("version")
             package_version = version_elem.text.strip() if version_elem is not None and version_elem.text else "unknown"
 
-            # Extract Git Information
             git_remote, git_branch, git_rev, git_root = get_git_info(subdir)
-            
-            # Calculate path relative to the Git repository root to fix unpackPhase
+
             if git_root:
                 rel_path = os.path.relpath(subdir, git_root)
             else:
                 rel_path = os.path.relpath(subdir, root_dir)
-                
+
             if rel_path == ".":
-                rel_path = "" # If it's at the root of the repo, leave it blank
-            
-            # Extract dependencies strictly by their ROS types
+                rel_path = ""
+
             buildtool_depends = set()
             build_depends = set()
             build_export_depends = set()
@@ -102,7 +101,6 @@ def generate_nix_json(root_dir):
             for dep in root.findall("buildtool_depend"):
                 if dep.text: buildtool_depends.add(dep.text.strip())
 
-            # <depend> applies to build, export, and execution
             for dep in root.findall("depend"):
                 if dep.text:
                     build_depends.add(dep.text.strip())
@@ -112,7 +110,6 @@ def generate_nix_json(root_dir):
             for dep in root.findall("build_depend"):
                 if dep.text: build_depends.add(dep.text.strip())
 
-            # Extract build_export_depend (and the inverted name to be safe)
             for dep_type in ["build_export_depend", "build_depend_export"]:
                 for dep in root.findall(dep_type):
                     if dep.text: build_export_depends.add(dep.text.strip())
@@ -124,13 +121,13 @@ def generate_nix_json(root_dir):
             for dep in root.findall("test_depend"):
                 if dep.text: test_depends.add(dep.text.strip())
 
-            # Compile the JSON payload
             packages_data[package_name] = {
                 "path": rel_path,
                 "version": package_version,
                 "git_remote": git_remote,
                 "git_branch": git_branch,
                 "git_rev": git_rev,
+                "build_type": "ament_cmake",
                 "buildtool_depends": sorted(list(buildtool_depends)),
                 "build_depends": sorted(list(build_depends)),
                 "build_export_depends": sorted(list(build_export_depends)),
@@ -138,20 +135,61 @@ def generate_nix_json(root_dir):
                 "test_depends": sorted(list(test_depends))
             }
 
+        # --- 2. NON-ROS PACKAGE HANDLING ---
+        elif "nix_package.json" in files:
+
+            file_path = os.path.join(subdir, "nix_package.json")
+            try:
+                with open(file_path, 'r') as f:
+                    meta = json.load(f)
+            except Exception as e:
+                print(f"Warning: Failed to parse {file_path}: {e}", file=sys.stderr)
+                continue
+
+            package_name = meta.get("name")
+            if not package_name:
+                print(f"Warning: Missing 'name' inside {file_path}", file=sys.stderr)
+                continue
+
+            git_remote, git_branch, git_rev, git_root = get_git_info(subdir)
+
+            if git_root:
+                rel_path = os.path.relpath(subdir, git_root)
+            else:
+                rel_path = os.path.relpath(subdir, root_dir)
+
+            if rel_path == ".":
+                rel_path = ""
+
+            packages_data[package_name] = {
+                "path": rel_path,
+                "version": meta.get("version", "unknown"),
+                "git_remote": git_remote,
+                "git_branch": git_branch,
+                "git_rev": git_rev,
+                "build_type": meta.get("build_type", "raw_copy"),
+                "source_dir": meta.get("source_dir", "."),
+                "buildtool_depends": [],
+                "build_depends": meta.get("build_depends", []),
+                "build_export_depends": [],
+                "exec_depends": meta.get("exec_depends", []),
+                "test_depends": []
+            }
+
     return packages_data
 
 def main(root_dir, output_file):
     packages_data = generate_nix_json(root_dir)
-    
+
     # Ensure the target directory exists
     output_dir = os.path.dirname(os.path.abspath(output_file))
     if output_dir:
         os.makedirs(output_dir, exist_ok=True)
-        
+
     with open(output_file, "w") as f:
         json.dump(packages_data, f, indent=4)
-        
-    print(f"✅ Successfully generated {output_file} containing {len(packages_data)} ROS packages.")
+
+    print(f"✅ Successfully generated {output_file} containing {len(packages_data)} packages.")
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
