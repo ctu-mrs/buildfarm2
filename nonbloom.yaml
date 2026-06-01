@@ -3,6 +3,7 @@ mrs_uav_shell_additions:
   source: https://github.com/ctu-mrs/mrs_uav_shell_additions
   gitman: false
   generate_docker_image: false
+  nix: true
   git_refs:
     unstable: ros2
     testing: ros2_release_candidate
@@ -13,6 +14,7 @@ mrs_geographiclib_datasets:
   source: https://github.com/ctu-mrs/mrs-geographiclib-datasets
   gitman: false
   generate_docker_image: false
+  nix: false
   git_refs:
     unstable: master
     testing: release_candidate
@@ -22,6 +24,7 @@ mrs_uav_usb_configurator:
   architecture: [amd64] # this package is for all architectures
   source: https://github.com/ctu-mrs/mrs_uav_usb_configurator
   gitman: false
+  nix: false
   git_refs:
     unstable: ros2
     testing: ros2_release_candidate
@@ -31,6 +34,7 @@ livox_sdk2:
   architecture: [amd64, arm64] # this package is for all architectures
   source: https://github.com/ctu-mrs/livox_sdk2
   gitman: false
+  nix: false
   git_refs:
     unstable: ros2
     testing: ros2_release_candidate
@@ -40,6 +44,7 @@ livox_sdk:
   architecture: [amd64, arm64] # this package is for all architectures
   source: https://github.com/ctu-mrs/livox_sdk
   gitman: false
+  nix: false
   git_refs:
     unstable: ros2
     testing: ros2_release_candidate
@@ -49,6 +54,7 @@ px4_firmware:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/px4_firmware
   gitman: false
+  nix: false
   git_refs:
     unstable: 1.17.0-dev
     testing: 1.17.0-dev
@@ -58,6 +64,7 @@ libcamera_ros:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/libcamera_ros
   gitman: false
+  nix: false
   git_refs:
     unstable: ros2
     testing: ros2_release_candidate
@@ -67,6 +74,7 @@ mrs_uav_bluetooth_nonbloom:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mrs_uav_bluetooth
   gitman: false
+  nix: false
   git_refs:
     unstable: ros2
     testing: ros2_release_candidate
