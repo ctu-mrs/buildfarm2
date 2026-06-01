@@ -181,13 +181,21 @@ def generate_nix_json(root_dir):
 def main(root_dir, output_file):
     packages_data = generate_nix_json(root_dir)
 
+    # 1. Inject the warning comment at the top of the JSON payload
+    final_output = {
+        "_comment": "DO NOT EDIT MANUALLY. This file is generated automatically. Any changes will be overwritten and deleted by the automated build system."
+    }
+    
+    # 2. Merge the scraped packages into the final dictionary
+    final_output.update(packages_data)
+
     # Ensure the target directory exists
     output_dir = os.path.dirname(os.path.abspath(output_file))
     if output_dir:
         os.makedirs(output_dir, exist_ok=True)
 
     with open(output_file, "w") as f:
-        json.dump(packages_data, f, indent=4)
+        json.dump(final_output, f, indent=4)
 
     print(f"✅ Successfully generated {output_file} containing {len(packages_data)} packages.")
 
