@@ -153,6 +153,7 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
       else
         printf 'Homepage: %s\n' "${HOMEPAGE_URL}" >> "$TMPDIR/DEBIAN/control"
       fi
+      printf 'XB-Build-Date: %s\n' "$(date -R)" >> "$TMPDIR/DEBIAN/control"
       dpkg-deb -b "$TMPDIR" "$DEB"
       rm -rf "$TMPDIR"
     done
