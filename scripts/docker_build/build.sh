@@ -105,4 +105,4 @@ OUTPUT_IMAGE=ctumrs/${REPOSITORY}:$PPA_VARIANT
 
 docker buildx create --name container --driver=docker-container --use
 
-docker buildx build . --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg PPA_VARIANT=${PPA_VARIANT} --tag ${OUTPUT_IMAGE} --platform=$PLATFORM --progress plain --push
+docker buildx build . --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg PPA_VARIANT=${PPA_VARIANT} --tag ${OUTPUT_IMAGE} --tag "${OUTPUT_IMAGE}_$(date +%y)_w$(date +%V)" --platform=$PLATFORM --progress plain --push
