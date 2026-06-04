@@ -1,0 +1,10 @@
+# nix only packages
+
+mavros:
+  architecture: [amd64, arm64]
+  source: https://github.com/mavlink/mavros
+  nix: true
+  git_refs:
+    unstable: ros2
+    testing: ros2
+    stable: ros2
