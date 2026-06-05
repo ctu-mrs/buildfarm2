@@ -34,7 +34,7 @@ livox_sdk2:
   architecture: [amd64, arm64] # this package is for all architectures
   source: https://github.com/ctu-mrs/livox_sdk2
   gitman: false
-  nix: false
+  nix: true
   git_refs:
     unstable: ros2
     testing: ros2_release_candidate
