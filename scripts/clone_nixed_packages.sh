@@ -62,7 +62,9 @@ echo "$REPOS" | while IFS= read -r REPO; do
 
   echo "$0: Cloning '$REPO' from '$URL --branch $BRANCH' into '$PACKAGE'" >> /tmp/log.txt 2>&1
 
-  git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE >> /tmp/log.txt 2>&1
+  if [ ! -e $PACKAGE ]; then
+    git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH $PACKAGE >> /tmp/log.txt 2>&1
+  fi
 
 done
 

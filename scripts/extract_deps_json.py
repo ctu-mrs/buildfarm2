@@ -173,7 +173,7 @@ def generate_nix_json(root_dir):
                 "build_depends": meta.get("build_depends", []),
                 "build_export_depends": [],
                 "exec_depends": meta.get("exec_depends", []),
-                "test_depends": []
+                "test_depends": meta.get("test_depends", []) # <-- FIX: Now extracts test dependencies
             }
 
     return packages_data
@@ -197,7 +197,7 @@ def main(root_dir, output_file):
     with open(output_file, "w") as f:
         json.dump(final_output, f, indent=4)
 
-    print(f"✅ Successfully generated {output_file} containing {len(packages_data)} packages.")
+    print(f"✅ Successfully generated {output_file} containing {len(packages_data)-1} packages.")
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
