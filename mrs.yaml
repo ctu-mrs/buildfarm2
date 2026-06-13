@@ -567,7 +567,7 @@ mrs_pcl_tools:
     testing: ros2_release_candidate
     stable: ros2_release
   generate_docker_image: false
-  nix: true
+  nix: false
   ros_test:
     enabled: false
     full_test_coverage: false
