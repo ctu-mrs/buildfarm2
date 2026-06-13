@@ -217,7 +217,7 @@ mrs_modules_msgs:
     testing: ros2_release_candidate
     stable: ros2_release
   generate_docker_image: false
-  nix: false
+  nix: true
   ros_test:
     enabled: false
     full_test_coverage: false
@@ -245,7 +245,7 @@ mrs_uav_deployment:
     testing: ros2_release_candidate
     stable: ros2_release
   generate_docker_image: false
-  nix: false
+  nix: true
   ros_test:
     enabled: false
     full_test_coverage: false
@@ -273,7 +273,7 @@ mrs_serial:
     testing: ros2_release_candidate
     stable: ros2_release
   generate_docker_image: false
-  nix: false
+  nix: true
   ros_test:
     enabled: false
     full_test_coverage: false
@@ -567,7 +567,7 @@ mrs_pcl_tools:
     testing: ros2_release_candidate
     stable: ros2_release
   generate_docker_image: false
-  nix: false
+  nix: true
   ros_test:
     enabled: false
     full_test_coverage: false
@@ -609,7 +609,7 @@ mrs_utils:
     testing: ros2_release_candidate
     stable: ros2_release
   generate_docker_image: false
-  nix: false
+  nix: true
   ros_test:
     enabled: false
     full_test_coverage: false
@@ -637,7 +637,7 @@ mrs_bumper:
     testing: ros2_release_candidate
     stable: ros2_release
   generate_docker_image: false
-  nix: false
+  nix: true
   ros_test:
     enabled: false
     full_test_coverage: false
