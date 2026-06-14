@@ -273,7 +273,7 @@ mrs_serial:
     testing: ros2_release_candidate
     stable: ros2_release
   generate_docker_image: false
-  nix: true
+  nix: false # compilation problem
   ros_test:
     enabled: false
     full_test_coverage: false
@@ -287,7 +287,7 @@ mrs_vins_imu_filter:
     testing: ros2_release_candidate
     stable: ros2_release
   generate_docker_image: false
-  nix: false
+  nix: true
   ros_test:
     enabled: false
     full_test_coverage: false
