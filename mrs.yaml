@@ -399,7 +399,7 @@ mrs_rviz_plugins:
     testing: ros2_release_candidate
     stable: ros2_release
   generate_docker_image: false
-  nix: false
+  nix: true
   ros_test:
     enabled: false
     full_test_coverage: false

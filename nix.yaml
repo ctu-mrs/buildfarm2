@@ -1,10 +1,10 @@
 # nix only packages
 
-mavros:
+px4:
   architecture: [amd64, arm64]
-  source: https://github.com/mavlink/mavros
-  nix: true
+  source: https://github.com/ctu-mrs/px4_firmware
+  nix: false
   git_refs:
-    unstable: ros2
-    testing: ros2
-    stable: ros2
+    unstable: 1.17.0-dev
+    testing: 1.17.0-dev
+    stable: 1.17.0-dev
