@@ -75,6 +75,17 @@ flame:
     testing: ros2_release_candidate
     stable: ros2_release
 
+rclcpp:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/rclcpp
+  gitman: false
+  generate_docker_image: false
+  nix: true
+  git_refs:
+    unstable: jazzy
+    testing: jazzy
+    stable: jazzy
+
 # rmw_zenoh:
 #   architecture: [amd64, arm64]
 #   source: https://github.com/ctu-mrs/rmw_zenoh
