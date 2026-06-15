@@ -80,7 +80,7 @@ rclcpp:
   source: https://github.com/ctu-mrs/rclcpp
   gitman: false
   generate_docker_image: false
-  nix: true
+  nix: false
   git_refs:
     unstable: jazzy
     testing: jazzy
