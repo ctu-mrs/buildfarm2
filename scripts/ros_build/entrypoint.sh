@@ -120,7 +120,7 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
 
     echo "$0: Running bloom on a package in '$PKG_PATH'"
 
-    DEB_BUILD_OPTIONS="nocheck"
+    export DEB_BUILD_OPTIONS="nocheck"
 
     if [[ "$ARCH" != "arm64" ]]; then
       export DEB_BUILD_OPTIONS="$DEB_BUILD_OPTIONS parallel=`nproc`"
