@@ -108,7 +108,7 @@ docker buildx create --name container --driver=docker-container --use
 STABLE_TAG=""
 
 if [[ "$PPA_VARIANT" == "stable" ]]; then
-  STABLE_TAG="--tag ${OUTPUT_IMAGE}_$(date +%y)_w$(date +%V)"
+  STABLE_TAG="--tag ${OUTPUT_IMAGE}_$(date +%y_%m_%d)"
 fi
 
 docker buildx build . --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg PPA_VARIANT=${PPA_VARIANT} --tag ${OUTPUT_IMAGE} $STABLE_TAG --platform=$PLATFORM --progress plain --push
