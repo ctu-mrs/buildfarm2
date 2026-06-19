@@ -8,3 +8,12 @@ px4:
     unstable: 1.17.0-dev
     testing: 1.17.0-dev
     stable: 1.17.0-dev
+
+mrs-colcon-mixin:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/colcon_mixin
+  nix: true
+  git_refs:
+    unstable: master
+    testing: master
+    stable: master
