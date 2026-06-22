@@ -14,7 +14,7 @@ mrs_geographiclib_datasets:
   source: https://github.com/ctu-mrs/mrs-geographiclib-datasets
   gitman: false
   generate_docker_image: false
-  nix: true
+  nix: false
   git_refs:
     unstable: master
     testing: release_candidate
