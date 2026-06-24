@@ -11,7 +11,7 @@ def main():
     else:
         return
 
-    with open(file_path, "r") as file:
+    with open(file_path, 'r') as file:
 
         try:
             data = yaml.safe_load(file)
@@ -22,15 +22,23 @@ def main():
 
             properties = data[package]
 
+            try:
+                generate_apt = bool(properties['generate_apt_package'])
+            except:
+                generate_apt = True
+
+            if not generate_apt:
+                continue
+
             architecture = properties['architecture']
 
             url = properties['source']
 
             if build_for in architecture:
 
-                stable_ref = "none"
-                testing_ref = "none"
-                unstable_ref = "none"
+                stable_ref = 'none'
+                testing_ref = 'none'
+                unstable_ref = 'none'
                 ros_test_enabled = False
                 full_coverage = False
                 gitman = False
@@ -84,7 +92,7 @@ def main():
                 except:
                     pass
 
-                print("{} {} {} {} {} {} {} {} {} {}".format(package, url, stable_ref, testing_ref, unstable_ref, ros_test_enabled, full_coverage, gitman, docker, nix))
+                print('{} {} {} {} {} {} {} {} {} {}'.format(package, url, stable_ref, testing_ref, unstable_ref, ros_test_enabled, full_coverage, gitman, docker, nix))
 
 if __name__ == '__main__':
     main()

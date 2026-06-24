@@ -21,35 +21,7 @@ YAML_FILE=$REPO_PATH/$LIST.yaml
 
 REPOS=$($REPO_PATH/scripts/helpers/parse_yaml_for_docker.py $YAML_FILE)
 
-BUILD_ORDER=""
+echo "$0: ROS package build matrix:" >> /tmp/log.txt 2>&1
+echo "$REPOS" >> /tmp/log.txt 2>&1
 
-# clone and checkout
-while IFS= read -r REPO; do
-
-  REPOSITORY=$(echo "$REPO" | awk '{print $1}')
-  URL=$(echo "$REPO" | awk '{print $2}')
-  DOCKER=$(echo "$REPO" | awk '{print $3}')
-  AMD=$(echo "$REPO" | awk '{print $4}')
-  ARM=$(echo "$REPO" | awk '{print $5}')
-
-  if [[ "$DOCKER" == "False" ]]; then
-    continue
-  fi
-
-  if [[ $BUILD_ORDER == "" ]]; then
-    BUILD_ORDER="[\"$REPOSITORY\""
-  else
-    BUILD_ORDER="$BUILD_ORDER, \"$REPOSITORY\""
-  fi
-
-done < <(echo "$REPOS")
-
-BUILD_ORDER="$BUILD_ORDER]"
-
-echo "" >> /tmp/log.txt 2>&1
-
-echo "$0: ROS package build order:" >> /tmp/log.txt 2>&1
-echo "$BUILD_ORDER" >> /tmp/log.txt 2>&1
-echo "" >> /tmp/log.txt 2>&1
-
-echo ${BUILD_ORDER}
+echo ${REPOS}

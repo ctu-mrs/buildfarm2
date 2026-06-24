@@ -91,6 +91,7 @@ flame:
 #   source: https://github.com/ctu-mrs/rmw_zenoh
 #   gitman: false
 #   generate_docker_image: false
+#   nix: false
 #   git_refs:
 #     unstable: ros2
 #     testing: ros2_release_candidate

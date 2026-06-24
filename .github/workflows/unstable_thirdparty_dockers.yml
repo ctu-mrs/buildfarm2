@@ -64,4 +64,4 @@ jobs:
           token: ${{secrets.PUSH_TOKEN}}
       - id: build
         run: |
-          ./scripts/docker_build/build.sh ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job}}" ./docker ctumrs/ros_jazzy:latest
+          ./scripts/docker_build/build.sh ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job.repo}}" "${{matrix.job.folder}}" "${{matrix.job.base_image}}" "${{matrix.job.image}}" "${{matrix.job.tag}}"

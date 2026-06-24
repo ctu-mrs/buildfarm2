@@ -24,6 +24,7 @@ mrs_uav_usb_configurator:
   architecture: [amd64] # this package is for all architectures
   source: https://github.com/ctu-mrs/mrs_uav_usb_configurator
   gitman: false
+  generate_docker_image: false
   nix: false
   git_refs:
     unstable: ros2
@@ -34,6 +35,7 @@ livox_sdk2:
   architecture: [amd64, arm64] # this package is for all architectures
   source: https://github.com/ctu-mrs/livox_sdk2
   gitman: false
+  generate_docker_image: false
   nix: false
   git_refs:
     unstable: ros2
@@ -44,6 +46,7 @@ livox_sdk:
   architecture: [amd64, arm64] # this package is for all architectures
   source: https://github.com/ctu-mrs/livox_sdk
   gitman: false
+  generate_docker_image: false
   nix: false
   git_refs:
     unstable: ros2
@@ -54,6 +57,7 @@ px4_firmware:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/px4_firmware
   gitman: false
+  generate_docker_image: false
   nix: false
   git_refs:
     unstable: 1.17.0-dev
@@ -64,6 +68,7 @@ libcamera_ros:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/libcamera_ros
   gitman: false
+  generate_docker_image: false
   nix: false
   git_refs:
     unstable: ros2
@@ -74,6 +79,7 @@ mrs_uav_bluetooth_nonbloom:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mrs_uav_bluetooth
   gitman: false
+  generate_docker_image: false
   nix: false
   git_refs:
     unstable: ros2

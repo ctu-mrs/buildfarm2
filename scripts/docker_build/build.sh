@@ -19,6 +19,8 @@ PPA_VARIANT=$2
 REPOSITORY=$3
 PATH_TO_DOCKER_FOLDER=$4
 BASE_IMAGE=$5
+IMAGE_NAME=$6
+CUSTOM_TAG=$7
 
 [ -z $RUN_LOCALLY ] && RUN_LOCALLY=false
 
@@ -29,6 +31,8 @@ BASE_IMAGE=$5
 [ -z $REPOSITORY ] && REPOSITORY=mrs_uav_autostart
 [ -z $PATH_TO_DOCKER_FOLDER ] && PATH_TO_DOCKER_FOLDER=~/git/realsense/docker
 [ -z $BASE_IMAGE ] && BASE_IMAGE=ctumrs/ros_jazzy:latest
+[ -z $IMAGE_NAME ] && IMAGE_NAME=$REPOSITORY
+[ -z $CUSTOM_TAG ] && CUSTOM_TAG=$PPA_VARIANT
 
 ## | ---------------------- derived args ---------------------- |
 
@@ -101,7 +105,7 @@ echo "$0: building the image"
 
 cd /tmp/repository/$PATH_TO_DOCKER_FOLDER
 
-OUTPUT_IMAGE=ctumrs/${REPOSITORY}:$PPA_VARIANT
+OUTPUT_IMAGE=ctumrs/${IMAGE_NAME}:$CUSTOM_TAG
 
 docker buildx create --name container --driver=docker-container --use
 

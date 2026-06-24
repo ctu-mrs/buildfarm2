@@ -6,6 +6,7 @@ mrs_msgs:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
   ros_test:
@@ -20,6 +21,7 @@ mrs_lib:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
   ros_test:
@@ -34,6 +36,7 @@ mrs_multirotor_simulator:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
   ros_test:
@@ -48,6 +51,7 @@ mrs_uav_hw_api:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
   ros_test:
@@ -62,6 +66,7 @@ mrs_uav_managers:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
   ros_test:
@@ -76,6 +81,7 @@ mrs_uav_state_estimators:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
   ros_test:
@@ -90,6 +96,7 @@ mrs_uav_controllers:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
   ros_test:
@@ -104,6 +111,7 @@ mrs_uav_core:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
   ros_test:
@@ -118,6 +126,7 @@ mrs_uav_trackers:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
   ros_test:
@@ -132,6 +141,7 @@ mrs_uav_autostart:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
   ros_test:
@@ -146,6 +156,7 @@ mrs_uav_px4_api:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
   ros_test:
@@ -160,6 +171,7 @@ mrs_uav_trajectory_generation:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
   ros_test:
@@ -174,6 +186,7 @@ mrs_uav_testing:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
   ros_test:
@@ -188,6 +201,7 @@ mrs_uav_status:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
   ros_test:
@@ -202,7 +216,10 @@ mrs_uav_system:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
-  generate_docker_image: true
+  generate_apt_package: true
+  generate_docker_image:
+    mrs_uav_system: ./docker/mrs_uav_system
+    mrs_uav_system_full: ./docker/mrs_uav_system_full
   nix: false
   ros_test:
     enabled: false
@@ -216,6 +233,7 @@ mrs_modules_msgs:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
   ros_test:
@@ -230,6 +248,7 @@ mrs_uav_modules:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -244,6 +263,7 @@ mrs_uav_deployment:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
   ros_test:
@@ -258,6 +278,7 @@ mrs_uav_flightforge_simulator:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -272,6 +293,7 @@ mrs_serial:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false # compilation problem
   ros_test:
@@ -286,6 +308,7 @@ mrs_vins_imu_filter:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
   ros_test:
@@ -300,6 +323,7 @@ mrs_vins_republisher:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -314,6 +338,7 @@ mrs_open_vins_core:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -328,6 +353,7 @@ mrs_open_vins_estimator_plugin:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
   ros_test:
@@ -342,6 +368,7 @@ mrs_gazebo_common_resources:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -356,6 +383,7 @@ mrs_uav_gazebo_simulator:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -370,6 +398,7 @@ flame_ros:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -384,6 +413,7 @@ flame_ros_msgs:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -398,6 +428,7 @@ mrs_rviz_plugins:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
   ros_test:
@@ -412,6 +443,7 @@ mrs_uav_dji_tello_api:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -426,6 +458,7 @@ mrs_core_examples:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -440,6 +473,7 @@ mrs_computer_vision_examples:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -454,6 +488,7 @@ mrs_octomap_server:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -468,6 +503,7 @@ mrs_subt_planning_lib:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -482,6 +518,7 @@ mrs_octomap_planner:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -496,6 +533,7 @@ mrs_octomap_mapping_planning:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -510,6 +548,7 @@ point-lio:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -524,6 +563,7 @@ mrs_point_lio_estimator_plugin:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -538,6 +578,7 @@ mrs_point_lio_core:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -552,6 +593,7 @@ livox_ros_driver2:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -566,6 +608,7 @@ mrs_pcl_tools:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -580,6 +623,7 @@ mrs_icm_imu_driver:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -594,6 +638,7 @@ libcamera_ros_driver:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  # generate_apt_package: false
   generate_docker_image: true
   nix: false
   ros_test:
@@ -608,6 +653,7 @@ mrs_utils:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
   ros_test:
@@ -622,6 +668,7 @@ mrs_cmake:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
   ros_test:
@@ -636,6 +683,7 @@ mrs_bumper:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
   ros_test:
@@ -646,11 +694,11 @@ mrs_uav_bluetooth:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mrs_uav_bluetooth
   gitman: false
-  generate_docker_image: false
   git_refs:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -661,11 +709,11 @@ mrs_uav_trajectory_loader:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mrs_uav_trajectory_loader
   gitman: false
-  generate_docker_image: false
   git_refs:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: false
   ros_test:
@@ -680,8 +728,28 @@ mrs_mpc_solvers:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_apt_package: true
   generate_docker_image: false
   nix: true
+  ros_test:
+    enabled: false
+    full_test_coverage: false
+
+mrs_docker:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_docker
+  gitman: false
+  git_refs:
+    unstable: master
+    testing: master
+    stable: master
+  generate_apt_package: false
+  generate_docker_image:
+    ros_jazzy:
+      folder: ./recipes/ros_jazzy
+      base_image: ros:jazzy
+      tag: latest
+  nix: false
   ros_test:
     enabled: false
     full_test_coverage: false
