@@ -108,8 +108,6 @@ echo "$0: building the image"
 
 cd /tmp/repository/$PATH_TO_DOCKER_FOLDER
 
-OUTPUT_IMAGE=ctumrs/${IMAGE_NAME}:$CUSTOM_TAG
-
 docker buildx create --name container --driver=docker-container --use
 
 STABLE_TAG=""
@@ -118,4 +116,13 @@ if [[ "$PPA_VARIANT" == "stable" ]]; then
   STABLE_TAG="--tag ${OUTPUT_IMAGE}_$(date +%y_%m_%d)"
 fi
 
-docker buildx build . --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg PPA_VARIANT=${PPA_VARIANT} --tag ${OUTPUT_IMAGE} $STABLE_TAG --platform=$PLATFORM --progress plain --push
+if [[ "$IMAGE_NAME" == "bake" ]]; then
+  PPA_VARIANT=${PPA_VARIANT} \
+  BASE_IMAGE=${BASE_IMAGE} \
+  STABLE_TAG=${STABLE_TAG} \
+  PLATFORM=${PLATFORM} \
+  docker buildx bake --progress plain --push
+else
+  OUTPUT_IMAGE=ctumrs/${IMAGE_NAME}:$CUSTOM_TAG
+  docker buildx build . --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg PPA_VARIANT=${PPA_VARIANT} --tag ${OUTPUT_IMAGE} $STABLE_TAG --platform=$PLATFORM --progress plain --push
+fi

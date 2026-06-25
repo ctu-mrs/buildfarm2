@@ -55,6 +55,13 @@ def main():
                         'base_image': base_image,
                         'tag': tag
                     })
+            elif docker == 'bake':
+                packages.append({
+                    'repo': package,
+                    'folder': './docker',
+                    'image': 'bake',
+                    'base_image': 'ctumrs/ros_jazzy:latest'
+                })
             elif docker == True:
                 packages.append({
                     'repo': package,

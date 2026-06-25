@@ -217,9 +217,7 @@ mrs_uav_system:
     testing: ros2_release_candidate
     stable: ros2_release
   generate_apt_package: true
-  generate_docker_image:
-    mrs_uav_system: ./docker/mrs_uav_system
-    mrs_uav_system_full: ./docker/mrs_uav_system_full
+  generate_docker_image: bake
   nix: false
   ros_test:
     enabled: false
