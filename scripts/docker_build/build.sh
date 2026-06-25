@@ -36,6 +36,9 @@ CUSTOM_TAG=$7
 
 ## | ---------------------- derived args ---------------------- |
 
+# Allow basing images on ctumrs/mrs_uav_system:${PPA_VARIANT}
+BASE_IMAGE=$(PPA_VARIANT=$PPA_VARIANT envsubst <<< "$BASE_IMAGE")
+
 # determine our architecture
 ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
 

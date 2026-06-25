@@ -639,7 +639,9 @@ libcamera_ros_driver:
     testing: ros2_release_candidate
     stable: ros2_release
   # generate_apt_package: false
-  generate_docker_image: true
+  generate_docker_image:
+    libcamera_ros_driver:
+      base_image: ctumrs/mrs_uav_system:${PPA_VARIANT}
   nix: false
   ros_test:
     enabled: false

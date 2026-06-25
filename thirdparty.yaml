@@ -24,7 +24,9 @@ bluefox2:
   architecture: [amd64]
   source: https://github.com/ctu-mrs/bluefox2
   gitman: false
-  generate_docker_image: true
+  generate_docker_image:
+    bluefox2:
+      base_image: ctumrs/mrs_uav_system:${PPA_VARIANT}
   nix: false
   git_refs:
     unstable: ros2
