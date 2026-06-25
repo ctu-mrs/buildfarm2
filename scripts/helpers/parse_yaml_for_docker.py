@@ -6,10 +6,16 @@ import json
 
 def main():
 
-    if len(sys.argv) == 2:
-        file_path = sys.argv[1]
-    else:
+    if len(sys.argv) < 2:
         return
+
+    file_path = sys.argv[1]
+    variant = 'stable'
+
+    for i, v in enumerate(sys.argv):
+        if v == '--variant':
+            variant = sys.argv[i + 1]
+            break
 
     with open(file_path, 'r') as file:
 
@@ -23,6 +29,13 @@ def main():
 
             properties = data[package]
             docker = properties.get('generate_docker_image', False)
+
+            # if all branches are identical the Docker output will be the same no matter which variant builds it so build it only on stable
+            git_refs = properties.get('git_refs', {})
+            is_single_version = len(set(git_refs.values())) == 1
+
+            if not docker or is_single_version and variant != 'stable':
+                continue
 
             if isinstance(docker, dict):
                 for image_name, config in docker.items():

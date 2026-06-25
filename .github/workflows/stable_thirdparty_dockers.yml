@@ -36,7 +36,7 @@ jobs:
           token: ${{secrets.PUSH_TOKEN}}
       - id: generate
         run: |
-          JOB_STRATEGY_MATRIX=$(./scripts/get_docker_build_matrix.sh ${{env.APP_LIST}})
+          JOB_STRATEGY_MATRIX=$(./scripts/get_docker_build_matrix.sh ${{env.APP_LIST}} ${{env.VARIANT}})
           echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
 
   build-job:
