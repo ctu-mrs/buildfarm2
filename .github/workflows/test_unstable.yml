@@ -28,12 +28,12 @@ jobs:
     env:
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           submodules: 'recursive'
       - name: Checkout CI scripts
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: ctu-mrs/ci_scripts
           ref: ros2
@@ -48,7 +48,7 @@ jobs:
     outputs:
       packages: ${{ steps.generate.outputs.packages }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           submodules: 'recursive'
@@ -68,12 +68,12 @@ jobs:
     env:
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           submodules: 'recursive'
       - name: Checkout CI scripts
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: ctu-mrs/ci_scripts
           ref: ros2
