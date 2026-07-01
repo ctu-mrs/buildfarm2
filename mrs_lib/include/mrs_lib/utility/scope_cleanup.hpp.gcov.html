@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - MRS UAV System - Test coverage report - mrs_lib/include/mrs_lib/utility/scope_cleanup.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../../../index.html" target="_parent" title="Click to go to top-level">top level</a> - <a href="index.html" target="_parent" title="Click to go to directory mrs_lib/include/mrs_lib/utility">mrs_lib/include/mrs_lib/utility</a> - scope_cleanup.hpp</td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">MRS UAV System - Test coverage report</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">4</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2026-07-01 00:35:04</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryHi">-</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:&nbsp&nbsp&nbsp&nbsp
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+                  <tr><td><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : #ifndef MRS_LIB_UTILITY_SCOPE_CLEANUP_HPP_</span>
+<span id="L2"><span class="lineNum">       2</span>              : #define MRS_LIB_UTILITY_SCOPE_CLEANUP_HPP_</span>
+<span id="L3"><span class="lineNum">       3</span>              : </span>
+<span id="L4"><span class="lineNum">       4</span>              : </span>
+<span id="L5"><span class="lineNum">       5</span>              : #include &lt;functional&gt;</span>
+<span id="L6"><span class="lineNum">       6</span>              : #include &lt;utility&gt;</span>
+<span id="L7"><span class="lineNum">       7</span>              : </span>
+<span id="L8"><span class="lineNum">       8</span>              : </span>
+<span id="L9"><span class="lineNum">       9</span>              : namespace mrs_lib</span>
+<span id="L10"><span class="lineNum">      10</span>              : {</span>
+<span id="L11"><span class="lineNum">      11</span>              : </span>
+<span id="L12"><span class="lineNum">      12</span>              :   /**</span>
+<span id="L13"><span class="lineNum">      13</span>              :    * @brief Utility class for running cleanup at the end of a scope.</span>
+<span id="L14"><span class="lineNum">      14</span>              :    */</span>
+<span id="L15"><span class="lineNum">      15</span>              :   template &lt;typename T&gt;</span>
+<span id="L16"><span class="lineNum">      16</span>              :   class ScopeCleanup</span>
+<span id="L17"><span class="lineNum">      17</span>              :   {</span>
+<span id="L18"><span class="lineNum">      18</span>              :   public:</span>
+<span id="L19"><span class="lineNum">      19</span>              :     /**</span>
+<span id="L20"><span class="lineNum">      20</span>              :      * @brief Create a scope cleanup that runs the specified callable when destroyed.</span>
+<span id="L21"><span class="lineNum">      21</span>              :      *</span>
+<span id="L22"><span class="lineNum">      22</span>              :      * @note The object must be stored in a variable, otherwise, it will be destroyed immediately.</span>
+<span id="L23"><span class="lineNum">      23</span>              :      */</span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           2 :     explicit ScopeCleanup(T f) : cleanup_func_(std::move(f))</span></span>
+<span id="L25"><span class="lineNum">      25</span>              :     {</span>
+<span id="L26"><span class="lineNum">      26</span>              :     }</span>
+<span id="L27"><span class="lineNum">      27</span>              : </span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">           2 :     ~ScopeCleanup()</span></span>
+<span id="L29"><span class="lineNum">      29</span>              :     {</span>
+<span id="L30"><span class="lineNum">      30</span>              :       if (enabled_)</span>
+<span id="L31"><span class="lineNum">      31</span>              :       {</span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">           1 :         std::invoke(cleanup_func_);</span></span>
+<span id="L33"><span class="lineNum">      33</span>              :       }</span>
+<span id="L34"><span class="lineNum">      34</span>              :     }</span>
+<span id="L35"><span class="lineNum">      35</span>              : </span>
+<span id="L36"><span class="lineNum">      36</span>              :     ScopeCleanup(const ScopeCleanup&amp;) = delete;</span>
+<span id="L37"><span class="lineNum">      37</span>              :     ScopeCleanup(ScopeCleanup&amp;&amp;) = delete;</span>
+<span id="L38"><span class="lineNum">      38</span>              :     ScopeCleanup&amp; operator=(const ScopeCleanup&amp;) = delete;</span>
+<span id="L39"><span class="lineNum">      39</span>              :     ScopeCleanup&amp; operator=(ScopeCleanup&amp;&amp;) = delete;</span>
+<span id="L40"><span class="lineNum">      40</span>              : </span>
+<span id="L41"><span class="lineNum">      41</span>              :     /**</span>
+<span id="L42"><span class="lineNum">      42</span>              :      * @brief Disable running of the callback, when the cleanup object is destroyed.</span>
+<span id="L43"><span class="lineNum">      43</span>              :      */</span>
+<span id="L44"><span class="lineNum">      44</span>              :     void cancel()</span>
+<span id="L45"><span class="lineNum">      45</span>              :     {</span>
+<span id="L46"><span class="lineNum">      46</span> <span class="tlaGNC">           1 :       enabled_ = false;</span></span>
+<span id="L47"><span class="lineNum">      47</span>              :     }</span>
+<span id="L48"><span class="lineNum">      48</span>              : </span>
+<span id="L49"><span class="lineNum">      49</span>              :   private:</span>
+<span id="L50"><span class="lineNum">      50</span>              :     T cleanup_func_;</span>
+<span id="L51"><span class="lineNum">      51</span>              :     bool enabled_ = true;</span>
+<span id="L52"><span class="lineNum">      52</span>              :   };</span>
+<span id="L53"><span class="lineNum">      53</span>              : </span>
+<span id="L54"><span class="lineNum">      54</span>              : } // namespace mrs_lib</span>
+<span id="L55"><span class="lineNum">      55</span>              : </span>
+<span id="L56"><span class="lineNum">      56</span>              : </span>
+<span id="L57"><span class="lineNum">      57</span>              : #endif // MRS_LIB_UTILITY_SCOPE_CLEANUP_HPP_</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.3.1-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>
