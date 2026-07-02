@@ -749,6 +749,10 @@ mrs_docker:
       folder: ./recipes/ros_jazzy
       base_image: ros:jazzy
       tag: latest
+    ros_lyrical:
+      folder: ./recipes/ros_jazzy
+      base_image: ros:lyrical
+      tag: latest
   nix: false
   ros_test:
     enabled: false
