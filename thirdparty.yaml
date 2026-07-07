@@ -77,17 +77,6 @@ flame:
     testing: ros2_release_candidate
     stable: ros2_release
 
-odin_ros_driver:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/odin_ros_driver
-  gitman: false
-  generate_docker_image: false
-  nix: false
-  git_refs:
-    unstable: ros2
-    testing: ros2_release_candidate
-    stable: ros2_release
-
 # rclcpp:
 #   architecture: [amd64, arm64]
 #   source: https://github.com/ctu-mrs/rclcpp
