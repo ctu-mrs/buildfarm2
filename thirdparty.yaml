@@ -77,6 +77,17 @@ flame:
     testing: ros2_release_candidate
     stable: ros2_release
 
+mavros:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mavros
+  gitman: false
+  generate_docker_image: false
+  nix: false
+  git_refs:
+    unstable: mrs_2.14.0
+    testing: mrs_2.14.0
+    stable: mrs_2.14.0
+
 # rclcpp:
 #   architecture: [amd64, arm64]
 #   source: https://github.com/ctu-mrs/rclcpp
