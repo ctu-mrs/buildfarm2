@@ -38,10 +38,10 @@ def main():
             if not docker or is_single_version and variant != 'stable':
                 continue
 
-            # Allow basing images on ctumrs/mrs_uav_system:${PPA_VARIANT}
-            subs = {'PPA_VARIANT': variant}
-
             if isinstance(docker, dict):
+                # Allow basing images on ctumrs/mrs_uav_system:${PPA_VARIANT}
+                subs = {'PPA_VARIANT': variant}
+
                 for image_name, config in docker.items():
                     if isinstance(config, dict):
                         folder = config.get('folder', './docker')
