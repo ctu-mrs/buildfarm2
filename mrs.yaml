@@ -639,7 +639,7 @@ libcamera_ros_driver:
   # generate_apt_package: false
   generate_docker_image:
     libcamera_ros_driver:
-      base_image: ctumrs/mrs_uav_system:${PPA_VARIANT}
+      base_image: ctumrs/mrs_uav_system_core:${PPA_VARIANT}
   nix: false
   ros_test:
     enabled: false
@@ -762,9 +762,9 @@ odin_ros_driver:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/odin_ros_driver
   gitman: false
-  generate_docker_image: false
-  nix: false
   git_refs:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+  generate_docker_image: false
+  nix: false

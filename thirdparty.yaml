@@ -26,7 +26,7 @@ bluefox2:
   gitman: false
   generate_docker_image:
     bluefox2:
-      base_image: ctumrs/mrs_uav_system:${PPA_VARIANT}
+      base_image: ctumrs/mrs_uav_system_core:${PPA_VARIANT}
   nix: false
   git_refs:
     unstable: ros2
