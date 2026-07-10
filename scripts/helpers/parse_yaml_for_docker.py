@@ -3,6 +3,7 @@
 import yaml
 import sys
 import json
+from string import Template
 
 def main():
 
@@ -37,12 +38,15 @@ def main():
             if not docker or is_single_version and variant != 'stable':
                 continue
 
+            # Allow basing images on ctumrs/mrs_uav_system:${PPA_VARIANT}
+            subs = {'PPA_VARIANT': variant}
+
             if isinstance(docker, dict):
                 for image_name, config in docker.items():
                     if isinstance(config, dict):
                         folder = config.get('folder', './docker')
-                        base_image = config.get('base_image', 'ctumrs/ros_jazzy:latest')
-                        tag = config.get('tag', '')
+                        base_image = Template(config.get('base_image', 'ctumrs/ros_jazzy:latest')).safe_substitute(subs)
+                        tag = Template(config.get('tag', '')).safe_substitute(subs)
                     else:
                         folder = config
                         base_image = 'ctumrs/ros_jazzy:latest'
