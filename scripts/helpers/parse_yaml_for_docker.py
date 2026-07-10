@@ -45,11 +45,11 @@ def main():
                 for image_name, config in docker.items():
                     if isinstance(config, dict):
                         folder = config.get('folder', './docker')
-                        base_image = Template(config.get('base_image', 'ctumrs/ros_jazzy:latest')).safe_substitute(subs)
+                        base_image = Template(config.get('base_image', '')).safe_substitute(subs)
                         tag = Template(config.get('tag', '')).safe_substitute(subs)
                     else:
                         folder = config
-                        base_image = 'ctumrs/ros_jazzy:latest'
+                        base_image = ''
                         tag = ''
 
                     packages.append({
@@ -64,14 +64,14 @@ def main():
                     'repo': package,
                     'folder': './docker',
                     'image': 'bake',
-                    'base_image': 'ctumrs/ros_jazzy:latest'
+                    'base_image': ''
                 })
             elif docker == True:
                 packages.append({
                     'repo': package,
                     'folder': './docker',
                     'image': package,
-                    'base_image': 'ctumrs/ros_jazzy:latest'
+                    'base_image': ''
                 })
 
         print(json.dumps(packages))
