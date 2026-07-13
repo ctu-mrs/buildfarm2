@@ -59,18 +59,11 @@ def main():
                         'base_image': base_image,
                         'tag': tag
                     })
-            elif docker == 'bake':
+            else:
                 packages.append({
                     'repo': package,
                     'folder': './docker',
-                    'image': 'bake',
-                    'base_image': ''
-                })
-            elif docker == True:
-                packages.append({
-                    'repo': package,
-                    'folder': './docker',
-                    'image': package,
+                    'image': 'bake' if docker == 'bake' else '',
                     'base_image': ''
                 })
 
