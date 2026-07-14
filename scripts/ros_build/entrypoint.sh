@@ -84,7 +84,7 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
   readarray -t MY_DEPENDENCIES_ITEMIZED <<< "$MY_DEPENDENCIES"
   for dep in "${MY_DEPENDENCIES_ITEMIZED[@]}"; do
 
-    FOUND=$(cat $OTHER_FILES_FOLDER/compiled.txt | grep $dep | wc -l)
+    FOUND=$(grep -x "$dep" "$OTHER_FILES_FOLDER/compiled.txt" | wc -l)
 
     echo "$0: checking if '$dep' is within MY_DEPENDENCIES, FOUND='$FOUND'"
 
