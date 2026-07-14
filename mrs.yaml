@@ -593,7 +593,7 @@ livox_ros_driver2:
     stable: ros2_release
   generate_apt_package: true
   generate_docker_image: false
-  nix: false
+  nix: true
   ros_test:
     enabled: false
     full_test_coverage: false
