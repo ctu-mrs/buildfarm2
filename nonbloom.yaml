@@ -36,7 +36,7 @@ livox_sdk2:
   source: https://github.com/ctu-mrs/livox_sdk2
   gitman: false
   generate_docker_image: false
-  nix: false
+  nix: true
   git_refs:
     unstable: ros2
     testing: ros2_release_candidate
