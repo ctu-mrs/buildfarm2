@@ -84,6 +84,11 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
   readarray -t MY_DEPENDENCIES_ITEMIZED <<< "$MY_DEPENDENCIES"
   for dep in "${MY_DEPENDENCIES_ITEMIZED[@]}"; do
 
+    # skip empty strings (readarray produces one empty element when input is empty)
+    if [[ -z "$dep" ]]; then
+      continue
+    fi
+
     FOUND=$(grep -x "$dep" "$OTHER_FILES_FOLDER/compiled.txt" | wc -l)
 
     echo "$0: checking if '$dep' is within MY_DEPENDENCIES, FOUND='$FOUND'"
