@@ -100,8 +100,8 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
 
   done
 
-  if [[ "$DOCKER_SHA_MATCHES" == "0" ]]; then
-    echo "$0: base image changed, going to compile"
+  if [[ "$DOCKER_SHA_MATCHES" == "0" && "$(date +%u)" == [67] ]]; then
+    echo "$0: weekly rebuild with new base image, going to compile"
     DEPENDENCIES_CHANGED=true
   fi
 
