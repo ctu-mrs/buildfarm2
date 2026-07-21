@@ -28,12 +28,12 @@ jobs:
     env:
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           submodules: 'recursive'
       - name: Checkout CI scripts
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: ctu-mrs/ci_scripts
           ref: ros2
@@ -60,12 +60,12 @@ jobs:
       - id: init_artifacts
         run: |
           mkdir -p ${{env.ARTIFACTS_FOLDER}}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           submodules: 'recursive'
       - name: Checkout CI scripts
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: ctu-mrs/ci_scripts
           ref: ros2
@@ -89,7 +89,7 @@ jobs:
       group_3: ${{steps.generate.outputs.group_3}}
       group_last: ${{steps.generate.outputs.group_last}}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           submodules: 'recursive'
@@ -109,7 +109,7 @@ jobs:
     env:
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           submodules: 'recursive'
@@ -120,7 +120,7 @@ jobs:
           merge-multiple: true
           path: ${{env.ARTIFACTS_FOLDER}}
       - name: Checkout CI scripts
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: ctu-mrs/ci_scripts
           ref: ros2
@@ -148,12 +148,12 @@ jobs:
           pattern: artifacts_*
           merge-multiple: true
           path: ${{env.ARTIFACTS_FOLDER}}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           submodules: 'recursive'
       - name: Checkout CI scripts
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: ctu-mrs/ci_scripts
           ref: ros2

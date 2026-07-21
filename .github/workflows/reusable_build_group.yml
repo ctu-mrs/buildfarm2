@@ -65,16 +65,16 @@ jobs:
       ARTIFACTS_FOLDER: ${{ inputs.artifacts_folder }}
     steps:
       - name: Load base artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: artifacts
           path: ${{env.ARTIFACTS_FOLDER}}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           submodules: 'recursive'
       - name: Checkout CI scripts
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: ctu-mrs/ci_scripts
           ref: ros2
@@ -86,7 +86,7 @@ jobs:
           # Both scripts take: $APP_LIST $VARIANT "$PACKAGE" $BASE_IMAGE $BUILDER_IMAGE $ARTIFACTS_FOLDER
           ${{ inputs.build_script }} ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job}}" ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.ARTIFACTS_FOLDER}}
       - name: Store job artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: artifacts_${{ matrix.job }}
           path: ${{env.ARTIFACTS_FOLDER}}
@@ -98,7 +98,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Download all partial artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: /tmp/all_artifacts
       - name: Merge artifacts
@@ -133,7 +133,7 @@ jobs:
           python3 /tmp/merge_rosdep.py
 
       - name: Upload merged artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: artifacts
           path: /tmp/merged_artifacts

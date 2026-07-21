@@ -49,12 +49,12 @@ jobs:
       APP_LIST: ${{ inputs.app_list }}
       VARIANT: ${{ inputs.variant }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           submodules: 'recursive'
       - name: Checkout CI scripts
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: ctu-mrs/ci_scripts
           ref: ros2
