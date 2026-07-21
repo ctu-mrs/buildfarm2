@@ -1,0 +1,66 @@
+name: reusable_docker_group
+
+on:
+  workflow_call:
+    inputs:
+      group_json:
+        description: 'JSON array of jobs in this group'
+        required: true
+        type: string
+      runs_on:
+        description: 'Runner environment (e.g., ubuntu-22.04 or ubuntu-22.04-arm)'
+        required: true
+        type: string
+      max_parallel:
+        description: 'Maximum number of parallel jobs'
+        required: true
+        type: number
+      build_script:
+        description: 'Path to the build script to run'
+        required: true
+        type: string
+      app_list:
+        description: 'APP_LIST environment variable'
+        required: true
+        type: string
+      variant:
+        description: 'VARIANT environment variable'
+        required: true
+        type: string
+    secrets:
+      PUSH_TOKEN:
+        required: true
+      DOCKERHUB:
+        required: true
+
+jobs:
+  build-jobs:
+    if: inputs.group_json != '[]' && inputs.group_json != ''
+    runs-on: ${{ inputs.runs_on }}
+    timeout-minutes: 360 # 6 hour timeout
+    strategy:
+      matrix:
+        job: ${{ fromJson(inputs.group_json) }}
+      max-parallel: ${{ inputs.max_parallel }}
+      fail-fast: false
+    env:
+      PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+      DOCKERHUB: ${{ secrets.DOCKERHUB }}
+      APP_LIST: ${{ inputs.app_list }}
+      VARIANT: ${{ inputs.variant }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          submodules: 'recursive'
+      - name: Checkout CI scripts
+        uses: actions/checkout@v6
+        with:
+          repository: ctu-mrs/ci_scripts
+          ref: ros2
+          path: ci_scripts
+          token: ${{secrets.PUSH_TOKEN}}
+      - id: build
+        run: |
+          # Docker build takes: $APP_LIST $VARIANT "repo" "folder" "base_image" "image" "tag"
+          ${{ inputs.build_script }} ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job.repo}}" "${{matrix.job.folder}}" "${{matrix.job.base_image}}" "${{matrix.job.image}}" "${{matrix.job.tag}}"

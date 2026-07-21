@@ -55,7 +55,10 @@ jobs:
     needs: init-artifacts
     runs-on: ubuntu-22.04-arm
     outputs:
-      packages: ${{ steps.generate.outputs.packages }}
+      group_1: ${{steps.generate.outputs.group_1}}
+      group_2: ${{steps.generate.outputs.group_2}}
+      group_3: ${{steps.generate.outputs.group_3}}
+      group_last: ${{steps.generate.outputs.group_last}}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -71,90 +74,20 @@ jobs:
       - id: generate
         run: |
           JOB_STRATEGY_MATRIX=$(./scripts/get_nonbloom_build_matrix.sh ${{env.APP_LIST}})
-          echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
+          echo "group_last=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
 
-  build-job:
+  build-group-last:
     needs: generate-jobs
-    runs-on: ubuntu-22.04-arm
-    timeout-minutes: 360 # 6 hour timeout
-    strategy:
-      matrix:
-        job: ${{ fromJson(needs.generate-jobs.outputs.packages) }}
-      max-parallel: 1 # Run jobs serially
-    env:
-      PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
-    steps:
-      - name: Load artifacts
-        uses: actions/download-artifact@v8
-        with:
-          name: artifacts
-          path: ${{env.ARTIFACTS_FOLDER}}
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-          submodules: 'recursive'
-      - name: Checkout CI scripts
-        uses: actions/checkout@v6
-        with:
-          repository: ctu-mrs/ci_scripts
-          ref: ros2
-          path: ci_scripts
-          token: ${{secrets.PUSH_TOKEN}}
-      - id: build
-        run: |
-          ./scripts/nonbloom_build/build.sh ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job}}" ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.ARTIFACTS_FOLDER}}
-          ls /tmp/artifacts
-      - name: Delete old artifacts
-        uses: geekyeggo/delete-artifact@v6
-        with:
-          name: artifacts
-          failOnError: false
-      - name: Save artifacts
-        uses: actions/upload-artifact@v7
-        with:
-          name: artifacts
-          path: ${{env.ARTIFACTS_FOLDER}}
-          overwrite: true
-
-  collect-artifacts:
-    runs-on: ubuntu-22.04-arm
-    needs: build-job
-    env:
-      PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
-    steps:
-      - name: Load artifacts
-        uses: actions/download-artifact@v8
-        with:
-          name: artifacts
-          path: ${{env.ARTIFACTS_FOLDER}}
-      - id: execute
-        run: |
-          rm ${{env.ARTIFACTS_FOLDER}}/compiled.txt 2> /dev/null || true
-          rm ${{env.ARTIFACTS_FOLDER}}/base_sha.txt 2> /dev/null || true
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-          submodules: 'recursive'
-      - name: Checkout CI scripts
-        uses: actions/checkout@v6
-        with:
-          repository: ctu-mrs/ci_scripts
-          ref: ros2
-          path: ci_scripts
-          token: ${{secrets.PUSH_TOKEN}}
-      - name: Deploy
-        run: ./ci_scripts/package_build/push_to_ppa.sh ${{env.VARIANT}} ${{env.ARTIFACTS_FOLDER}}
-
-  delete_builder:
-    needs: collect-artifacts
-    if: always()
-    runs-on: ubuntu-22.04-arm
-    continue-on-error: true
-    steps:
-      - name: Delete old images
-        uses: dataaxiom/ghcr-cleanup-action@v1
-        with:
-          packages: '${{github.event.repository.name}}'
-          older-than: 7 days
-          keep-n-tagged: 1
-          token: ${{secrets.PUSH_TOKEN}}
+    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+    uses: ./.github/workflows/reusable_build_group.yml
+    with:
+      group_json: ${{ needs.generate-jobs.outputs.group_last }}
+      runs_on: ubuntu-22.04-arm
+      max_parallel: 1
+      build_script: ./scripts/nonbloom_build/build.sh
+      app_list: ${{ env.APP_LIST }}
+      variant: ${{ env.VARIANT }}
+      base_image: ${{ env.BASE_IMAGE }}
+      builder_image: ${{ env.BUILDER_IMAGE }}
+      artifacts_folder: ${{ env.ARTIFACTS_FOLDER }}
+    secrets: inherit

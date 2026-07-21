@@ -19,7 +19,10 @@ jobs:
   generate-jobs:
     runs-on: ubuntu-22.04
     outputs:
-      packages: ${{ steps.generate.outputs.packages }}
+      group_1: ${{steps.generate.outputs.group_1}}
+      group_2: ${{steps.generate.outputs.group_2}}
+      group_3: ${{steps.generate.outputs.group_3}}
+      group_last: ${{steps.generate.outputs.group_last}}
     env:
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
     steps:
@@ -37,31 +40,17 @@ jobs:
       - id: generate
         run: |
           JOB_STRATEGY_MATRIX=$(./scripts/get_docker_build_matrix.sh ${{env.APP_LIST}} ${{env.VARIANT}})
-          echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
+          echo "group_last=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
 
-  build-job:
+  build-group-last:
     needs: generate-jobs
-    runs-on: ubuntu-22.04
-    timeout-minutes: 360 # 6 hour timeout
-    strategy:
-      matrix:
-        job: ${{ fromJson(needs.generate-jobs.outputs.packages) }}
-      # max-parallel: 1 # Run jobs serially
-    env:
-      PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
-      DOCKERHUB: ${{secrets.DOCKERHUB}}
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-          submodules: 'recursive'
-      - name: Checkout CI scripts
-        uses: actions/checkout@v6
-        with:
-          repository: ctu-mrs/ci_scripts
-          ref: ros2
-          path: ci_scripts
-          token: ${{secrets.PUSH_TOKEN}}
-      - id: build
-        run: |
-          ./scripts/docker_build/build.sh ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job.repo}}" "${{matrix.job.folder}}" "${{matrix.job.base_image}}" "${{matrix.job.image}}" "${{matrix.job.tag}}"
+    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+    uses: ./.github/workflows/reusable_docker_group.yml
+    with:
+      group_json: ${{ needs.generate-jobs.outputs.group_last }}
+      runs_on: ubuntu-22.04
+      max_parallel: 1
+      build_script: ./scripts/docker_build/build.sh
+      app_list: ${{ env.APP_LIST }}
+      variant: ${{ env.VARIANT }}
+    secrets: inherit

@@ -118,19 +118,49 @@ def find_packages(root_dir):
     
     return repositories
 
-def main(root_dir):
+import json
+import yaml
+
+def main(root_dir, yaml_file=None):
 
     packages = find_packages(root_dir)
-
     ts = graphlib.TopologicalSorter(packages)
-
     ordered_list = [*tuple(ts.static_order())]
 
-    print(ordered_list)
+    if not yaml_file:
+        print(json.dumps(ordered_list))
+        return
+
+    with open(yaml_file, 'r') as f:
+        config = yaml.safe_load(f)
+
+    output = {
+        "group_1": [],
+        "group_2": [],
+        "group_3": [],
+        "group_last": []
+    }
+
+    for repo in ordered_list:
+        repo_config = config.get(repo, {})
+        group_id = repo_config.get('group', None)
+        
+        if group_id == 1:
+            output["group_1"].append(repo)
+        elif group_id == 2:
+            output["group_2"].append(repo)
+        elif group_id == 3:
+            output["group_3"].append(repo)
+        else:
+            output["group_last"].append(repo)
+
+    print(json.dumps(output))
 
 if __name__ == "__main__":
     import sys
-    if len(sys.argv) != 2:
-        print("Usage: python build_order.py <root_directory>")
+    if len(sys.argv) < 2:
+        print("Usage: python build_order.py <root_directory> [yaml_file]")
     else:
-        main(sys.argv[1])
+        root_dir = sys.argv[1]
+        yaml_file = sys.argv[2] if len(sys.argv) > 2 else None
+        main(root_dir, yaml_file)

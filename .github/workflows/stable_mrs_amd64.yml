@@ -55,7 +55,10 @@ jobs:
     needs: init-artifacts
     runs-on: ubuntu-22.04
     outputs:
-      packages: ${{steps.generate.outputs.packages}}
+      group_1: ${{steps.generate.outputs.group_1}}
+      group_2: ${{steps.generate.outputs.group_2}}
+      group_3: ${{steps.generate.outputs.group_3}}
+      group_last: ${{steps.generate.outputs.group_last}}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -70,91 +73,72 @@ jobs:
           token: ${{secrets.PUSH_TOKEN}}
       - id: generate
         run: |
-          JOB_STRATEGY_MATRIX=$(./scripts/get_build_matrix.sh ${{env.APP_LIST}} ${{env.VARIANT}})
-          echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
+          JSON_GROUPS=$(./scripts/get_build_matrix.sh ${{env.APP_LIST}} ${{env.VARIANT}})
+          echo "group_1=$(echo $JSON_GROUPS | jq -c '.group_1 // []')" >> "$GITHUB_OUTPUT"
+          echo "group_2=$(echo $JSON_GROUPS | jq -c '.group_2 // []')" >> "$GITHUB_OUTPUT"
+          echo "group_3=$(echo $JSON_GROUPS | jq -c '.group_3 // []')" >> "$GITHUB_OUTPUT"
+          echo "group_last=$(echo $JSON_GROUPS | jq -c '.group_last // []')" >> "$GITHUB_OUTPUT"
 
-  build-job:
+  build-group-1:
     needs: generate-jobs
-    runs-on: ubuntu-22.04
-    timeout-minutes: 360 # 6 hour timeout
-    strategy:
-      matrix:
-        job: ${{ fromJson(needs.generate-jobs.outputs.packages) }}
-      max-parallel: 1 # Run jobs serially
-    env:
-      PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
-    steps:
-      - name: Load artifacts
-        uses: actions/download-artifact@v8
-        with:
-          name: artifacts
-          path: ${{env.ARTIFACTS_FOLDER}}
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-          submodules: 'recursive'
-      - name: Checkout CI scripts
-        uses: actions/checkout@v6
-        with:
-          repository: ctu-mrs/ci_scripts
-          ref: ros2
-          path: ci_scripts
-          token: ${{secrets.PUSH_TOKEN}}
-      - id: build
-        run: |
-          ./scripts/ros_build/build.sh ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job}}" ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.ARTIFACTS_FOLDER}}
-          ls /tmp/artifacts
-      - name: Delete old artifacts
-        uses: geekyeggo/delete-artifact@v6
-        with:
-          name: artifacts
-          failOnError: false
-      - name: Save artifacts
-        uses: actions/upload-artifact@v7
-        with:
-          name: artifacts
-          path: ${{env.ARTIFACTS_FOLDER}}
-          overwrite: true
+    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+    uses: ./.github/workflows/reusable_build_group.yml
+    with:
+      group_json: ${{ needs.generate-jobs.outputs.group_1 }}
+      runs_on: ubuntu-22.04
+      max_parallel: 5
+      build_script: ./scripts/ros_build/build.sh
+      app_list: ${{ env.APP_LIST }}
+      variant: ${{ env.VARIANT }}
+      base_image: ${{ env.BASE_IMAGE }}
+      builder_image: ${{ env.BUILDER_IMAGE }}
+      artifacts_folder: ${{ env.ARTIFACTS_FOLDER }}
+    secrets: inherit
 
-  collect-artifacts:
-    runs-on: ubuntu-22.04
-    needs: build-job
-    env:
-      PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
-    steps:
-      - name: Load artifacts
-        uses: actions/download-artifact@v8
-        with:
-          name: artifacts
-          path: ${{env.ARTIFACTS_FOLDER}}
-      - id: execute
-        run: |
-          rm ${{env.ARTIFACTS_FOLDER}}/compiled.txt 2> /dev/null || true
-          rm ${{env.ARTIFACTS_FOLDER}}/base_sha.txt 2> /dev/null || true
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-          submodules: 'recursive'
-      - name: Checkout CI scripts
-        uses: actions/checkout@v6
-        with:
-          repository: ctu-mrs/ci_scripts
-          ref: ros2
-          path: ci_scripts
-          token: ${{secrets.PUSH_TOKEN}}
-      - name: Deploy
-        run: ./ci_scripts/package_build/push_to_ppa.sh ${{env.VARIANT}} ${{env.ARTIFACTS_FOLDER}}
+  build-group-2:
+    needs: [generate-jobs, build-group-1]
+    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+    uses: ./.github/workflows/reusable_build_group.yml
+    with:
+      group_json: ${{ needs.generate-jobs.outputs.group_2 }}
+      runs_on: ubuntu-22.04
+      max_parallel: 5
+      build_script: ./scripts/ros_build/build.sh
+      app_list: ${{ env.APP_LIST }}
+      variant: ${{ env.VARIANT }}
+      base_image: ${{ env.BASE_IMAGE }}
+      builder_image: ${{ env.BUILDER_IMAGE }}
+      artifacts_folder: ${{ env.ARTIFACTS_FOLDER }}
+    secrets: inherit
 
-  delete_builder:
-    needs: collect-artifacts
-    if: always()
-    runs-on: ubuntu-22.04
-    continue-on-error: true
-    steps:
-      - name: Delete old images
-        uses: dataaxiom/ghcr-cleanup-action@v1
-        with:
-          packages: '${{github.event.repository.name}}'
-          older-than: 7 days
-          keep-n-tagged: 1
-          token: ${{secrets.PUSH_TOKEN}}
+  build-group-3:
+    needs: [generate-jobs, build-group-2]
+    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+    uses: ./.github/workflows/reusable_build_group.yml
+    with:
+      group_json: ${{ needs.generate-jobs.outputs.group_3 }}
+      runs_on: ubuntu-22.04
+      max_parallel: 5
+      build_script: ./scripts/ros_build/build.sh
+      app_list: ${{ env.APP_LIST }}
+      variant: ${{ env.VARIANT }}
+      base_image: ${{ env.BASE_IMAGE }}
+      builder_image: ${{ env.BUILDER_IMAGE }}
+      artifacts_folder: ${{ env.ARTIFACTS_FOLDER }}
+    secrets: inherit
+
+  build-group-last:
+    needs: [generate-jobs, build-group-3]
+    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+    uses: ./.github/workflows/reusable_build_group.yml
+    with:
+      group_json: ${{ needs.generate-jobs.outputs.group_last }}
+      runs_on: ubuntu-22.04
+      max_parallel: 1
+      build_script: ./scripts/ros_build/build.sh
+      app_list: ${{ env.APP_LIST }}
+      variant: ${{ env.VARIANT }}
+      base_image: ${{ env.BASE_IMAGE }}
+      builder_image: ${{ env.BUILDER_IMAGE }}
+      artifacts_folder: ${{ env.ARTIFACTS_FOLDER }}
+    secrets: inherit

@@ -69,7 +69,10 @@ jobs:
     needs: build-for-coverage
     runs-on: ubuntu-22.04
     outputs:
-      packages: ${{ steps.generate.outputs.packages }}
+      group_1: ${{steps.generate.outputs.group_1}}
+      group_2: ${{steps.generate.outputs.group_2}}
+      group_3: ${{steps.generate.outputs.group_3}}
+      group_last: ${{steps.generate.outputs.group_last}}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -87,7 +90,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        job: ${{ fromJson(needs.generate-jobs.outputs.packages) }}
+        job: ${{ fromJson(needs.generate-jobs.outputs.group_last) }}
     env:
       PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
     steps:
