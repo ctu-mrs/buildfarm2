@@ -75,7 +75,8 @@ echo "$0: repository cloned to /tmp/repository"
 
 echo "$0: evaluating fast skip logic"
 
-# Add PPA to runner to use apt-cache policy natively
+# Add the PPAs to the runner to use apt-cache policy natively
+curl -sL https://ctu-mrs.github.io/ppa2-stable/add_ros_ppa.sh | bash
 curl -sL https://ctu-mrs.github.io/ppa2-${VARIANT}/add_ppa.sh | bash
 
 BUILD_ORDER=$($REPO_PATH/ci_scripts/helpers/get_package_build_order.py /tmp/repository)
