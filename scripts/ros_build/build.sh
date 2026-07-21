@@ -73,6 +73,10 @@ echo "$0: repository cloned to /tmp/repository"
 
 ## | -------------------- fast skip logic --------------------- |
 
+if [ ! -e $ARTIFACTS_FOLDER/compiled.txt ]; then
+  touch $ARTIFACTS_FOLDER/compiled.txt
+fi
+
 echo "$0: evaluating fast skip logic"
 
 # Add the PPAs to the runner to use apt-cache policy natively
@@ -178,10 +182,6 @@ if ! $RUN_LOCALLY; then
 fi
 
 echo "$0: image loaded"
-
-if [ ! -e $ARTIFACTS_FOLDER/compiled.txt ]; then
-  touch $ARTIFACTS_FOLDER/compiled.txt
-fi
 
 if [ ! -e $ARTIFACTS_FOLDER/$ROSDEP_FILE ]; then
   touch $ARTIFACTS_FOLDER/$ROSDEP_FILE
