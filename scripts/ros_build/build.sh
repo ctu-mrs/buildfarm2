@@ -71,9 +71,87 @@ done
 
 echo "$0: repository cloned to /tmp/repository"
 
-## --------------------------------------------------------------
-## |                        docker build                        |
-## --------------------------------------------------------------
+## | -------------------- fast skip logic --------------------- |
+
+echo "$0: evaluating fast skip logic"
+
+# Add PPA to runner to use apt-cache policy natively
+curl -sL https://ctu-mrs.github.io/ppa2-${VARIANT}/add_ppa.sh | bash
+
+BUILD_ORDER=$($REPO_PATH/ci_scripts/helpers/get_package_build_order.py /tmp/repository)
+
+OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
+
+  PACKAGE=$(echo $LINE | awk '{print $1}')
+  PKG_PATH_SUB=$(echo $LINE | awk '{print $2}')
+
+  echo "$0: cding to '/tmp/repository/$PKG_PATH_SUB'"
+  cd /tmp/repository/$PKG_PATH_SUB
+
+  FUTURE_DEB_NAME=$(echo "ros-jazzy-$PACKAGE" | sed 's/_/-/g')
+
+  echo "$0: future deb name: $FUTURE_DEB_NAME"
+
+  SHA=$(git rev-parse --short HEAD)
+  DOCKER_SHA=$(cat $ARTIFACTS_FOLDER/base_sha.txt)
+
+  echo "$0: SHA=$SHA"
+
+  GIT_SHA_MATCHES=$(apt-cache policy $FUTURE_DEB_NAME | grep "Candidate" | grep "git.${SHA}" | wc -l)
+  ON_PUSH_BUILD=$(apt-cache policy $FUTURE_DEB_NAME | grep "Candidate" | grep "on.push.build" | wc -l)
+  DOCKER_SHA_MATCHES=$(apt-cache policy $FUTURE_DEB_NAME | grep "Candidate" | grep "base.${DOCKER_SHA}" | wc -l)
+
+  NEW_COMMIT=false
+  if [[ "$GIT_SHA_MATCHES" == "0" ]] || [ "$ON_PUSH_BUILD" -ge "1" ]; then
+    echo "$0: new commit detected, going to compile"
+    NEW_COMMIT=true
+  fi
+
+  MY_DEPENDENCIES=$($REPO_PATH/ci_scripts/helpers/get_package_dependencies.py /tmp/repository/$PKG_PATH_SUB)
+
+  echo ""
+  echo "$0: MY_DEPENDENCIES: '$MY_DEPENDENCIES'"
+  echo ""
+
+  DEPENDENCIES_CHANGED=false
+
+  # this \|/ has to iterate over the dependencies in bash
+  readarray -t MY_DEPENDENCIES_ITEMIZED <<< "$MY_DEPENDENCIES"
+  for dep in "${MY_DEPENDENCIES_ITEMIZED[@]}"; do
+
+    # skip empty strings (readarray produces one empty element when input is empty)
+    if [[ -z "$dep" ]]; then
+      continue
+    fi
+
+    FOUND=$(grep -x "$dep" "$ARTIFACTS_FOLDER/compiled.txt" | wc -l)
+
+    echo "$0: checking if '$dep' is within MY_DEPENDENCIES, FOUND='$FOUND'"
+
+    if [ $FOUND -ge 1 ]; then
+      DEPENDENCIES_CHANGED=true
+      echo "$0: The dependency $dep has been updated, going to compile"
+    else
+      echo "$0: ... nope"
+    fi
+
+  done
+
+  if [[ "$DOCKER_SHA_MATCHES" == "0" && "$(date +%u)" == [67] ]]; then
+    echo "$0: weekly rebuild with new base image, going to compile"
+    DEPENDENCIES_CHANGED=true
+  fi
+
+done; IFS=$OLDIFS
+
+if ! $DEPENDENCIES_CHANGED && ! $NEW_COMMIT; then
+  echo "$0: Skipping"
+  exit 0
+fi
+
+cd /tmp
+
+## | ---------------------- docker build ---------------------- |
 
 $REPO_PATH/ci_scripts/helpers/wait_for_docker.sh
 
@@ -117,7 +195,7 @@ cp $MY_PATH/entrypoint.sh /tmp/other_files/entrypoint.sh
 mv $ARTIFACTS_FOLDER/compiled.txt /tmp/other_files/compiled.txt
 mv $ARTIFACTS_FOLDER/$ROSDEP_FILE /tmp/other_files/rosdep.yaml
 
-$REPO_PATH/ci_scripts/helpers/get_package_build_order.py /tmp/repository > /tmp/other_files/build_order.txt
+echo "$BUILD_ORDER" > /tmp/other_files/build_order.txt
 cp $REPO_PATH/ci_scripts/helpers/get_package_dependencies.py /tmp/other_files/get_package_dependencies.py
 
 echo "$0:"

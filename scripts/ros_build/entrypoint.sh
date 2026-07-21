@@ -49,147 +49,84 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
   echo "$0: cding to '$REPO_FOLDER/$PKG_PATH'"
   cd $REPO_FOLDER/$PKG_PATH
 
-  FUTURE_DEB_NAME=$(echo "ros-jazzy-$PACKAGE" | sed 's/_/-/g')
-
-  echo "$0: future deb name: $FUTURE_DEB_NAME"
-
   git config --global --add safe.directory $REPO_FOLDER/$PKG_PATH
 
   SHA=$(git rev-parse --short HEAD)
   DOCKER_SHA=$(cat $OTHER_FILES_FOLDER/base_sha.txt)
 
-  echo "$0: SHA=$SHA"
+  ## don't run if COLCON_IGNORE is present
 
-  GIT_SHA_MATCHES=$(apt-cache policy $FUTURE_DEB_NAME | grep "Candidate" | grep "git.${SHA}" | wc -l)
-  ON_PUSH_BUILD=$(apt-cache policy $FUTURE_DEB_NAME | grep "Candidate" | grep "on.push.build" | wc -l)
-  DOCKER_SHA_MATCHES=$(apt-cache policy $FUTURE_DEB_NAME | grep "Candidate" | grep "base.${DOCKER_SHA}" | wc -l)
+  if [ -e ./COLCON_IGNORE ]; then
 
-  NEW_COMMIT=false
-  if [[ "$GIT_SHA_MATCHES" == "0" ]] || [ "$ON_PUSH_BUILD" -ge "1" ]; then
-    echo "$0: new commit detected, going to compile"
-    NEW_COMMIT=true
+    echo "$0: COLCON_IGNORE present, skipping $PACKAGE"
+    continue
   fi
 
-  MY_DEPENDENCIES=$($OTHER_FILES_FOLDER/get_package_dependencies.py $REPO_FOLDER/$PKG_PATH)
+  apt-get -y update
 
-  echo ""
-  echo "$0: MY_DEPENDENCIES: '$MY_DEPENDENCIES'"
-  echo ""
+  rosdep install -y -v --rosdistro=jazzy --dependency-types=build --dependency-types=build_export --dependency-types=buildtool --from-paths ./
 
-  DEPENDENCIES_CHANGED=false
+  source /opt/ros/jazzy/setup.bash
 
-  # this \|/ has to iterate over the dependencies in bash
-  readarray -t MY_DEPENDENCIES_ITEMIZED <<< "$MY_DEPENDENCIES"
-  for dep in "${MY_DEPENDENCIES_ITEMIZED[@]}"; do
+  echo "$0: Running bloom on a package in '$PKG_PATH'"
 
-    # skip empty strings (readarray produces one empty element when input is empty)
-    if [[ -z "$dep" ]]; then
-      continue
+  export DEB_BUILD_OPTIONS="nocheck"
+
+  if [[ "$ARCH" != "arm64" ]]; then
+    export DEB_BUILD_OPTIONS="$DEB_BUILD_OPTIONS parallel=`nproc`"
+  fi
+
+  bloom-generate rosdebian --os-name ubuntu --os-version noble --ros-distro jazzy
+
+  epoch=2
+  build_flag="$(date +%Y%m%d.%H%M%S)~git.$SHA.base.$DOCKER_SHA"
+
+  sed -i "s/(/($epoch:/" ./debian/changelog
+  sed -i "s/)/.${build_flag})/" ./debian/changelog
+
+  if [[ "$ARCH" != "arm64" ]]; then
+    fakeroot debian/rules "binary --parallel"
+  else
+    fakeroot debian/rules "binary"
+  fi
+
+  DEB_NAME=$(dpkg --field ../*.deb | grep "Package:" | head -n 1 | awk '{print $2}')
+
+  DEBS=(../*.deb)
+
+  for DEB in "${DEBS[@]}"; do
+    [ -e "$DEB" ] || continue
+    TMPDIR=$(mktemp -d)
+    echo "$0: modifying homepage in $DEB ($TMPDIR) to $HOMEPAGE_URL"
+    dpkg-deb -R "$DEB" "$TMPDIR"
+    rm -f $DEB
+    if grep -q '^Homepage:' "$TMPDIR/DEBIAN/control"; then
+      sed -i "s#^Homepage:.*#Homepage: ${HOMEPAGE_URL}#" "$TMPDIR/DEBIAN/control"
+    else
+      printf 'Homepage: %s\n' "${HOMEPAGE_URL}" >> "$TMPDIR/DEBIAN/control"
     fi
-
-    FOUND=$(grep -x "$dep" "$OTHER_FILES_FOLDER/compiled.txt" | wc -l)
-
-    echo "$0: checking if '$dep' is within MY_DEPENDENCIES, FOUND='$FOUND'"
-
-    if [ $FOUND -ge 1 ]; then
-      DEPENDENCIES_CHANGED=true
-      echo "$0: The dependency $dep has been updated, going to compile"
-    fi
-
-    echo "$0: ... nope"
-
+    printf 'XB-Build-Date: %s\n' "$(date -R)" >> "$TMPDIR/DEBIAN/control"
+    dpkg-deb -b "$TMPDIR" "$DEB"
+    rm -rf "$TMPDIR"
   done
 
-  if [[ "$DOCKER_SHA_MATCHES" == "0" && "$(date +%u)" == [67] ]]; then
-    echo "$0: weekly rebuild with new base image, going to compile"
-    DEPENDENCIES_CHANGED=true
-  fi
+  echo "$0: installing newly compiled deb file"
+  [ -e "${DEBS[0]}" ] && apt-get -y install --allow-downgrades ../*.deb || echo "$0: no artifacts to be installed"
 
-  if $DEPENDENCIES_CHANGED || $NEW_COMMIT; then
+  echo "$0: moving the artifact to $DEBS_FOLDER"
+  [ -e "${DEBS[0]}" ] && mv ../*.deb $DEBS_FOLDER || echo "$0: no artifacts to be moved"
 
-    ## don't run if COLCON_IGNORE is present
+  echo "$PACKAGE:
+  ubuntu: [$DEB_NAME]
+" >> $ROSDEP_FILE
 
-    if [ -e ./COLCON_IGNORE ]; then
+  rosdep update
 
-      echo "$0: COLCON_IGNORE present, skipping $PACKAGE"
-      continue
-    fi
+  source /opt/ros/jazzy/setup.bash
 
-    apt-get -y update
+  echo "$PACKAGE" >> $OTHER_FILES_FOLDER/compiled.txt
 
-    rosdep install -y -v --rosdistro=jazzy --dependency-types=build --dependency-types=build_export --dependency-types=buildtool --from-paths ./
-
-    source /opt/ros/jazzy/setup.bash
-
-    echo "$0: Running bloom on a package in '$PKG_PATH'"
-
-    export DEB_BUILD_OPTIONS="nocheck"
-
-    if [[ "$ARCH" != "arm64" ]]; then
-      export DEB_BUILD_OPTIONS="$DEB_BUILD_OPTIONS parallel=`nproc`"
-    fi
-
-    bloom-generate rosdebian --os-name ubuntu --os-version noble --ros-distro jazzy
-
-    epoch=2
-    build_flag="$(date +%Y%m%d.%H%M%S)~git.$SHA.base.$DOCKER_SHA"
-
-    sed -i "s/(/($epoch:/" ./debian/changelog
-    sed -i "s/)/.${build_flag})/" ./debian/changelog
-
-    if [[ "$ARCH" != "arm64" ]]; then
-      fakeroot debian/rules "binary --parallel"
-    else
-      fakeroot debian/rules "binary"
-    fi
-
-    DEB_NAME=$(dpkg --field ../*.deb | grep "Package:" | head -n 1 | awk '{print $2}')
-
-    DEBS=(../*.deb)
-
-    for DEB in "${DEBS[@]}"; do
-      [ -e "$DEB" ] || continue
-      TMPDIR=$(mktemp -d)
-      echo "$0: modifying homepage in $DEB ($TMPDIR) to $HOMEPAGE_URL"
-      dpkg-deb -R "$DEB" "$TMPDIR"
-      rm -f $DEB
-      if grep -q '^Homepage:' "$TMPDIR/DEBIAN/control"; then
-        sed -i "s#^Homepage:.*#Homepage: ${HOMEPAGE_URL}#" "$TMPDIR/DEBIAN/control"
-      else
-        printf 'Homepage: %s\n' "${HOMEPAGE_URL}" >> "$TMPDIR/DEBIAN/control"
-      fi
-      printf 'XB-Build-Date: %s\n' "$(date -R)" >> "$TMPDIR/DEBIAN/control"
-      dpkg-deb -b "$TMPDIR" "$DEB"
-      rm -rf "$TMPDIR"
-    done
-
-    echo "$0: installing newly compiled deb file"
-    [ -e "${DEBS[0]}" ] && apt-get -y install --allow-downgrades ../*.deb || echo "$0: no artifacts to be installed"
-
-    echo "$0: moving the artifact to $DEBS_FOLDER"
-    [ -e "${DEBS[0]}" ] && mv ../*.deb $DEBS_FOLDER || echo "$0: no artifacts to be moved"
-
-    echo "$PACKAGE:
-    ubuntu: [$DEB_NAME]
-  " >> $ROSDEP_FILE
-
-    rosdep update
-
-    source /opt/ros/jazzy/setup.bash
-
-    echo "$PACKAGE" >> $OTHER_FILES_FOLDER/compiled.txt
-
-  else
-
-    echo "$0: not building this package, the newest version is already in the PPA"
-
-    echo "$PACKAGE:
-    ubuntu: [$FUTURE_DEB_NAME]
-  " >> $ROSDEP_FILE
-
-  fi
-
-done
+done; IFS=$OLDIFS
 
 echo ""
 echo "$0: the generated rosdep contains:"
