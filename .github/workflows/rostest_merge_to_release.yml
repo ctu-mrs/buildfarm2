@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          fetch-depth: 0
+          fetch-depth: 1
           submodules: 'recursive'
       - name: Checkout CI scripts
         uses: actions/checkout@v6
@@ -47,7 +47,7 @@ jobs:
           mkdir -p ${{env.ARTIFACTS_FOLDER}}
       - uses: actions/checkout@v6
         with:
-          fetch-depth: 0
+          fetch-depth: 1
           submodules: 'recursive'
       - name: Checkout CI scripts
         uses: actions/checkout@v6
@@ -73,7 +73,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          fetch-depth: 0
+          fetch-depth: 1
           submodules: 'recursive'
       - id: generate
         run: |
@@ -93,7 +93,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          fetch-depth: 0
+          fetch-depth: 1
           submodules: 'recursive'
       - name: Load artifacts
         uses: actions/download-artifact@v8
@@ -126,7 +126,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          fetch-depth: 0
+          fetch-depth: 1
           submodules: 'recursive'
       - id: merge
         run: |
@@ -144,7 +144,7 @@ jobs:
             path: ${{env.ARTIFACTS_FOLDER}}
         - uses: actions/checkout@v6
           with:
-            fetch-depth: 0
+            fetch-depth: 1
             submodules: 'recursive'
         - name: Checkout CI scripts
           uses: actions/checkout@v6
