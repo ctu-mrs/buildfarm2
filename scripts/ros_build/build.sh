@@ -96,6 +96,11 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
 
   echo "$0: future deb name: $FUTURE_DEB_NAME"
 
+  # even a package that we end up skipping has to stay resolvable by rosdep
+  ROSDEP_ENTRIES="$ROSDEP_ENTRIES$PACKAGE:
+    ubuntu: [$FUTURE_DEB_NAME]
+"
+
   SHA=$(git rev-parse --short HEAD)
   DOCKER_SHA=$(cat $ARTIFACTS_FOLDER/base_sha.txt)
 
@@ -150,6 +155,10 @@ done; IFS=$OLDIFS
 
 if ! $DEPENDENCIES_CHANGED && ! $NEW_COMMIT; then
   echo "$0: Skipping"
+
+  # nothing is compiled here, so the entries are carried over for the deploy
+  echo "$ROSDEP_ENTRIES" >> $ARTIFACTS_FOLDER/$ROSDEP_FILE
+
   exit 0
 fi
 
