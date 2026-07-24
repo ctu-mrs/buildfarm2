@@ -1,0 +1,66 @@
+name: reusable_collect_artifacts
+
+on:
+  workflow_call:
+    inputs:
+      runs_on:
+        description: 'Runner environment (e.g., ubuntu-22.04 or ubuntu-22.04-arm)'
+        required: true
+        type: string
+      variant:
+        description: 'VARIANT environment variable'
+        required: true
+        type: string
+      artifacts_folder:
+        description: 'ARTIFACTS_FOLDER environment variable (optional)'
+        required: false
+        type: string
+        default: '/tmp/artifacts'
+    secrets:
+      PUSH_TOKEN:
+        required: true
+
+jobs:
+  collect-artifacts:
+    runs-on: ${{ inputs.runs_on }}
+    env:
+      PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+      VARIANT: ${{ inputs.variant }}
+      ARTIFACTS_FOLDER: ${{ inputs.artifacts_folder }}
+    steps:
+      - name: Load artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: artifacts
+          path: ${{env.ARTIFACTS_FOLDER}}
+      - id: execute
+        run: |
+          rm ${{env.ARTIFACTS_FOLDER}}/compiled.txt 2> /dev/null || true
+          rm ${{env.ARTIFACTS_FOLDER}}/base_sha.txt 2> /dev/null || true
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          submodules: 'recursive'
+      - name: Checkout CI scripts
+        uses: actions/checkout@v6
+        with:
+          repository: ctu-mrs/ci_scripts
+          ref: ros2
+          path: ci_scripts
+          token: ${{secrets.PUSH_TOKEN}}
+      - name: Deploy
+        run: ./ci_scripts/package_build/push_to_ppa.sh ${{env.VARIANT}} ${{env.ARTIFACTS_FOLDER}}
+
+  delete_builder:
+    needs: collect-artifacts
+    if: always()
+    runs-on: ${{ inputs.runs_on }}
+    continue-on-error: true
+    steps:
+      - name: Delete old images
+        uses: dataaxiom/ghcr-cleanup-action@v1
+        with:
+          packages: '${{github.event.repository.name}}'
+          older-than: 7 days
+          keep-n-tagged: 1
+          token: ${{secrets.PUSH_TOKEN}}

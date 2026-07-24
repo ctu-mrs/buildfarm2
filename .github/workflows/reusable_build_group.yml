@@ -1,0 +1,167 @@
+name: reusable_build_group
+
+on:
+  workflow_call:
+    inputs:
+      group_json:
+        description: 'JSON array of jobs in this group'
+        required: true
+        type: string
+      runs_on:
+        description: 'Runner environment (e.g., ubuntu-22.04 or ubuntu-22.04-arm)'
+        required: true
+        type: string
+      max_parallel:
+        description: 'Maximum number of parallel jobs'
+        required: true
+        type: number
+      build_script:
+        description: 'Path to the build script to run'
+        required: false
+        type: string
+        default: './scripts/ros_build/build.sh'
+      app_list:
+        description: 'APP_LIST environment variable'
+        required: true
+        type: string
+      variant:
+        description: 'VARIANT environment variable'
+        required: true
+        type: string
+      base_image:
+        description: 'BASE_IMAGE environment variable (optional)'
+        required: false
+        type: string
+        default: ''
+      builder_image:
+        description: 'BUILDER_IMAGE environment variable (optional)'
+        required: false
+        type: string
+        default: ''
+      artifacts_folder:
+        description: 'ARTIFACTS_FOLDER environment variable (optional)'
+        required: false
+        type: string
+        default: '/tmp/artifacts'
+    secrets:
+      PUSH_TOKEN:
+        required: true
+
+jobs:
+  build-jobs:
+    if: inputs.group_json != '[]' && inputs.group_json != ''
+    runs-on: ${{ inputs.runs_on }}
+    timeout-minutes: 360 # 6 hour timeout
+    strategy:
+      matrix:
+        job: ${{ fromJson(inputs.group_json) }}
+      max-parallel: ${{ inputs.max_parallel }}
+      fail-fast: false
+    env:
+      PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+      APP_LIST: ${{ inputs.app_list }}
+      VARIANT: ${{ inputs.variant }}
+      BASE_IMAGE: ${{ inputs.base_image }}
+      BUILDER_IMAGE: ${{ inputs.builder_image }}
+      ARTIFACTS_FOLDER: ${{ inputs.artifacts_folder }}
+      # a parallel job must never push the builder image, they would race each
+      # other over the same tag, merge-artifacts updates it once per group
+      SKIP_BUILDER_UPDATE: true
+    steps:
+      - name: Load base artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: artifacts
+          path: ${{env.ARTIFACTS_FOLDER}}
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          submodules: 'recursive'
+      - name: Checkout CI scripts
+        uses: actions/checkout@v6
+        with:
+          repository: ctu-mrs/ci_scripts
+          ref: ros2
+          path: ci_scripts
+          token: ${{secrets.PUSH_TOKEN}}
+      - id: build
+        run: |
+          # The build_script could be ros_build or nonbloom_build
+          ${{ inputs.build_script }} ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job}}" ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.ARTIFACTS_FOLDER}}
+      - name: Store job artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: artifacts_${{ matrix.job }}
+          path: ${{env.ARTIFACTS_FOLDER}}
+          overwrite: true
+
+  merge-artifacts:
+    if: inputs.group_json != '[]' && inputs.group_json != ''
+    needs: build-jobs
+    runs-on: ${{ inputs.runs_on }}
+    env:
+      PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+      APP_LIST: ${{ inputs.app_list }}
+      BASE_IMAGE: ${{ inputs.base_image }}
+      BUILDER_IMAGE: ${{ inputs.builder_image }}
+      ARTIFACTS_FOLDER: ${{ inputs.artifacts_folder }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          submodules: 'recursive'
+      - name: Checkout CI scripts
+        uses: actions/checkout@v6
+        with:
+          repository: ctu-mrs/ci_scripts
+          ref: ros2
+          path: ci_scripts
+          token: ${{secrets.PUSH_TOKEN}}
+      - name: Download all partial artifacts
+        uses: actions/download-artifact@v8
+        with:
+          path: /tmp/all_artifacts
+      - name: Merge artifacts
+        run: |
+          mkdir -p ${{env.ARTIFACTS_FOLDER}}
+
+          ARCH=$(dpkg-architecture -qDEB_HOST_ARCH)
+          ROSDEP_FILE=generated_${{env.APP_LIST}}_${ARCH}.yaml
+
+          # the base sha is identical in all of them, just copy the first one found
+          find /tmp/all_artifacts -name "base_sha.txt" -print -quit | xargs -I {} cp {} ${{env.ARTIFACTS_FOLDER}}/
+
+          # compiled.txt is a plain list of packages, merge it by unique lines
+          touch ${{env.ARTIFACTS_FOLDER}}/compiled.txt
+          find /tmp/all_artifacts -name "compiled.txt" -exec cat {} + | sort -u > ${{env.ARTIFACTS_FOLDER}}/compiled.txt
+
+          # the debs accumulate over the groups, they are pushed to the ppa at the end
+          find /tmp/all_artifacts -name "*.deb" -exec cp {} ${{env.ARTIFACTS_FOLDER}}/ \;
+
+          # the rosdep yaml is a flat dict, merge it in python
+          python3 - "$ROSDEP_FILE" "${{env.ARTIFACTS_FOLDER}}/$ROSDEP_FILE" <<'EOF'
+          import glob
+          import sys
+          import yaml
+
+          merged = {}
+          for path in glob.glob("/tmp/all_artifacts/*/" + sys.argv[1]):
+              with open(path, 'r') as f:
+                  if data := yaml.safe_load(f):
+                      merged.update(data)
+
+          with open(sys.argv[2], 'w') as f:
+              yaml.dump(merged, f)
+          EOF
+
+          ls ${{env.ARTIFACTS_FOLDER}}
+      # only the ros_build pipeline keeps a builder image, nonbloom does not
+      - name: Update the builder image
+        if: contains(inputs.build_script, 'ros_build')
+        run: ./scripts/ros_build/update_builder.sh ${{env.ARTIFACTS_FOLDER}} ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}}
+      - name: Upload merged artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: artifacts
+          path: ${{env.ARTIFACTS_FOLDER}}
+          overwrite: true

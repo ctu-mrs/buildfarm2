@@ -15,6 +15,7 @@ REPO_PATH=${MY_PATH}/..
 
 LIST=$1
 VARIANT=$2
+GROUPED=$3
 
 ## | ----------------------------  ---------------------------- |
 
@@ -63,10 +64,10 @@ done
 echo "$0: Done cloning" >> /tmp/log.txt 2>&1
 echo "" >> /tmp/log.txt 2>&1
 
-BUILD_ORDER=$($REPO_PATH/scripts/helpers/get_repository_build_order.py $WORKSPACE)
+BUILD_ORDER=$($REPO_PATH/scripts/helpers/get_repository_build_order.py $WORKSPACE $GROUPED)
 
 echo "$0: ROS package build order:" >> /tmp/log.txt 2>&1
 echo "$BUILD_ORDER" >> /tmp/log.txt 2>&1
 echo "" >> /tmp/log.txt 2>&1
 
-echo ${BUILD_ORDER}
+echo "${BUILD_ORDER}"

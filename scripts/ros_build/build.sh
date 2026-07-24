@@ -23,6 +23,10 @@ ARTIFACTS_FOLDER=$6
 
 [ -z $RUN_LOCALLY ] && RUN_LOCALLY=false
 
+# when building in parallel groups, the builder image is updated once per group
+# instead, so that the jobs within a group don't race pushing the same tag
+[ -z $SKIP_BUILDER_UPDATE ] && SKIP_BUILDER_UPDATE=false
+
 # default for testing
 
 [ -z $LIST ] && LIST=mrs
@@ -228,21 +232,8 @@ DEBS_EXIST=$(ls /tmp/debs | grep ".deb" | wc -l)
 
 if [ $DEBS_EXIST -gt 0 ]; then
 
-  echo "$0: updating the builder docker image"
-
-  cd $MY_PATH
-
-  PASS_TO_DOCKER_BUILD="Dockerfile /tmp/debs"
-
-  tar -czh $PASS_TO_DOCKER_BUILD 2>/dev/null | docker build - --target squash_builder --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg BUILDER_IMAGE=${DOCKER_IMAGE} --tag ${DOCKER_IMAGE} --progress plain
-
-  echo "$0: exporting the builder docker image as ${DOCKER_IMAGE}"
-
-  if ! $RUN_LOCALLY; then
-
-    docker tag $DOCKER_IMAGE ghcr.io/ctu-mrs/buildfarm2:$DOCKER_IMAGE
-    docker push ghcr.io/ctu-mrs/buildfarm2:$DOCKER_IMAGE
-
+  if ! $SKIP_BUILDER_UPDATE; then
+    $MY_PATH/update_builder.sh /tmp/debs $BASE_IMAGE $DOCKER_IMAGE
   fi
 
   echo "$0: copying artifacts"
