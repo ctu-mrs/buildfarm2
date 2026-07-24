@@ -88,6 +88,10 @@ curl -sL https://ctu-mrs.github.io/ppa2-${VARIANT}/add_sources_ppa.sh | bash
 
 BUILD_ORDER=$($REPO_PATH/ci_scripts/helpers/get_package_build_order.py /tmp/repository)
 
+# accumulated over the whole repo, so an early package that needs a rebuild is not overwritten
+NEW_COMMIT=false
+DEPENDENCIES_CHANGED=false
+
 OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
 
   PACKAGE=$(echo $LINE | awk '{print $1}')
@@ -95,6 +99,12 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
 
   echo "$0: cding to '/tmp/repository/$PKG_PATH_SUB'"
   cd /tmp/repository/$PKG_PATH_SUB
+
+  # an ignored package never gets a published deb, so don't let it force a rebuild
+  if [ -e ./COLCON_IGNORE ]; then
+    echo "$0: COLCON_IGNORE present, skipping $PACKAGE"
+    continue
+  fi
 
   FUTURE_DEB_NAME=$(echo "ros-jazzy-$PACKAGE" | sed 's/_/-/g')
 
@@ -114,7 +124,6 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
   ON_PUSH_BUILD=$(apt-cache policy $FUTURE_DEB_NAME | grep "Candidate" | grep "on.push.build" | wc -l)
   DOCKER_SHA_MATCHES=$(apt-cache policy $FUTURE_DEB_NAME | grep "Candidate" | grep "base.${DOCKER_SHA}" | wc -l)
 
-  NEW_COMMIT=false
   if [[ "$GIT_SHA_MATCHES" == "0" ]] || [ "$ON_PUSH_BUILD" -ge "1" ]; then
     echo "$0: new commit detected, going to compile"
     NEW_COMMIT=true
@@ -125,8 +134,6 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
   echo ""
   echo "$0: MY_DEPENDENCIES: '$MY_DEPENDENCIES'"
   echo ""
-
-  DEPENDENCIES_CHANGED=false
 
   # this \|/ has to iterate over the dependencies in bash
   readarray -t MY_DEPENDENCIES_ITEMIZED <<< "$MY_DEPENDENCIES"
@@ -157,12 +164,11 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
 
 done; IFS=$OLDIFS
 
+# every package in this repo must stay rosdep-resolvable whether it is built or skipped
+echo "$ROSDEP_ENTRIES" >> $ARTIFACTS_FOLDER/$ROSDEP_FILE
+
 if ! $DEPENDENCIES_CHANGED && ! $NEW_COMMIT; then
   echo "$0: Skipping"
-
-  # nothing is compiled here, so the entries are carried over for the deploy
-  echo "$ROSDEP_ENTRIES" >> $ARTIFACTS_FOLDER/$ROSDEP_FILE
-
   exit 0
 fi
 

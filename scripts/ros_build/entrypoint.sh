@@ -90,8 +90,6 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
     fakeroot debian/rules "binary"
   fi
 
-  DEB_NAME=$(dpkg --field ../*.deb | grep "Package:" | head -n 1 | awk '{print $2}')
-
   DEBS=(../*.deb)
 
   for DEB in "${DEBS[@]}"; do
@@ -116,12 +114,7 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
   echo "$0: moving the artifact to $DEBS_FOLDER"
   [ -e "${DEBS[0]}" ] && mv ../*.deb $DEBS_FOLDER || echo "$0: no artifacts to be moved"
 
-  echo "$PACKAGE:
-  ubuntu: [$DEB_NAME]
-" >> $ROSDEP_FILE
-
-  rosdep update
-
+  # records that this package was actually compiled, for downstream rebuilds
   source /opt/ros/jazzy/setup.bash
 
   echo "$PACKAGE" >> $OTHER_FILES_FOLDER/compiled.txt
