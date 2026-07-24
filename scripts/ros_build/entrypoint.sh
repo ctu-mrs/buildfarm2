@@ -64,9 +64,9 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
 
   apt-get -y update
 
-  rosdep install -y -v --rosdistro=jazzy --dependency-types=build --dependency-types=build_export --dependency-types=buildtool --from-paths ./
+  rosdep install -y -v --rosdistro=$ROS_DISTRO --dependency-types=build --dependency-types=build_export --dependency-types=buildtool --from-paths ./
 
-  source /opt/ros/jazzy/setup.bash
+  source /opt/ros/$ROS_DISTRO/setup.bash
 
   echo "$0: Running bloom on a package in '$PKG_PATH'"
 
@@ -76,7 +76,7 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
     export DEB_BUILD_OPTIONS="$DEB_BUILD_OPTIONS parallel=`nproc`"
   fi
 
-  bloom-generate rosdebian --os-name ubuntu --os-version noble --ros-distro jazzy
+  bloom-generate rosdebian --os-name ubuntu --os-version $(lsb_release -cs) --ros-distro $ROS_DISTRO
 
   epoch=2
   build_flag="$(date +%Y%m%d.%H%M%S)~git.$SHA.base.$DOCKER_SHA"
@@ -115,8 +115,6 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
   [ -e "${DEBS[0]}" ] && mv ../*.deb $DEBS_FOLDER || echo "$0: no artifacts to be moved"
 
   # records that this package was actually compiled, for downstream rebuilds
-  source /opt/ros/jazzy/setup.bash
-
   echo "$PACKAGE" >> $OTHER_FILES_FOLDER/compiled.txt
 
 done; IFS=$OLDIFS

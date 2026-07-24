@@ -25,7 +25,7 @@ if [ ! -e $WORKSPACE/install ]; then
 
   cd $WORKSPACE
 
-  source /opt/ros/jazzy/setup.bash
+  source /opt/ros/$ROS_DISTRO/setup.bash
   colcon build
 
 fi

@@ -13,7 +13,7 @@ OTHER_FILES_FOLDER=/etc/docker/other_files
 
 WORKSPACE=/tmp/workspace
 cd $WORKSPACE
-source /opt/ros/jazzy/setup.bash
+source /opt/ros/$ROS_DISTRO/setup.bash
 
 apt-get -y update
 
