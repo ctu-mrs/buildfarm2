@@ -55,9 +55,13 @@ jobs:
     needs: init-artifacts
     runs-on: ubuntu-22.04
     outputs:
+      group_0: ${{steps.generate.outputs.group_0}}
       group_1: ${{steps.generate.outputs.group_1}}
       group_2: ${{steps.generate.outputs.group_2}}
       group_3: ${{steps.generate.outputs.group_3}}
+      group_4: ${{steps.generate.outputs.group_4}}
+      group_5: ${{steps.generate.outputs.group_5}}
+      group_6: ${{steps.generate.outputs.group_6}}
       group_last: ${{steps.generate.outputs.group_last}}
       app_list: ${{steps.generate.outputs.app_list}}
       variant: ${{steps.generate.outputs.variant}}
@@ -79,9 +83,13 @@ jobs:
       - id: generate
         run: |
           JSON_GROUPS=$(./scripts/get_build_matrix.sh ${{env.APP_LIST}} ${{env.VARIANT}} true)
+          echo "group_0=$(echo $JSON_GROUPS | jq -c '.group_0 // []')" >> "$GITHUB_OUTPUT"
           echo "group_1=$(echo $JSON_GROUPS | jq -c '.group_1 // []')" >> "$GITHUB_OUTPUT"
           echo "group_2=$(echo $JSON_GROUPS | jq -c '.group_2 // []')" >> "$GITHUB_OUTPUT"
           echo "group_3=$(echo $JSON_GROUPS | jq -c '.group_3 // []')" >> "$GITHUB_OUTPUT"
+          echo "group_4=$(echo $JSON_GROUPS | jq -c '.group_4 // []')" >> "$GITHUB_OUTPUT"
+          echo "group_5=$(echo $JSON_GROUPS | jq -c '.group_5 // []')" >> "$GITHUB_OUTPUT"
+          echo "group_6=$(echo $JSON_GROUPS | jq -c '.group_6 // []')" >> "$GITHUB_OUTPUT"
           echo "group_last=$(echo $JSON_GROUPS | jq -c '.group_last // []')" >> "$GITHUB_OUTPUT"
           # republish it for the reusable workflow calls, which cannot read the env context
           echo "app_list=${{env.APP_LIST}}" >> "$GITHUB_OUTPUT"
@@ -90,8 +98,23 @@ jobs:
           echo "builder_image=${{env.BUILDER_IMAGE}}" >> "$GITHUB_OUTPUT"
           echo "artifacts_folder=${{env.ARTIFACTS_FOLDER}}" >> "$GITHUB_OUTPUT"
 
-  build-group-1:
+  build-group-0:
     needs: generate-jobs
+    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+    uses: ./.github/workflows/reusable_build_group.yml
+    with:
+      group_json: ${{ needs.generate-jobs.outputs.group_0 }}
+      runs_on: ubuntu-22.04
+      max_parallel: 5
+      app_list: ${{ needs.generate-jobs.outputs.app_list }}
+      variant: ${{ needs.generate-jobs.outputs.variant }}
+      base_image: ${{ needs.generate-jobs.outputs.base_image }}
+      builder_image: ${{ needs.generate-jobs.outputs.builder_image }}
+      artifacts_folder: ${{ needs.generate-jobs.outputs.artifacts_folder }}
+    secrets: inherit
+
+  build-group-1:
+    needs: [generate-jobs, build-group-0]
     if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
     uses: ./.github/workflows/reusable_build_group.yml
     with:
@@ -135,14 +158,58 @@ jobs:
       artifacts_folder: ${{ needs.generate-jobs.outputs.artifacts_folder }}
     secrets: inherit
 
-  build-group-last:
+  build-group-4:
     needs: [generate-jobs, build-group-3]
     if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
     uses: ./.github/workflows/reusable_build_group.yml
     with:
+      group_json: ${{ needs.generate-jobs.outputs.group_4 }}
+      runs_on: ubuntu-22.04
+      max_parallel: 5
+      app_list: ${{ needs.generate-jobs.outputs.app_list }}
+      variant: ${{ needs.generate-jobs.outputs.variant }}
+      base_image: ${{ needs.generate-jobs.outputs.base_image }}
+      builder_image: ${{ needs.generate-jobs.outputs.builder_image }}
+      artifacts_folder: ${{ needs.generate-jobs.outputs.artifacts_folder }}
+    secrets: inherit
+
+  build-group-5:
+    needs: [generate-jobs, build-group-4]
+    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+    uses: ./.github/workflows/reusable_build_group.yml
+    with:
+      group_json: ${{ needs.generate-jobs.outputs.group_5 }}
+      runs_on: ubuntu-22.04
+      max_parallel: 5
+      app_list: ${{ needs.generate-jobs.outputs.app_list }}
+      variant: ${{ needs.generate-jobs.outputs.variant }}
+      base_image: ${{ needs.generate-jobs.outputs.base_image }}
+      builder_image: ${{ needs.generate-jobs.outputs.builder_image }}
+      artifacts_folder: ${{ needs.generate-jobs.outputs.artifacts_folder }}
+    secrets: inherit
+
+  build-group-6:
+    needs: [generate-jobs, build-group-5]
+    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+    uses: ./.github/workflows/reusable_build_group.yml
+    with:
+      group_json: ${{ needs.generate-jobs.outputs.group_6 }}
+      runs_on: ubuntu-22.04
+      max_parallel: 5
+      app_list: ${{ needs.generate-jobs.outputs.app_list }}
+      variant: ${{ needs.generate-jobs.outputs.variant }}
+      base_image: ${{ needs.generate-jobs.outputs.base_image }}
+      builder_image: ${{ needs.generate-jobs.outputs.builder_image }}
+      artifacts_folder: ${{ needs.generate-jobs.outputs.artifacts_folder }}
+    secrets: inherit
+
+  build-group-last:
+    needs: [generate-jobs, build-group-6]
+    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+    uses: ./.github/workflows/reusable_serial_group.yml
+    with:
       group_json: ${{ needs.generate-jobs.outputs.group_last }}
       runs_on: ubuntu-22.04
-      max_parallel: 1
       app_list: ${{ needs.generate-jobs.outputs.app_list }}
       variant: ${{ needs.generate-jobs.outputs.variant }}
       base_image: ${{ needs.generate-jobs.outputs.base_image }}
@@ -151,7 +218,7 @@ jobs:
     secrets: inherit
 
   collect-artifacts:
-    needs: [generate-jobs, build-group-1, build-group-2, build-group-3, build-group-last]
+    needs: [generate-jobs, build-group-0, build-group-1, build-group-2, build-group-3, build-group-4, build-group-5, build-group-6, build-group-last]
     if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
     uses: ./.github/workflows/reusable_collect_artifacts.yml
     with:

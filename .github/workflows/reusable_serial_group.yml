@@ -1,0 +1,111 @@
+name: reusable_serial_group
+
+on:
+  workflow_call:
+    inputs:
+      group_json:
+        description: 'JSON array of jobs in this group, built one at a time in dependency order'
+        required: true
+        type: string
+      runs_on:
+        description: 'Runner environment (e.g., ubuntu-22.04 or ubuntu-22.04-arm)'
+        required: true
+        type: string
+      build_script:
+        description: 'Path to the build script to run'
+        required: false
+        type: string
+        default: './scripts/ros_build/build.sh'
+      app_list:
+        description: 'APP_LIST environment variable'
+        required: true
+        type: string
+      variant:
+        description: 'VARIANT environment variable'
+        required: true
+        type: string
+      base_image:
+        description: 'BASE_IMAGE environment variable (optional)'
+        required: false
+        type: string
+        default: ''
+      builder_image:
+        description: 'BUILDER_IMAGE environment variable (optional)'
+        required: false
+        type: string
+        default: ''
+      artifacts_folder:
+        description: 'ARTIFACTS_FOLDER environment variable (optional)'
+        required: false
+        type: string
+        default: '/tmp/artifacts'
+    secrets:
+      PUSH_TOKEN:
+        required: true
+
+# The deep tail of the dependency graph, where a package may depend on another at
+# the same or a nearby depth. Unlike the parallel groups (which merge only after
+# the whole wave), these are built strictly one at a time: each leg downloads the
+# shared 'artifacts', builds, bakes its debs into the builder image, then
+# overwrites the shared 'artifacts' so the next leg sees its compiled.txt and debs.
+# Load-bearing assumption: a max-parallel:1 matrix runs its legs in array order and
+# group_json is emitted in topological order, so every dependency is built (and its
+# deb baked into the builder image) before the leg that needs it.
+jobs:
+  build-jobs:
+    if: inputs.group_json != '[]' && inputs.group_json != ''
+    runs-on: ${{ inputs.runs_on }}
+    timeout-minutes: 360 # 6 hour timeout
+    strategy:
+      matrix:
+        job: ${{ fromJson(inputs.group_json) }}
+      max-parallel: 1 # strictly serial: each leg threads state to the next
+      fail-fast: false
+    env:
+      PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+      APP_LIST: ${{ inputs.app_list }}
+      VARIANT: ${{ inputs.variant }}
+      BASE_IMAGE: ${{ inputs.base_image }}
+      BUILDER_IMAGE: ${{ inputs.builder_image }}
+      ARTIFACTS_FOLDER: ${{ inputs.artifacts_folder }}
+    steps:
+      - name: Load shared artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: artifacts
+          path: ${{env.ARTIFACTS_FOLDER}}
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          submodules: 'recursive'
+      - name: Checkout CI scripts
+        uses: actions/checkout@v6
+        with:
+          repository: ctu-mrs/ci_scripts
+          ref: ros2
+          path: ci_scripts
+          token: ${{secrets.PUSH_TOKEN}}
+      - id: build
+        run: |
+          # The build_script could be ros_build or nonbloom_build. The shared artifacts
+          # already carries every deb built earlier in the run, so count debs before and after to detect whether THIS leg actually produced one.
+          BEFORE=$(find ${{env.ARTIFACTS_FOLDER}} -maxdepth 1 -name '*.deb' | wc -l)
+          ${{ inputs.build_script }} ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job}}" ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.ARTIFACTS_FOLDER}}
+          AFTER=$(find ${{env.ARTIFACTS_FOLDER}} -maxdepth 1 -name '*.deb' | wc -l)
+          if [ "$AFTER" -gt "$BEFORE" ]; then echo "new_debs=true" >> "$GITHUB_OUTPUT"; else echo "new_debs=false" >> "$GITHUB_OUTPUT"; fi
+      # bake this leg's fresh debs into the builder image so the next serial leg can resolve them
+      - name: Update the builder image
+        if: contains(inputs.build_script, 'ros_build') && steps.build.outputs.new_debs == 'true'
+        run: ./scripts/ros_build/update_builder.sh ${{env.ARTIFACTS_FOLDER}} ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}}
+      # replace the shared artifact in place so the next serial leg downloads this leg's state
+      - name: Delete previous shared artifacts
+        uses: geekyeggo/delete-artifact@v6
+        with:
+          name: artifacts
+          failOnError: false
+      - name: Store shared artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: artifacts
+          path: ${{env.ARTIFACTS_FOLDER}}
+          overwrite: true

@@ -144,22 +144,13 @@ def main(root_dir, grouped=False):
 
     depth = compute_levels(packages, ordered_list)
 
-    output = {
-        "group_1": [],
-        "group_2": [],
-        "group_3": [],
-        "group_last": []
-    }
-
     # anything deeper falls back to the serial tail (group_last)
-    group_depth = {
-        0: "group_1",
-        1: "group_2",
-        2: "group_3"
-    }
+    output = {f"group_{i}": [] for i in range(7)}
+    output["group_last"] = []
 
     for repo in ordered_list:
-        output[group_depth.get(depth[repo], "group_last")].append(repo)
+        d = depth[repo]
+        output[f"group_{d}" if d < 7 else "group_last"].append(repo)
 
     print(json.dumps(output))
 
