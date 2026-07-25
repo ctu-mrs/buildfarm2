@@ -64,9 +64,6 @@ jobs:
       BASE_IMAGE: ${{ inputs.base_image }}
       BUILDER_IMAGE: ${{ inputs.builder_image }}
       ARTIFACTS_FOLDER: ${{ inputs.artifacts_folder }}
-      # a parallel job must never push the builder image, they would race each
-      # other over the same tag, merge-artifacts updates it once per group
-      SKIP_BUILDER_UPDATE: true
     steps:
       - name: Load base artifacts
         uses: actions/download-artifact@v8

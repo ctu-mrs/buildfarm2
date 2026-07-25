@@ -83,8 +83,7 @@ jobs:
           echo "group_2=$(echo $JSON_GROUPS | jq -c '.group_2 // []')" >> "$GITHUB_OUTPUT"
           echo "group_3=$(echo $JSON_GROUPS | jq -c '.group_3 // []')" >> "$GITHUB_OUTPUT"
           echo "group_last=$(echo $JSON_GROUPS | jq -c '.group_last // []')" >> "$GITHUB_OUTPUT"
-          # the env block is the single source of truth, republish it for the
-          # reusable workflow calls, which cannot read the env context
+          # republish it for the reusable workflow calls, which cannot read the env context
           echo "app_list=${{env.APP_LIST}}" >> "$GITHUB_OUTPUT"
           echo "variant=${{env.VARIANT}}" >> "$GITHUB_OUTPUT"
           echo "base_image=${{env.BASE_IMAGE}}" >> "$GITHUB_OUTPUT"

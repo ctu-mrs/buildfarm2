@@ -23,10 +23,6 @@ ARTIFACTS_FOLDER=$6
 
 [ -z $RUN_LOCALLY ] && RUN_LOCALLY=false
 
-# when building in parallel groups, the builder image is updated once per group
-# instead, so that the jobs within a group don't race pushing the same tag
-[ -z $SKIP_BUILDER_UPDATE ] && SKIP_BUILDER_UPDATE=false
-
 # default for testing
 
 [ -z $LIST ] && LIST=mrs
@@ -237,10 +233,6 @@ docker run \
 DEBS_EXIST=$(ls /tmp/debs | grep ".deb" | wc -l)
 
 if [ $DEBS_EXIST -gt 0 ]; then
-
-  if ! $SKIP_BUILDER_UPDATE; then
-    $MY_PATH/update_builder.sh /tmp/debs $BASE_IMAGE $DOCKER_IMAGE
-  fi
 
   echo "$0: copying artifacts"
 
