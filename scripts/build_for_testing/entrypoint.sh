@@ -15,9 +15,8 @@ WORKSPACE=/tmp/workspace
 cd $WORKSPACE
 source /opt/ros/$ROS_DISTRO/setup.bash
 
-apt-get -y update
-
-rosdep install -y -v --from-path src/
+apt-get -o Acquire::Retries="4" update
+rosdep install -y -v --rosdistro=$ROS_DISTRO --from-path src/
 
 cd src
 ln -s /etc/docker/repository

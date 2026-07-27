@@ -13,9 +13,9 @@ COREDUMP=/etc/docker/coredump
 
 echo "$0: installing dependencies using rosdep"
 
-apt-get -y update
+apt-get -o Acquire::Retries="4" update
 
-rosdep install -y -v --from-path $WORKSPACE/src || echo "$0: failed to install dependencies using rosdep, the build might fail"
+rosdep install -y -v --rosdistro=$ROS_DISTRO --from-path $WORKSPACE/src || echo "$0: failed to install dependencies using rosdep, the build might fail"
 
 ## | ---------------- initialize the workspace ---------------- |
 

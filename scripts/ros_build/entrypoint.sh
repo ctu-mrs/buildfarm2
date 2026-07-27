@@ -37,9 +37,11 @@ if [ -s $ROSDEP_FILE ]; then
 
   echo "yaml file://$ROSDEP_FILE" | tee /etc/ros/rosdep/sources.list.d/temp.list
 
-  rosdep update
+  rosdep --rosdistro=$ROS_DISTRO update
 
 fi
+
+apt-get -o Acquire::Retries="4" update
 
 OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
 
@@ -61,8 +63,6 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
     echo "$0: COLCON_IGNORE present, skipping $PACKAGE"
     continue
   fi
-
-  apt-get -y update
 
   rosdep install -y -v --rosdistro=$ROS_DISTRO --dependency-types=build --dependency-types=build_export --dependency-types=buildtool --from-paths ./
 

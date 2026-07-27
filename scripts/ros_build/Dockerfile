@@ -8,7 +8,7 @@ FROM $BUILDER_IMAGE AS update_builder
 COPY /tmp/debs /tmp/tmp_debs
 
 RUN ls /tmp/tmp_debs && \
-    apt-get update && apt-get -y install /tmp/tmp_debs/*.deb && \
+    apt-get -o Acquire::Retries="4" update && apt-get -y install --no-install-recommends /tmp/tmp_debs/*.deb && \
     rm -rf /tmp/tmp_debs
 
 #############################################################################
