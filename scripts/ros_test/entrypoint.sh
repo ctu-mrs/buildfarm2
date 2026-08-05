@@ -13,7 +13,7 @@ COREDUMP=/etc/docker/coredump
 
 echo "$0: installing dependencies using rosdep"
 
-apt-get -o Acquire::Retries="4" update
+apt-get update
 
 rosdep install -y -v --rosdistro=$ROS_DISTRO --from-path $WORKSPACE/src || echo "$0: failed to install dependencies using rosdep, the build might fail"
 

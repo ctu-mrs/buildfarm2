@@ -15,7 +15,7 @@ WORKSPACE=/tmp/workspace
 cd $WORKSPACE
 source /opt/ros/$ROS_DISTRO/setup.bash
 
-apt-get -o Acquire::Retries="4" update
+apt-get update
 rosdep install -y -v --rosdistro=$ROS_DISTRO --from-path src/
 
 cd src

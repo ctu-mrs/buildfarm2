@@ -80,7 +80,7 @@ fi
 echo "$0: evaluating fast skip logic"
 
 # Add the PPA to the runner to use apt-cache policy natively
-curl -s --compressed --retry 4 --retry-max-time 60 --retry-all-errors https://ctu-mrs.github.io/ppa2-${VARIANT}/add_sources_ppa.sh | bash
+curl -s --compressed --retry 4 --retry-all-errors https://ctu-mrs.github.io/ppa2-${VARIANT}/add_sources_ppa.sh | bash
 
 BUILD_ORDER=$($REPO_PATH/ci_scripts/helpers/get_package_build_order.py /tmp/repository)
 

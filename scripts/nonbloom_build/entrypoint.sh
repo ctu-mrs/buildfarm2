@@ -13,7 +13,7 @@ cd "$REPO_FOLDER"
 
 git config --global --add safe.directory "$REPO_FOLDER"
 
-apt-get -o Acquire::Retries=4 update
+apt-get update
 
 # call the build script within the clone repository
 ./.ci/build_package.sh ${ARTIFACTS_FOLDER} ${BASE_IMAGE}
