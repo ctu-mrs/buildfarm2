@@ -105,7 +105,7 @@ jobs:
     with:
       group_json: ${{ needs.generate-jobs.outputs.group_0 }}
       runs_on: ubuntu-22.04
-      max_parallel: 5
+      max-parallel: 10
       app_list: ${{ needs.generate-jobs.outputs.app_list }}
       variant: ${{ needs.generate-jobs.outputs.variant }}
       base_image: ${{ needs.generate-jobs.outputs.base_image }}
@@ -120,7 +120,7 @@ jobs:
     with:
       group_json: ${{ needs.generate-jobs.outputs.group_1 }}
       runs_on: ubuntu-22.04
-      max_parallel: 5
+      max-parallel: 10
       app_list: ${{ needs.generate-jobs.outputs.app_list }}
       variant: ${{ needs.generate-jobs.outputs.variant }}
       base_image: ${{ needs.generate-jobs.outputs.base_image }}
@@ -135,7 +135,7 @@ jobs:
     with:
       group_json: ${{ needs.generate-jobs.outputs.group_2 }}
       runs_on: ubuntu-22.04
-      max_parallel: 5
+      max-parallel: 10
       app_list: ${{ needs.generate-jobs.outputs.app_list }}
       variant: ${{ needs.generate-jobs.outputs.variant }}
       base_image: ${{ needs.generate-jobs.outputs.base_image }}
@@ -150,7 +150,7 @@ jobs:
     with:
       group_json: ${{ needs.generate-jobs.outputs.group_3 }}
       runs_on: ubuntu-22.04
-      max_parallel: 5
+      max-parallel: 10
       app_list: ${{ needs.generate-jobs.outputs.app_list }}
       variant: ${{ needs.generate-jobs.outputs.variant }}
       base_image: ${{ needs.generate-jobs.outputs.base_image }}
@@ -165,7 +165,7 @@ jobs:
     with:
       group_json: ${{ needs.generate-jobs.outputs.group_4 }}
       runs_on: ubuntu-22.04
-      max_parallel: 5
+      max-parallel: 10
       app_list: ${{ needs.generate-jobs.outputs.app_list }}
       variant: ${{ needs.generate-jobs.outputs.variant }}
       base_image: ${{ needs.generate-jobs.outputs.base_image }}
@@ -180,7 +180,7 @@ jobs:
     with:
       group_json: ${{ needs.generate-jobs.outputs.group_5 }}
       runs_on: ubuntu-22.04
-      max_parallel: 5
+      max-parallel: 10
       app_list: ${{ needs.generate-jobs.outputs.app_list }}
       variant: ${{ needs.generate-jobs.outputs.variant }}
       base_image: ${{ needs.generate-jobs.outputs.base_image }}
@@ -195,7 +195,7 @@ jobs:
     with:
       group_json: ${{ needs.generate-jobs.outputs.group_6 }}
       runs_on: ubuntu-22.04
-      max_parallel: 5
+      max-parallel: 10
       app_list: ${{ needs.generate-jobs.outputs.app_list }}
       variant: ${{ needs.generate-jobs.outputs.variant }}
       base_image: ${{ needs.generate-jobs.outputs.base_image }}
