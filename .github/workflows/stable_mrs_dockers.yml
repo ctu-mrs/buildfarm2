@@ -51,7 +51,7 @@ jobs:
     with:
       group_json: ${{ needs.generate-jobs.outputs.group_last }}
       runs_on: ubuntu-22.04
-      max-parallel: 10
+      max_parallel: 10
       build_script: ./scripts/docker_build/build.sh
       app_list: ${{ needs.generate-jobs.outputs.app_list }}
       variant: ${{ needs.generate-jobs.outputs.variant }}
