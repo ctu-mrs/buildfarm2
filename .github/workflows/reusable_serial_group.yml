@@ -42,6 +42,8 @@ on:
     secrets:
       PUSH_TOKEN:
         required: true
+      PRIVATE_PPA_TOKEN:
+        required: false
 
 # The deep tail of the dependency graph, where a package may depend on another at
 # the same or a nearby depth. Unlike the parallel groups (which merge only after
@@ -63,6 +65,7 @@ jobs:
       fail-fast: false
     env:
       PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+      PRIVATE_PPA_TOKEN: ${{ secrets.PRIVATE_PPA_TOKEN }}
       APP_LIST: ${{ inputs.app_list }}
       VARIANT: ${{ inputs.variant }}
       BASE_IMAGE: ${{ inputs.base_image }}

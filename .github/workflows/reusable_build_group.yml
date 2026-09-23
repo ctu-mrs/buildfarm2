@@ -46,6 +46,8 @@ on:
     secrets:
       PUSH_TOKEN:
         required: true
+      PRIVATE_PPA_TOKEN:
+        required: false
 
 jobs:
   build-jobs:
@@ -59,6 +61,7 @@ jobs:
       fail-fast: false
     env:
       PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+      PRIVATE_PPA_TOKEN: ${{ secrets.PRIVATE_PPA_TOKEN }}
       APP_LIST: ${{ inputs.app_list }}
       VARIANT: ${{ inputs.variant }}
       BASE_IMAGE: ${{ inputs.base_image }}

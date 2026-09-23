@@ -41,6 +41,7 @@ if [ -s $ROSDEP_FILE ]; then
 
 fi
 
+. /etc/docker/other_files/add_private_ppa.sh
 apt-get update
 
 OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do

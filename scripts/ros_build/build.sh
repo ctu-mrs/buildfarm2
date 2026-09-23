@@ -206,6 +206,7 @@ mkdir -p /tmp/other_files
 
 cp $ARTIFACTS_FOLDER/base_sha.txt /tmp/other_files/base_sha.txt
 cp $MY_PATH/entrypoint.sh /tmp/other_files/entrypoint.sh
+cp $REPO_PATH/scripts/helpers/add_private_ppa.sh /tmp/other_files/add_private_ppa.sh
 
 mv $ARTIFACTS_FOLDER/compiled.txt /tmp/other_files/compiled.txt
 mv $ARTIFACTS_FOLDER/$ROSDEP_FILE /tmp/other_files/rosdep.yaml
@@ -222,6 +223,7 @@ echo "$0: "
 
 docker run \
   --rm \
+  --env PRIVATE_PPA_TOKEN \
   -v /tmp/repository:/etc/docker/repository \
   -v /tmp/debs:/etc/docker/debs \
   -v /tmp/other_files:/etc/docker/other_files \

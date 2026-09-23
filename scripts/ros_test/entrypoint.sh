@@ -13,6 +13,7 @@ COREDUMP=/etc/docker/coredump
 
 echo "$0: installing dependencies using rosdep"
 
+. /tmp/workspace/add_private_ppa.sh
 apt-get update
 
 rosdep install -y -v --rosdistro=$ROS_DISTRO --from-path $WORKSPACE/src || echo "$0: failed to install dependencies using rosdep, the build might fail"

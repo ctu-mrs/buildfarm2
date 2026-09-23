@@ -115,11 +115,13 @@ echo "$0: image loaded"
 mkdir -p /tmp/other_files
 
 cp $MY_PATH/entrypoint.sh /tmp/other_files/entrypoint.sh
+cp $REPO_PATH/scripts/helpers/add_private_ppa.sh /tmp/other_files/add_private_ppa.sh
 
 ## | ---------------------- run the test ---------------------- |
 
 docker run \
   --rm \
+  --env PRIVATE_PPA_TOKEN \
   -v /tmp/workspace:/tmp/workspace \
   -v /tmp/other_files:/etc/docker/other_files \
   $DOCKER_IMAGE \

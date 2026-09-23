@@ -55,6 +55,7 @@ jobs:
     needs: prime-image
     env:
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
+      PRIVATE_PPA_TOKEN: ${{ secrets.PRIVATE_PPA_TOKEN }}
     runs-on: ubuntu-22.04
     steps:
       - id: init_artifacts
@@ -105,6 +106,7 @@ jobs:
         job: ${{ fromJson(needs.generate-jobs.outputs.packages) }}
     env:
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
+      PRIVATE_PPA_TOKEN: ${{ secrets.PRIVATE_PPA_TOKEN }}
     steps:
       - uses: actions/checkout@v6
         with:

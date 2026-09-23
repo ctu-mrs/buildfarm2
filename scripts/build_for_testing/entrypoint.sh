@@ -15,6 +15,7 @@ WORKSPACE=/tmp/workspace
 cd $WORKSPACE
 source /opt/ros/$ROS_DISTRO/setup.bash
 
+. /etc/docker/other_files/add_private_ppa.sh
 apt-get update
 rosdep install -y -v --rosdistro=$ROS_DISTRO --from-path src/
 
