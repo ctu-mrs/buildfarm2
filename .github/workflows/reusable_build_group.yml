@@ -101,6 +101,7 @@ jobs:
     runs-on: ${{ inputs.runs_on }}
     env:
       PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
+      PRIVATE_PPA_TOKEN: ${{ secrets.PRIVATE_PPA_TOKEN }}
       APP_LIST: ${{ inputs.app_list }}
       BASE_IMAGE: ${{ inputs.base_image }}
       BUILDER_IMAGE: ${{ inputs.builder_image }}

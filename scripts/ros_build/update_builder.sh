@@ -66,9 +66,24 @@ echo "$0: updating the builder docker image"
 
 cd $MY_PATH
 
-PASS_TO_DOCKER_BUILD="Dockerfile /tmp/debs"
+PRIVATE_PPA_DOCKER_BUILD_ARGS=(--build-arg PRIVATE_PPA_CACHE_SCOPE=public)
+if [[ -n ${PRIVATE_PPA_TOKEN:-} ]]; then
+  PRIVATE_PPA_DOCKER_BUILD_ARGS=(
+    --build-arg PRIVATE_PPA_CACHE_SCOPE=private
+    --secret id=PRIVATE_PPA_TOKEN,env=PRIVATE_PPA_TOKEN
+  )
+fi
 
-tar -czh $PASS_TO_DOCKER_BUILD 2>/dev/null | docker build - --target squash_builder --file Dockerfile --build-arg BASE_IMAGE=${BASE_IMAGE} --build-arg BUILDER_IMAGE=${DOCKER_IMAGE} --tag ${DOCKER_IMAGE} --progress plain
+set -o pipefail
+tar -czh \
+  -C "$MY_PATH" Dockerfile install_debs.sh \
+  -C "$REPO_PATH/scripts/helpers" add_private_ppa.sh \
+  -C / tmp/debs | \
+  docker build - --target squash_builder --file Dockerfile \
+    --build-arg "BASE_IMAGE=$BASE_IMAGE" \
+    --build-arg "BUILDER_IMAGE=$DOCKER_IMAGE" \
+    "${PRIVATE_PPA_DOCKER_BUILD_ARGS[@]}" \
+    --tag "$DOCKER_IMAGE" --progress plain
 
 echo "$0: exporting the builder docker image as ${DOCKER_IMAGE}"
 
