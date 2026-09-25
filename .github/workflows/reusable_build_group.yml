@@ -43,6 +43,11 @@ on:
         required: false
         type: string
         default: '/tmp/artifacts'
+      is_last_group:
+        description: 'Whether this is the last group in the workflow'
+        required: false
+        type: boolean
+        default: false
     secrets:
       PUSH_TOKEN:
         required: true
@@ -158,7 +163,7 @@ jobs:
           ls ${{env.ARTIFACTS_FOLDER}}
       # only the ros_build pipeline keeps a builder image, nonbloom does not
       - name: Update the builder image
-        if: contains(inputs.build_script, 'ros_build')
+        if: contains(inputs.build_script, 'ros_build') && !inputs.is_last_group
         run: ./scripts/ros_build/update_builder.sh ${{env.ARTIFACTS_FOLDER}} ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}}
       - name: Upload merged artifacts
         uses: actions/upload-artifact@v7

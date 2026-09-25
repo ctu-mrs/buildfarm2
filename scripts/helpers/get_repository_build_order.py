@@ -152,6 +152,10 @@ def main(root_dir, grouped=False):
         d = depth[repo]
         output[f"group_{d}" if d < 7 else "group_last"].append(repo)
 
+    group_order = [f"group_{i}" for i in range(7)] + ["group_last"]
+    non_empty = [g for g in group_order if output[g]]
+    output["last_group"] = non_empty[-1] if non_empty else "none"
+
     print(json.dumps(output))
 
 if __name__ == "__main__":

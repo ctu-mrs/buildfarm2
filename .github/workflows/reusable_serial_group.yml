@@ -71,6 +71,8 @@ jobs:
       BASE_IMAGE: ${{ inputs.base_image }}
       BUILDER_IMAGE: ${{ inputs.builder_image }}
       ARTIFACTS_FOLDER: ${{ inputs.artifacts_folder }}
+      GROUP_JSON: ${{ inputs.group_json }}
+      JOB_NAME: ${{ matrix.job }}
     steps:
       - name: Load shared artifacts
         uses: actions/download-artifact@v8
@@ -96,9 +98,11 @@ jobs:
           ${{ inputs.build_script }} ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job}}" ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.ARTIFACTS_FOLDER}}
           AFTER=$(find ${{env.ARTIFACTS_FOLDER}} -maxdepth 1 -name '*.deb' | wc -l)
           if [ "$AFTER" -gt "$BEFORE" ]; then echo "new_debs=true" >> "$GITHUB_OUTPUT"; else echo "new_debs=false" >> "$GITHUB_OUTPUT"; fi
+          LAST_JOB=$(echo "$GROUP_JSON" | jq -r '.[-1]')
+          if [ "$JOB_NAME" != "$LAST_JOB" ]; then echo "has_next=true" >> "$GITHUB_OUTPUT"; else echo "has_next=false" >> "$GITHUB_OUTPUT"; fi
       # bake this leg's fresh debs into the builder image so the next serial leg can resolve them
       - name: Update the builder image
-        if: contains(inputs.build_script, 'ros_build') && steps.build.outputs.new_debs == 'true'
+        if: contains(inputs.build_script, 'ros_build') && steps.build.outputs.new_debs == 'true' && steps.build.outputs.has_next == 'true'
         run: ./scripts/ros_build/update_builder.sh ${{env.ARTIFACTS_FOLDER}} ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}}
       # replace the shared artifact in place so the next serial leg downloads this leg's state
       - name: Delete previous shared artifacts

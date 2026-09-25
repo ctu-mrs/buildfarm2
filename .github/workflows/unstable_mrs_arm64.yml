@@ -63,6 +63,7 @@ jobs:
       group_5: ${{steps.generate.outputs.group_5}}
       group_6: ${{steps.generate.outputs.group_6}}
       group_last: ${{steps.generate.outputs.group_last}}
+      last_group: ${{steps.generate.outputs.last_group}}
       app_list: ${{steps.generate.outputs.app_list}}
       variant: ${{steps.generate.outputs.variant}}
       base_image: ${{steps.generate.outputs.base_image}}
@@ -91,6 +92,7 @@ jobs:
           echo "group_5=$(echo $JSON_GROUPS | jq -c '.group_5 // []')" >> "$GITHUB_OUTPUT"
           echo "group_6=$(echo $JSON_GROUPS | jq -c '.group_6 // []')" >> "$GITHUB_OUTPUT"
           echo "group_last=$(echo $JSON_GROUPS | jq -c '.group_last // []')" >> "$GITHUB_OUTPUT"
+          echo "last_group=$(echo $JSON_GROUPS | jq -r '.last_group // "none"')" >> "$GITHUB_OUTPUT"
           # republish it for the reusable workflow calls, which cannot read the env context
           echo "app_list=${{env.APP_LIST}}" >> "$GITHUB_OUTPUT"
           echo "variant=${{env.VARIANT}}" >> "$GITHUB_OUTPUT"
@@ -111,6 +113,7 @@ jobs:
       base_image: ${{ needs.generate-jobs.outputs.base_image }}
       builder_image: ${{ needs.generate-jobs.outputs.builder_image }}
       artifacts_folder: ${{ needs.generate-jobs.outputs.artifacts_folder }}
+      is_last_group: ${{ needs.generate-jobs.outputs.last_group == 'group_0' }}
     secrets: inherit
 
   build-group-1:
@@ -126,6 +129,7 @@ jobs:
       base_image: ${{ needs.generate-jobs.outputs.base_image }}
       builder_image: ${{ needs.generate-jobs.outputs.builder_image }}
       artifacts_folder: ${{ needs.generate-jobs.outputs.artifacts_folder }}
+      is_last_group: ${{ needs.generate-jobs.outputs.last_group == 'group_1' }}
     secrets: inherit
 
   build-group-2:
@@ -141,6 +145,7 @@ jobs:
       base_image: ${{ needs.generate-jobs.outputs.base_image }}
       builder_image: ${{ needs.generate-jobs.outputs.builder_image }}
       artifacts_folder: ${{ needs.generate-jobs.outputs.artifacts_folder }}
+      is_last_group: ${{ needs.generate-jobs.outputs.last_group == 'group_2' }}
     secrets: inherit
 
   build-group-3:
@@ -156,6 +161,7 @@ jobs:
       base_image: ${{ needs.generate-jobs.outputs.base_image }}
       builder_image: ${{ needs.generate-jobs.outputs.builder_image }}
       artifacts_folder: ${{ needs.generate-jobs.outputs.artifacts_folder }}
+      is_last_group: ${{ needs.generate-jobs.outputs.last_group == 'group_3' }}
     secrets: inherit
 
   build-group-4:
@@ -171,6 +177,7 @@ jobs:
       base_image: ${{ needs.generate-jobs.outputs.base_image }}
       builder_image: ${{ needs.generate-jobs.outputs.builder_image }}
       artifacts_folder: ${{ needs.generate-jobs.outputs.artifacts_folder }}
+      is_last_group: ${{ needs.generate-jobs.outputs.last_group == 'group_4' }}
     secrets: inherit
 
   build-group-5:
@@ -186,6 +193,7 @@ jobs:
       base_image: ${{ needs.generate-jobs.outputs.base_image }}
       builder_image: ${{ needs.generate-jobs.outputs.builder_image }}
       artifacts_folder: ${{ needs.generate-jobs.outputs.artifacts_folder }}
+      is_last_group: ${{ needs.generate-jobs.outputs.last_group == 'group_5' }}
     secrets: inherit
 
   build-group-6:
@@ -201,6 +209,7 @@ jobs:
       base_image: ${{ needs.generate-jobs.outputs.base_image }}
       builder_image: ${{ needs.generate-jobs.outputs.builder_image }}
       artifacts_folder: ${{ needs.generate-jobs.outputs.artifacts_folder }}
+      is_last_group: ${{ needs.generate-jobs.outputs.last_group == 'group_6' }}
     secrets: inherit
 
   build-group-last:
