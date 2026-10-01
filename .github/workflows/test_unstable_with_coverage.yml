@@ -102,6 +102,7 @@ jobs:
     timeout-minutes: 360 # 6 hour timeout
     strategy:
       fail-fast: false
+      max-parallel: 10
       matrix:
         job: ${{ fromJson(needs.generate-jobs.outputs.packages) }}
     env:
