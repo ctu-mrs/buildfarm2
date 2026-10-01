@@ -56,6 +56,7 @@ colcon test-result --delete-yes
 pkgs=$(colcon list -n --base-paths $WORKSPACE/src/$REPOSITORY_NAME)
 
 export RMW_IMPLEMENTATION=rmw_zenoh_cpp
+export ZENOH_ROUTER_CHECK_ATTEMPTS=2
 
 colcon test --executor sequential --ctest-args --packages-select $pkgs
 
