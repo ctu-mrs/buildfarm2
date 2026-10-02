@@ -42,7 +42,7 @@ if ! $RUN_LOCALLY; then
 
   echo "$0: logging in to docker registry"
 
-  echo $PUSH_TOKEN | retry 4 docker login ghcr.io -u ctumrsbot --password-stdin
+  echo $PUSH_TOKEN | docker login ghcr.io -u ctumrsbot --password-stdin
 
 fi
 
