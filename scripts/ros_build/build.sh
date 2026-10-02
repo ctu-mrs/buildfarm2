@@ -142,7 +142,7 @@ OLDIFS=$IFS; IFS=$'\n'; for LINE in $BUILD_ORDER; do
 
     FOUND=$(grep -x "$dep" "$ARTIFACTS_FOLDER/compiled.txt" | wc -l)
 
-    echo "$0: checking if '$dep' is within MY_DEPENDENCIES, FOUND='$FOUND'"
+    echo "$0: checking if dependency '$dep' was compiled, FOUND='$FOUND'"
 
     if [ $FOUND -ge 1 ]; then
       DEPENDENCIES_CHANGED=true
