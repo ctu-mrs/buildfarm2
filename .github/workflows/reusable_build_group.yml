@@ -89,9 +89,9 @@ jobs:
           ref: ros2
           path: ci_scripts
           token: ${{secrets.PUSH_TOKEN}}
-      - id: build
+      - name: Run ${{ inputs.build_script }}
+        id: build
         run: |
-          # The build_script could be ros_build or nonbloom_build
           ${{ inputs.build_script }} ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job}}" ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.ARTIFACTS_FOLDER}}
       - name: Store job artifacts
         uses: actions/upload-artifact@v7

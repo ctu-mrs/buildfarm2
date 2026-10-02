@@ -90,10 +90,10 @@ jobs:
           ref: ros2
           path: ci_scripts
           token: ${{secrets.PUSH_TOKEN}}
-      - id: build
+      - name: Run ${{ inputs.build_script }}
+        id: build
         run: |
-          # The build_script could be ros_build or nonbloom_build. The shared artifacts
-          # already carries every deb built earlier in the run, so count debs before and after to detect whether THIS leg actually produced one.
+          # The shared artifacts already carry every deb built earlier in the run, so count debs before and after to detect whether THIS leg actually produced one.
           BEFORE=$(find ${{env.ARTIFACTS_FOLDER}} -maxdepth 1 -name '*.deb' | wc -l)
           ${{ inputs.build_script }} ${{env.APP_LIST}} ${{env.VARIANT}} "${{matrix.job}}" ${{env.BASE_IMAGE}} ${{env.BUILDER_IMAGE}} ${{env.ARTIFACTS_FOLDER}}
           AFTER=$(find ${{env.ARTIFACTS_FOLDER}} -maxdepth 1 -name '*.deb' | wc -l)
