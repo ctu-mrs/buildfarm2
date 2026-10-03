@@ -27,6 +27,7 @@ jobs:
     runs-on: ubuntu-22.04
     env:
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
+      PRIVATE_PPA_TOKEN: ${{secrets.PRIVATE_PPA_TOKEN}}
     steps:
       - uses: actions/checkout@v6
         with:
