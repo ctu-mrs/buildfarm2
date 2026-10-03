@@ -24,7 +24,7 @@ add_private_ppa() (
   trap 'rm -f "$ppa_netrc" "$ppa_key"' EXIT
   printf 'machine %s login %s password %s\n' "$ppa_domain" "$ppa_user" "$ppa_password" > "$ppa_netrc"
 
-  curl --fail --silent --show-error --netrc-file "$ppa_netrc" \
+  curl --fail -sS --retry 5 --netrc-file "$ppa_netrc" \
     "https://${ppa_host}/public.key" -o "$ppa_key"
   gpg --batch --yes --dearmor -o /etc/apt/keyrings/mrs-ppa-private.gpg "$ppa_key"
   chmod 644 /etc/apt/keyrings/mrs-ppa-private.gpg
