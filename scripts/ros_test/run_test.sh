@@ -123,7 +123,6 @@ done
 ## | ----------------- copy the testing script ---------------- |
 
 cp $MY_PATH/entrypoint.sh $WORKSPACE_FOLDER/
-cp $REPO_PATH/scripts/helpers/add_private_ppa.sh $WORKSPACE_FOLDER/
 
 ## | -------------------- enable core dumps ------------------- |
 
@@ -134,7 +133,6 @@ cp $REPO_PATH/scripts/helpers/add_private_ppa.sh $WORKSPACE_FOLDER/
 
 docker run \
   --rm \
-  --env PRIVATE_PPA_TOKEN \
   -v $WORKSPACE_FOLDER:/tmp/workspace \
   $DOCKER_IMAGE \
   /bin/bash -c "/tmp/workspace/entrypoint.sh $REPOSITORY_NAME"
