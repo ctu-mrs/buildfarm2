@@ -73,6 +73,21 @@ mrs_uav_managers:
     enabled: true
     full_test_coverage: false
 
+mrs_uav_diagnostics_sensors:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_diagnostics_sensors
+  gitman: false
+  git_refs:
+    unstable: ros2
+    testing: ros2_release_candidate
+    stable: ros2_release
+  generate_apt_package: true
+  generate_docker_image: false
+  nix: false
+  ros_test:
+    enabled: true
+    full_test_coverage: false
+
 mrs_uav_state_estimators:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mrs_uav_state_estimators
