@@ -83,7 +83,7 @@ mrs_uav_diagnostics_sensors:
     stable: ros2_release
   generate_apt_package: true
   generate_docker_image: false
-  nix: false
+  nix: true
   ros_test:
     enabled: true
     full_test_coverage: false
