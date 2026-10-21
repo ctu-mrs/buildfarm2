@@ -74,6 +74,25 @@ done
 
 echo "$0: repository cloned to /tmp/repository"
 
+## | ------------------ check if rebuild needed ----------------- |
+
+if $RUN_LOCALLY || [[ "${GITHUB_EVENT_NAME:-}" == "workflow_dispatch" ]]; then
+  echo "$0: Manual/local build requested, going to build"
+elif [[ "$(date +%u)" == [67] ]]; then
+  echo "$0: Weekend run - triggering weekly full rebuild for updated toolchains and base images"
+else
+  SHA=$(git -C /tmp/repository rev-parse HEAD)
+  PPA_URL="https://ctu-mrs.github.io/ppa2-${VARIANT}"
+
+  # Check if this exact commit was already packaged and published to the PPA
+  if curl -s "${PPA_URL}/Packages.gz" | zgrep -q "/tree/${SHA}"; then
+    echo "$0: Package $REPOSITORY already built for commit $SHA in ppa2-${VARIANT}. Skipping."
+    exit 0
+  else
+    echo "$0: Package $REPOSITORY commit $SHA not found in ppa2-${VARIANT}, going to build"
+  fi
+fi
+
 ## | --------------------- prepare docker --------------------- |
 
 $REPO_PATH/ci_scripts/helpers/wait_for_docker.sh
