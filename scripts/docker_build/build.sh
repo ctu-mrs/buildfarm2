@@ -71,7 +71,7 @@ while IFS= read -r REPO; do
   fi
 
   echo "$0: cloning '$URL --depth 1 --branch $BRANCH' into '$REPO'"
-  [ -e repository ] && rm -rf repository || git clone $URL --recurse-submodules --depth 1 --branch $BRANCH repository
+  [ -e repository ] && rm -rf repository || git clone $URL --recurse-submodules --shallow-submodules --depth 1 --branch $BRANCH repository
 
   if [[ "$GITMAN" == "True" ]]; then
     cd repository
