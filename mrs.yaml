@@ -628,9 +628,39 @@ mrs_pcl_tools:
     enabled: false
     full_test_coverage: false
 
+mrs_precise_landing:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_precise_landing
+  gitman: false
+  git_refs:
+    unstable: ros2
+    testing: ros2_release_candidate
+    stable: ros2_release
+  generate_apt_package: true
+  generate_docker_image: false
+  nix: false
+  ros_test:
+    enabled: false
+    full_test_coverage: false
+
 mrs_icm_imu_driver:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/mrs_icm_imu_driver
+  gitman: false
+  git_refs:
+    unstable: ros2
+    testing: ros2_release_candidate
+    stable: ros2_release
+  generate_apt_package: true
+  generate_docker_image: false
+  nix: false
+  ros_test:
+    enabled: false
+    full_test_coverage: false
+
+mrs_robofly_core:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_robofly_core
   gitman: false
   git_refs:
     unstable: ros2
@@ -804,21 +834,6 @@ mrs_uav_ardupilot_api:
 pylon_ros2_camera:
   architecture: [amd64, arm64]
   source: https://github.com/ctu-mrs/pylon-ros-camera
-  gitman: false
-  git_refs:
-    unstable: ros2
-    testing: ros2_release_candidate
-    stable: ros2_release
-  generate_apt_package: true
-  generate_docker_image: false
-  nix: false
-  ros_test:
-    enabled: false
-    full_test_coverage: false
-
-mrs_robofly_core:
-  architecture: [amd64, arm64]
-  source: https://github.com/ctu-mrs/mrs_robofly_core
   gitman: false
   git_refs:
     unstable: ros2
