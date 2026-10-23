@@ -845,3 +845,18 @@ pylon_ros2_camera:
   ros_test:
     enabled: false
     full_test_coverage: false
+
+mrs_uav_wifi_direct:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_wifi_direct
+  gitman: false
+  git_refs:
+    unstable: ros2
+    testing: ros2_release_candidate
+    stable: ros2_release
+  generate_apt_package: true
+  generate_docker_image: false
+  nix: false
+  ros_test:
+    enabled: false
+    full_test_coverage: false

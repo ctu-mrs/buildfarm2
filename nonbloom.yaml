@@ -96,3 +96,14 @@ mrs_fpga_toolkit:
     unstable: ros2
     testing: ros2_release_candidate
     stable: ros2_release
+
+mrs_uav_wifi_direct:
+  architecture: [amd64, arm64]
+  source: https://github.com/ctu-mrs/mrs_uav_wifi_direct
+  gitman: false
+  generate_docker_image: false
+  nix: false
+  git_refs:
+    unstable: ros2
+    testing: ros2_release_candidate
+    stable: ros2_release
