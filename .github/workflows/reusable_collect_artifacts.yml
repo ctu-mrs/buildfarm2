@@ -19,10 +19,16 @@ on:
     secrets:
       PUSH_TOKEN:
         required: true
+    outputs:
+      has_debs:
+        description: 'Whether any deb packages were built and deployed'
+        value: ${{ jobs.collect-artifacts.outputs.has_debs }}
 
 jobs:
   collect-artifacts:
     runs-on: ${{ inputs.runs_on }}
+    outputs:
+      has_debs: ${{ steps.check_debs.outputs.has_debs }}
     env:
       PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
       VARIANT: ${{ inputs.variant }}
@@ -37,7 +43,12 @@ jobs:
         run: |
           rm ${{env.ARTIFACTS_FOLDER}}/compiled.txt 2> /dev/null || true
           rm ${{env.ARTIFACTS_FOLDER}}/base_sha.txt 2> /dev/null || true
+      - id: check_debs
+        run: |
+          DEBS_COUNT=$(find "${{env.ARTIFACTS_FOLDER}}" -type f -name "*.deb" 2>/dev/null | wc -l)
+          echo "has_debs=$([ $DEBS_COUNT -gt 0 ] && echo 'true' || echo 'false')" >> "$GITHUB_OUTPUT"
       - name: Checkout CI scripts
+        if: steps.check_debs.outputs.has_debs == 'true'
         uses: actions/checkout@v6
         with:
           repository: ctu-mrs/ci_scripts
@@ -45,6 +56,7 @@ jobs:
           path: ci_scripts
           token: ${{secrets.PUSH_TOKEN}}
       - name: Deploy
+        if: steps.check_debs.outputs.has_debs == 'true'
         run: ./ci_scripts/package_build/push_to_ppa.sh ${{env.VARIANT}} ${{env.ARTIFACTS_FOLDER}}
 
   delete_builder:

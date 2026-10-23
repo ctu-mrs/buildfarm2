@@ -239,14 +239,16 @@ jobs:
 
   wait-for-ppa:
     runs-on: ubuntu-22.04
-    needs: collect-artifacts
+    needs: [generate-jobs, collect-artifacts]
+    if: always() && needs.collect-artifacts.result == 'success' && needs.collect-artifacts.outputs.has_debs == 'true'
     steps:
-      - id: run
+      - name: Wait for PPA to deploy
         run: |
-          sleep 300
+          sleep 180
 
-  test_and_release:
-    needs: wait-for-ppa
+  test-and-release:
+    needs: [collect-artifacts, wait-for-ppa]
+    if: always() && needs.collect-artifacts.result == 'success' && needs.wait-for-ppa.result != 'failure' && needs.wait-for-ppa.result != 'cancelled'
     uses: ctu-mrs/buildfarm2/.github/workflows/rostest_merge_to_release.yml@master
     secrets:
       PUSH_TOKEN: ${{secrets.PUSH_TOKEN}}
