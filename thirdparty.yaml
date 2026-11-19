@@ -84,7 +84,7 @@ mavros:
   generate_docker_image: false
   nix: false
   git_refs:
-    unstable: mrs_2.14.0
+    unstable: mrs_2.17.0
     testing: mrs_2.14.0
     stable: mrs_2.14.0
 
