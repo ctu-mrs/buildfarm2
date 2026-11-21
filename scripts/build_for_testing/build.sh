@@ -78,7 +78,7 @@ echo "$FULL_COVERAGE_REPOS" | while IFS= read -r REPO; do
 
   if [[ "$GITMAN" == "True" ]]; then
     cd $PACKAGE
-    if [[ -e .gitman.yml || -e .gitman.yaml ]] && [[ ! -e .gitman_ignore ]]; then
+    if [[ -e .gitman.yml || -e .gitman.yaml ]]; then
       export PATH="$HOME/.local/bin:$PATH"
       command -v gitman > /dev/null 2>&1 || pipx install gitman==3.5.2 --pip-args regex==2024.9.11
       gitman install

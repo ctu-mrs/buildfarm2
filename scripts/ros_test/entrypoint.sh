@@ -23,6 +23,7 @@ if [ "$REPOSITORY_NAME" = "mrs_uav_flightforge_simulator" ] && [ "$(dpkg --print
   else
     mkdir -p /home/ubuntu && chown -R ubuntu:ubuntu /home/ubuntu
   fi
+  chown -R ubuntu:ubuntu /opt/flightforge 2>/dev/null || true
 else
   apt-get update
 fi
