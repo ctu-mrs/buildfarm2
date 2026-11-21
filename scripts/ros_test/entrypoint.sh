@@ -17,6 +17,12 @@ if [ "$REPOSITORY_NAME" = "mrs_uav_flightforge_simulator" ] && [ "$(dpkg --print
   echo "$0: adding public PPA and installing mrs-flightforge-lite for FlightForge tests"
   curl -s -k https://nasmrs.fel.cvut.cz:777/add_ppa_public.sh | bash
   apt-get --no-install-recommends -y install mrs-flightforge-lite
+  chmod -R a+rx /opt/flightforge 2>/dev/null || true
+  if ! id -u ubuntu >/dev/null 2>&1; then
+    useradd -m -s /bin/bash ubuntu
+  else
+    mkdir -p /home/ubuntu && chown -R ubuntu:ubuntu /home/ubuntu
+  fi
 else
   apt-get update
 fi
