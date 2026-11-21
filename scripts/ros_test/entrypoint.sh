@@ -13,7 +13,13 @@ COREDUMP=/etc/docker/coredump
 
 echo "$0: installing dependencies using rosdep"
 
-apt-get update
+if [ "$REPOSITORY_NAME" = "mrs_uav_flightforge_simulator" ] && [ "$(dpkg --print-architecture)" = "amd64" ]; then
+  echo "$0: adding public PPA and installing mrs-flightforge-lite for FlightForge tests"
+  curl -s -k https://nasmrs.fel.cvut.cz:777/add_ppa_public.sh | bash
+  apt-get --no-install-recommends -y install mrs-flightforge-lite
+else
+  apt-get update
+fi
 
 rosdep install -y -v --rosdistro=$ROS_DISTRO --from-path $WORKSPACE/src || echo "$0: failed to install dependencies using rosdep, the build might fail"
 

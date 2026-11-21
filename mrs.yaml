@@ -295,7 +295,7 @@ mrs_uav_flightforge_simulator:
   generate_docker_image: false
   nix: false
   ros_test:
-    enabled: false
+    enabled: true
     full_test_coverage: false
 
 mrs_serial:

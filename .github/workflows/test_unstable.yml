@@ -2,6 +2,12 @@ name: test_unstable
 
 on:
   workflow_dispatch:
+    inputs:
+      package:
+        description: 'Specific package to test (leave empty for all)'
+        required: false
+        type: string
+        default: ''
 
   schedule:
     - cron:  '0 06 * * *'
@@ -55,8 +61,12 @@ jobs:
           submodules: 'recursive'
       - id: generate
         run: |
-          JOB_STRATEGY_MATRIX=$(./scripts/get_test_matrix.sh ${{env.APP_LIST}})
-          echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
+          if [ -n "${{ github.event.inputs.package }}" ]; then
+            echo "packages=[\"${{ github.event.inputs.package }}\"]" >> "$GITHUB_OUTPUT"
+          else
+            JOB_STRATEGY_MATRIX=$(./scripts/get_test_matrix.sh ${{env.APP_LIST}})
+            echo "packages=$JOB_STRATEGY_MATRIX" >> "$GITHUB_OUTPUT"
+          fi
 
   test-job:
     needs: generate-jobs
