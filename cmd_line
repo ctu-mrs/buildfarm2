@@ -1,0 +1,1 @@
+genhtml -c /color_fix.css --title 'MRS UAV System - Test coverage report' --prefix /tmp/workspace/src --ignore-errors unused,unused,inconsistent,inconsistent,corrupt,corrupt,unsupported,unsupported,format,format --demangle-cpp --legend --frames --show-details -o /tmp/artifacts/coverage_html /tmp/workspace/coverage2.info
